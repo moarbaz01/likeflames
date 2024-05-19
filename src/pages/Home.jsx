@@ -3,8 +3,11 @@ import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
 import Stories from "../components/Stories";
 import { requests } from "../data";
+import avatar2 from "../assets/avatars/avatar2.png";
 // import Reels from "../components/Reels";
 import Posts from "../components/Posts";
+import CallModal from "../components/CallModal";
+import Breadcrumbs from "../components/Breadcrumbs";
 function Home() {
   return (
     <div className=" md:pb-0 pb-24 ">
@@ -52,6 +55,7 @@ function Home() {
           </div>
         </div>
       </div>
+      
     </div>
   );
 }

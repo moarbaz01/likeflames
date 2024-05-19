@@ -12,7 +12,7 @@ function Profile() {
     "👋 Hi there! I'm a software engineer 💻 passionate about coding and building cool projects. In my free time, you'll find me hiking 🏞️ or playing guitar 🎸. Let's connect!";
   const [showPost, setShowPost] = useState(true);
   const [showReplies, setShowReplies] = useState(false);
-  const [showTags, setShowTags] = useState(false);
+  const [showLiked, setShowLiked] = useState(false);
   const navigate = useNavigate();
 
   return (
@@ -90,12 +90,12 @@ function Profile() {
               <p className="mt-4 text-gray-400 ">{bio}</p>
             </div>
 
-            <div className=" flex bg-white px-4 py-2 mt-4 justify-between rounded-full  w-full">
+            <div className=" flex bg-white px-4 py-2 mt-4 justify-between rounded-xl  w-full">
               <div
                 onClick={() => {
                   setShowPost(true);
                   setShowReplies(false);
-                  setShowTags(false);
+                  setShowLiked(false);
                 }}
                 className=" cursor-pointer"
               >
@@ -114,7 +114,7 @@ function Profile() {
                 onClick={() => {
                   setShowPost(false);
                   setShowReplies(true);
-                  setShowTags(false);
+                  setShowLiked(false);
                 }}
                 className=" cursor-pointer"
               >
@@ -135,18 +135,18 @@ function Profile() {
                 onClick={() => {
                   setShowPost(false);
                   setShowReplies(false);
-                  setShowTags(true);
+                  setShowLiked(true);
                 }}
                 className=" cursor-pointer"
               >
                 <h1
                   className={`text-sm ${
-                    !showTags ? "text-gray-500" : "text-main_dark_violet_color"
+                    !showLiked ? "text-gray-500" : "text-main_dark_violet_color"
                   } `}
                 >
-                  TAGS
+                  Liked
                 </h1>
-                {showTags && (
+                {showLiked && (
                   <div className=" bg-main_dark_violet_color h-1"></div>
                 )}
               </div>

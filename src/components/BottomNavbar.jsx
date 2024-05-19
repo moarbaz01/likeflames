@@ -38,7 +38,7 @@ const navigationData = [
     title: "Messages",
   },
   {
-    pathname: "",
+    pathname: "/profile",
     icon: <CiUser className=" text-2xl" />,
     title: "Account",
   },

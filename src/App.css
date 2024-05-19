@@ -1,15 +1,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
-* {
-  box-sizing: border-box;
-}
 body {
   background-color: #eaebfb;
   font-family: "Poppins", sans-serif;
 
   /* Smooth Scrolling locomative */
 }
-
 /* Smooth Scrolling */
 
 input::-webkit-outer-spin-button,
@@ -18,23 +14,74 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
-::-webkit-scrollbar {
-  display: none;
-  width: 5px;
-  margin-right: 5px;
-  appearance: none;
-}
-
-::-webkit-scrollbar-track-piece {
-  background: whitesmoke;
-  height: 5px;
-  /* height: 20px; */
+/* Custom scrollbar styles for WebKit-based browsers */
+@media (width > 720px) {
+  ::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+  }
 }
 
 ::-webkit-scrollbar-thumb {
-  appearance: none;
-  background-color: #5755fe;
+  background-color: #5755fe; /* Color of the scrollbar thumb */
+  border-radius: 10px; /* Rounded corners */
+  border: 3px solid transparent; /* Adds space around thumb */
+  background-clip: padding-box; /* Clips the background to show the border */
 }
+
+::-webkit-scrollbar-track {
+  background-color: transparent; /* Color of the scrollbar track */
+  border-radius: 10px; /* Rounded corners */
+}
+
+.spinner {
+  width: 11.2px;
+  height: 11.2px;
+  animation: spinner-o824ag 1s infinite linear;
+}
+
+.spinner div {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #474bff;
+  border-radius: 50%;
+  animation: spinner-vse6n7 1.25s infinite ease;
+}
+
+.spinner div:nth-child(1) {
+  --rotation: 90;
+}
+
+.spinner div:nth-child(2) {
+  --rotation: 180;
+}
+
+.spinner div:nth-child(3) {
+  --rotation: 270;
+}
+
+.spinner div:nth-child(4) {
+  --rotation: 360;
+}
+
+@keyframes spinner-vse6n7 {
+  0%,
+  100% {
+    transform: rotate(calc(var(--rotation) * 1deg)) translateY(0);
+  }
+
+  50% {
+    transform: rotate(calc(var(--rotation) * 1deg)) translateY(300%);
+  }
+}
+
+@keyframes spinner-o824ag {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 input[type="number"] {
   -moz-appearance: textfield;
 }

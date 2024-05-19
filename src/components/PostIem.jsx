@@ -11,15 +11,21 @@ import {
 import { useNavigate } from "react-router-dom";
 import { m } from "framer-motion";
 import CommentModal from "./CommentModal";
+import {
+  BiLeftArrowAlt,
+  BiPencil,
+  BiRightArrowAlt,
+  BiShare,
+} from "react-icons/bi";
+import { PiTrash } from "react-icons/pi";
 
-function PostItem({ user, file, likes, comments, caption }) {
+function PostItem({ user, file, likes, comments, caption, fileType }) {
   const [heart, setHeart] = useState(false);
   const [play, setPlay] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const videoRef = React.useRef(null);
   const navigate = useNavigate();
+  const [showPostOptionModal, setShowPostOptionModal] = useState(false);
   const [showCommentModal, setShowCommentModal] = useState(false);
-
+  const [fileIndex, setFileIndex] = useState(0);
   const handleOpenCommentModal = () => {
     setShowCommentModal(true);
   };
@@ -28,28 +34,11 @@ function PostItem({ user, file, likes, comments, caption }) {
     setShowCommentModal(false);
   };
 
-  const handlerPlay = () => {
-    if (play) {
-      videoRef.current.pause();
-      setPlay(false);
-    } else {
-      videoRef.current.play();
-      setPlay(true);
-    }
-  };
-
-  const fileExtension = file.split(".").pop();
-  const videoExtension = ["mp4", "mov", "avi", "wmv", "webm"];
-
-  const onLoad = () => {
-    setLoading(false);
-  };
-
   return (
-    <div className="w-full mb-4 bg-main_bg_white rounded-xl">
+    <div className="w-full mb-4 relative bg-main_bg_white rounded-xl">
       {/* Top */}
       <div className="flex w-full items-center justify-between px-4 py-2">
-        <div className="flex items-center gap-4">
+        <div className="flex cursor-pointer items-center gap-4">
           <img
             className="w-12 h-12 object-cover rounded-full"
             src={user.profile}
@@ -62,56 +51,50 @@ function PostItem({ user, file, likes, comments, caption }) {
             <p className="text-gray-500 text-xs">12 February 2024</p>
           </div>
         </div>
-        <HiOutlineDotsHorizontal className="cursor-pointer" />
+        <HiOutlineDotsHorizontal
+          onClick={() => setShowPostOptionModal((prev) => !prev)}
+          className="cursor-pointer"
+        />
       </div>
       {/* Media */}
-      {videoExtension.includes(fileExtension) ? (
+      {fileType === "video" ? (
         <div className="relative">
           <video
             className="md:max-h-[720px] max-h-[420px] mx-auto max-w-full rounded-xl p-2 cursor-pointer"
             autoPlay
-            onClick={handlerPlay}
-            ref={videoRef}
-            onLoadedData={onLoad}
+            controls
+            controlsList="nodownload"
           >
             <source src={file} />
           </video>
-          {!play && (
-            <CiPlay1 className="absolute left-[50%] top-[50%] bg-main_dark_violet_color cursor-pointer text-white h-6 w-6 rounded-full p-1" />
-          )}
-          {!loading && (
-            <p className="absolute top-4 left-4 text-white">
-              {videoRef?.current?.duration.toFixed(2)}
-            </p>
-          )}
-          {loading && (
-            <div className="absolute inset-0 flex items-center justify-center">
-              <m.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.5 }}
-                className="w-full h-full bg-gray-300 rounded-xl"
-              />
-            </div>
-          )}
         </div>
       ) : (
-        <div className="relative">
+        <div className="relative   ">
           <img
-            className="md:max-h-[720px] max-h-[420px] mx-auto max-w-full rounded-xl p-2 cursor-pointer"
-            src={file}
+            className=" rounded-xl md:block mx-auto h-conttain md:max-h-[500px] w-contain p-2 cursor-pointer"
+            src={Array.isArray(file) ? file[fileIndex] : file}
             alt=""
-            onLoad={onLoad}
           />
-          {loading && (
-            <div className="absolute inset-0 flex items-center justify-center">
-              <m.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.5 }}
-                className="w-full h-full bg-gray-300 rounded-xl"
-              />
-            </div>
+
+          {Array.isArray(file) && file.length > 1 && (
+            <BiLeftArrowAlt
+              onClick={() =>
+                setFileIndex((prev) => (prev - 1 + file.length) % file.length)
+              }
+              className=" md:text-main_dark_violet_color text-white text-3xl cursor-pointer top-[50%] left-4 absolute z-[50]"
+            />
+          )}
+          {Array.isArray(file) && file.length > 1 && (
+            <BiRightArrowAlt
+              onClick={() => setFileIndex((prev) => (prev + 1) % file.length)}
+              className="md:text-main_dark_violet_color text-white text-3xl cursor-pointer top-[50%] right-4 absolute z-[50]"
+            />
+          )}
+
+          {Array.isArray(file) && file.length > 1 && (
+            <p className="absolute top-4 left-6 text-white md:text-main_dark_violet_color">
+              {fileIndex + 1} / {file.length}
+            </p>
           )}
         </div>
       )}
@@ -144,7 +127,7 @@ function PostItem({ user, file, likes, comments, caption }) {
       <div className="px-4 py-2 flex flex-col">
         <p className="text-gray-500 text-sm">{likes} Likes</p>
         <p
-          onClick={() => navigate("/post")}
+          onClick={() => navigate("/comments")}
           className="text-gray-500 cursor-pointer hover:text-gray-600 transition text-sm"
         >
           View all {comments} comments
@@ -161,6 +144,22 @@ function PostItem({ user, file, likes, comments, caption }) {
         isOpen={showCommentModal}
         onClose={handleCloseCommentModal}
       />
+      {showPostOptionModal && (
+        <div className=" flex flex-col gap-4 absolute right-4 top-12 bg-white shadow-xl rounded-xl p-2 ">
+          <div className=" flex items-center gap-2 cursor-pointer">
+            <BiPencil />
+            <p>Edit</p>
+          </div>
+          <div className=" flex items-center gap-2 cursor-pointer">
+            <BiShare />
+            <p>Share</p>
+          </div>
+          <div className=" flex text-red-500 items-center gap-2 cursor-pointer">
+            <PiTrash />
+            <p>Delete</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

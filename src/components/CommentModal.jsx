@@ -19,11 +19,9 @@ function CommentModal({ isOpen, onClose }) {
 
   return (
     <div
-      className={` bg-[rgba(0,0,0,0.61)] items-center ${
-        isOpen ? "flex" : "hidden"
-      } justify-center fixed z-[999] top-0 left-0 right-0 bottom-0 w-full`}
+      className={` bg-[rgba(0,0,0,0.61)] items-center flex justify-center fixed z-[999] top-0 left-0 right-0 bottom-0 w-full`}
     >
-      <div className=" h-full relative w-full md:w-1/3 overflow-y-scroll bg-white md:rounded-xl">
+      <div className=" h-full md:h-[60%] relative w-full md:w-1/3 md:overflow-y-scroll bg-white md:rounded-xl">
         <div className=" flex absolute z-[1000] right-0 top-0 p-4">
           <button onClick={onClose} className=" text-2xl text-gray-400">
             &times;

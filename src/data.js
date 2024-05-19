@@ -56,7 +56,8 @@ export const posts = [
             profile: avatar5
         },
         caption: "This is my first post",
-        file: "https://images.unsplash.com/photo-1697182711822-c1b620288a2c?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        file: ["https://images.unsplash.com/photo-1697182711822-c1b620288a2c?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", "https://images.unsplash.com/photo-1715645943748-a7cf8a81f1ef?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"],
+        fileType: "image",
         likes: 2,
         comments: 2
     },
@@ -69,6 +70,7 @@ export const posts = [
         caption: "Hello Everyone this is my first post on LikeFlames",
         file: "https://images.unsplash.com/photo-1712884517129-103f91c9e59c?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         likes: 12,
+        fileType: "image",
         comments: 23
     },
     {
@@ -79,6 +81,7 @@ export const posts = [
         },
         caption: "I am kamal Hasan!",
         file: reel2,
+        fileType: "video",
         likes: 12,
         comments: 23
     },

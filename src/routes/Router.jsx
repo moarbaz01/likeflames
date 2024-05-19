@@ -21,10 +21,6 @@ const routesData = [
     element: lazy(() => import("../pages/Password")),
   },
   {
-    path: "/dob",
-    element: lazy(() => import("../pages/DOB")),
-  },
-  {
     path: "/profile/edit",
     element: lazy(() => import("../pages/EditProfile")),
     protected: true,
@@ -53,11 +49,6 @@ const routesData = [
     protected: true,
   },
   {
-    path: "/chat/:id",
-    element: lazy(() => import("../pages/Chat")),
-    protected: true,
-  },
-  {
     path: "/avatar",
     element: lazy(() => import("../pages/Avatar")),
   },
@@ -77,11 +68,34 @@ const routesData = [
     path: "/otp",
     element: lazy(() => import("../pages/Otp")),
   },
+  {
+    path: "/video-call",
+    element: lazy(() => import("../pages/VideoCall")),
+  },
+  {
+    path: "/voice-call",
+    element: lazy(() => import("../pages/VoiceCall")),
+  },
+  {
+    path: "/comments",
+    element: lazy(() => import("../pages/Comments")),
+  },
 ];
 
 const Router = () => {
   return (
-    <Suspense fallback="Loading...">
+    <Suspense
+      fallback={
+        <div className="flex items-center justify-center mt-[300px]">
+          <div className="spinner">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </div>
+      }
+    >
       <Routes>
         {routesData.map((route) => (
           <Route
@@ -89,7 +103,7 @@ const Router = () => {
             path={route.path}
             element={
               route.protected ? (
-                <ProtectedRoutes children={<route.path />} />
+                <ProtectedRoutes children={<route.element />} />
               ) : (
                 <route.element />
               )

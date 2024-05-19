@@ -1,131 +1,44 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import { CiEdit, CiSearch } from "react-icons/ci";
 import avatar2 from "../assets/avatars/avatar2.png";
 import avatar3 from "../assets/avatars/avatar3.png";
-import { BiPhone, BiVideo } from "react-icons/bi";
-import { BsSendArrowUp } from "react-icons/bs";
-import DocsModal from "../components/DocsModal";
-import data from "@emoji-mart/data";
-import Picker from "@emoji-mart/react";
-import { RxCross1 } from "react-icons/rx";
-import { MdEmojiEmotions } from "react-icons/md";
-import { CiCirclePlus } from "react-icons/ci";
-import { useNavigate } from "react-router-dom";
+import UserMessageItem from "../components/UserMessageItem";
+
+const chatData = [
+  {
+    name: "Sameer Khan",
+    avatar: avatar2,
+    lastMsg: "Hey, how are you? bhai",
+    time: "2h",
+    newMessages: 2,
+  },
+  {
+    name: "Hari Om",
+    avatar: avatar3,
+    lastMsg: "image...",
+    time: "1h",
+    newMessages: 1,
+  },
+];
 
 function Messages() {
   const [search, setSearch] = React.useState("");
-  const [showDocsModal, setShowDocsModal] = React.useState(false);
-  const [text, setText] = React.useState("");
-  const [showPicker, setShowPicker] = React.useState(false);
-  const navigate = useNavigate();
-
-  const handleShowPicker = () => {
-    setShowPicker(!showPicker);
-  };
-
-  const handleEmojiSelect = (emoji) => {
-    setText((prev) => prev + emoji.native);
-  };
-
-  const handleOpenDocsModal = () => {
-    setShowDocsModal(true);
-  };
-
-  const handleCloseDocsModal = () => {
-    setShowDocsModal(false);
-  };
+  const [editMode, setEditMode] = React.useState(false);
+  const [selected, setSelected] = React.useState(0);
   const handleChange = (e) => {
     setSearch(e.target.value);
   };
 
-  // Sender and reciever messages
-  const messagesData = [
-    {
-      sender: "Sameer Khan",
-      avatar: avatar2,
-      message: "Hey, how are you?",
-      receiver: "me",
-      time: "10:00 AM",
-    },
-    {
-      sender: "me",
-      avatar: avatar3,
-      message: "I am fine, thank you!",
-      receiver: "Sameer Khan",
-      time: "10:24 AM",
-    },
-    {
-      sender: "Sameer Khan",
-      avatar: avatar2,
-      message: "Hey, how are you?",
-      receiver: "me",
-      time: "10:00 AM",
-    },
-    {
-      sender: "me",
-      avatar: avatar3,
-      message: "I am fine, thank you!",
-      receiver: "Sameer Khan",
-      time: "10:24 AM",
-    },
-    {
-      sender: "Sameer Khan",
-      avatar: avatar2,
-      message: "Hey, how are you?",
-      receiver: "me",
-      time: "10:00 AM",
-    },
-    {
-      sender: "me",
-      avatar: avatar3,
-      message: "I am fine, thank you!",
-      receiver: "Sameer Khan",
-      time: "10:24 AM",
-    },
-    {
-      sender: "Sameer Khan",
-      avatar: avatar2,
-      message: "Hey, how are you?",
-      receiver: "me",
-      time: "10:00 AM",
-    },
-    {
-      sender: "me",
-      avatar: avatar3,
-      message: "I am fine, thank you!",
-      receiver: "Sameer Khan",
-      time: "10:24 AM",
-    },
-    {
-      sender: "Sameer Khan",
-      avatar: avatar2,
-      message: "Hey, how are you?",
-      receiver: "me",
-      time: "10:00 AM",
-    },
-    {
-      sender: "me",
-      avatar: avatar3,
-      message: "I am fine, thank you!",
-      receiver: "Sameer Khan",
-      time: "10:24 AM",
-    },
-  ];
+  const handleSelected = (value) => {
+    setSelected((prev) => prev + value);
+  };
+  const handleChangeMode = () => {
+    setEditMode(!editMode);
+    setSelected(0);
+  };
 
-  const chatData = [
-    {
-      name: "Sameer Khan",
-      avatar: avatar2,
-      lastMsg: "Hey, how are you? bhai",
-    },
-    {
-      name: "Hari Om",
-      avatar: avatar3,
-      lastMsg: "image...",
-    },
-  ];
   return (
     <div className=" md:pb-0 pb-24 ">
       <div className=" hidden md:block">
@@ -139,7 +52,10 @@ function Messages() {
             {/* Heading */}
             <div className="flex items-center justify-between">
               <h1 className=" md:text-2xl text-3xl font-[500]">Messages</h1>
-              <CiEdit className=" text-2xl cursor-pointer" />
+              <CiEdit
+                onClick={handleChangeMode}
+                className=" text-2xl cursor-pointer hover:text-red-500"
+              />
             </div>
             {/* Search bar */}
             <div className=" flex items-center my-4 gap-2">
@@ -158,48 +74,41 @@ function Messages() {
             {/* Horizontal Line */}
             <div className=" h-[2px] w-full bg-main_light_purple my-4 rounded-full" />
 
+            {/* Edit Options */}
+            {editMode && (
+              <div className="flex animate-slideDown items-center gap-2 w-full mb-2 px-2 justify-between">
+                <p>{selected} Selected</p>
+                <div>
+                  <button className="h-10 px-2 bg-red-500 mr-2 text-white rounded-lg ">
+                    Delete
+                  </button>
+                  <button className="h-10 px-2 bg-red-500 text-white rounded-lg">
+                    Delete All
+                  </button>
+                </div>
+              </div>
+            )}
+
             {/* Chats */}
             <div className=" flex flex-col gap-4 ">
               {chatData.map((chat, index) => {
                 return (
-                  <div
-                    onClick={() => navigate("/chat")}
+                  <UserMessageItem
                     key={index}
-                    className=" flex items-end cursor-pointer hover:bg-main_light_purple transition w-full bg-white rounded-xl py-4 px-2 justify-between"
-                  >
-                    <div className=" flex items-center gap-4">
-                      <div className="relative  h-[50px] w-[50px]">
-                        <img
-                          className=" w-full h-full rounded-full"
-                          src={chat.avatar}
-                          alt=""
-                        />
-                        <div className="h-4 w-4 bg-green-500 rounded-full absolute bottom-0 -right-1 border-2 border-main_dark_violet_color"></div>
-                      </div>
-                      <div className=" flex flex-col w-[150px]  text-black">
-                        <p className=" ml-2 text-ellipsis overflow-x-hidden text-nowrap">
-                          {chat.name}
-                          {""}
-                        </p>
-                        <p className=" ml-2 text-ellipsis overflow-x-hidden text-nowrap">
-                          {chat.lastMsg}
-                        </p>
-                      </div>
-                    </div>
-                    <div className=" flex items-center gap-4">
-                      <p className=" text-main_dark_violet_color text-nowrap">
-                        2 New
-                      </p>
-                      <p className="">2h</p>
-                    </div>
-                  </div>
+                    mode={editMode}
+                    avatar={chat.avatar}
+                    name={chat.name}
+                    newMessages={chat.newMessages}
+                    lastMsg={chat.lastMsg}
+                    time={chat.time}
+                    selected={handleSelected}
+                  />
                 );
               })}
             </div>
           </div>
         </div>
       </div>
-      <DocsModal isOpen={showDocsModal} onClose={handleCloseDocsModal} />
     </div>
   );
 }

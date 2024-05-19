@@ -13,11 +13,14 @@ import avatar2 from "../assets/avatars/avatar2.png";
 import PostModal from "./PostModal";
 import { useNavigate } from "react-router-dom";
 import SettingsModal from "./SettingsModal";
+import LoginModal from "./LoginModal";
+import Breadcrumbs from "./Breadcrumbs";
 
 function Sidebar() {
   const [showModal, setShowModal] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const navigate = useNavigate();
+  const user = false;
   const pathname = useLocation().pathname;
 
   const handleOpenModal = () => {
@@ -56,11 +59,11 @@ function Sidebar() {
       name: "Notifications",
       pathname: "/notifications",
     },
-    {
-      icon: <CiBookmark className=" text-xl" />,
-      name: "Saves",
-      // pathname: "/saves",
-    },
+    // {
+    //   icon: <CiBookmark className=" text-xl" />,
+    //   name: "Saves",
+    //   // pathname: "/saves",
+    // },
     {
       icon: <CiLocationArrow1 className=" text-xl" />,
       name: "Messages",
@@ -119,7 +122,7 @@ function Sidebar() {
           </li>
         ))}
       </ul>
-      <div className=" w-full">
+      <div className=" w-full">   
         <button
           onClick={handleOpenModal}
           className=" rounded-full w-full transition hover:opacity-80  text-text_color py-2 px-4 bg-main_dark_violet_color border-none outline-none"
@@ -128,7 +131,17 @@ function Sidebar() {
         </button>
       </div>
       <SettingsModal isOpen={showSettings} onClose={handleCloseSettingsModal} />
-      <PostModal isOpen={showModal} onClose={handleCloseModal} />
+      {user ? (
+        <PostModal isOpen={showModal} onClose={handleCloseModal} />
+      ) : (
+        showModal && (
+          <LoginModal isOpen={showModal} onClose={handleCloseModal} />
+        )
+      )}
+
+      <div className="mt-6">
+        <Breadcrumbs />
+      </div>
     </aside>
   );
 }

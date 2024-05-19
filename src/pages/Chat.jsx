@@ -20,7 +20,6 @@ import { MdEmojiEmotions } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import ViewFileModal from "../components/ViewFileModal";
 import iphoneAudio from "../assets/iphone_14.mp3";
-import reel from "../assets/reel1.mp4";
 import { PiTrash } from "react-icons/pi";
 
 // Sender and reciever messages
@@ -200,7 +199,7 @@ function Chat() {
 
   useEffect(() => {
     lastMsgRef.current.scrollIntoView();
-  }, []);
+  }, [chatData]);
 
   const handleShowPicker = () => {
     setShowPicker(!showPicker);
@@ -492,7 +491,7 @@ function Chat() {
                   );
                 }
               })}
-              <div ref={lastMsgRef} />
+              <div ref={lastMsgRef}></div>
             </div>
             {/* Send Messages */}
             <div className="fixed md:absolute flex items-center py-2 px-4 bottom-2 left-0 w-full">

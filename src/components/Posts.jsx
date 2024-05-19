@@ -12,6 +12,7 @@ function Posts() {
           likes={post.likes}
           comments={post.comments}
           caption={post.caption}
+          fileType={post.fileType}
         />
       ))}
     </div>

@@ -4,13 +4,11 @@ import { useNavigate } from 'react-router-dom';
 const ProtectedRoutes = ({ children }) => {
     const user = true;
     const navigate = useNavigate();
-
-    useEffect(() => {
-        if (!user) {
-            navigate('/login')
-        }
-    }, [user, navigate])
-    user ? children : null;
+    if (!user) {
+        navigate('/login')
+        return null
+    }
+    return children
 };
 
 export default ProtectedRoutes;

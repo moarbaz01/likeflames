@@ -26,14 +26,14 @@ function Profile() {
           <div className=" w-full md:h-[90vh] rounded-xl md:overflow-y-scroll">
             {/* Top */}
             <div className=" flex flex-col dark:bg-dark_secondary_bg bg-white px-2 py-2 rounded-xl w-full">
-              <h1 className=" text-main_dark_violet_color font-[500] text-2xl">
+              <h1 className=" text-main_dark_violet_color dark:text-main_light_purple font-[500] text-2xl">
                 Sameer Khan
               </h1>
-              <p className="  text-gray-400 font-[500] text-sm m-0">
+              <p className="  text-gray-400 dark:text-white font-[500] text-sm m-0">
                 @Sameer Khan
               </p>
             </div>
-            <div className=" flex justify-evenly bg-white dark:bg-dark_main_bg rounded-xl mt-4 py-4 lg:flex-row flex-col items-center w-full">
+            <div className=" flex justify-evenly bg-white dark:bg-dark_secondary_bg rounded-xl mt-4 py-4 lg:flex-row flex-col items-center w-full">
               <div className="relative mx-2">
                 <img
                   src={avatar2}
@@ -44,7 +44,7 @@ function Profile() {
 
               <div className=" flex justify-between mx-2 gap-16 mt-6 ">
                 <div className=" flex items-center cursor-pointer gap-1 flex-col">
-                  <h1 className=" text-main_dark_violet_color md:text-5xl text-6xl font-[500]">
+                  <h1 className=" text-main_dark_violet_color dark:text-main_light_purple md:text-5xl text-6xl font-[500]">
                     0
                   </h1>
                   <p className=" text-text_black dark:text-white text-sm font-[500]">
@@ -52,7 +52,7 @@ function Profile() {
                   </p>
                 </div>
                 <div className=" flex items-center gap-1 flex-col cursor-pointer">
-                  <h1 className=" text-main_dark_violet_color  md:text-5xl text-6xl font-[500]">
+                  <h1 className=" text-main_dark_violet_color dark:text-main_light_purple md:text-5xl text-6xl font-[500]">
                     23
                   </h1>
                   <p className=" text-text_black text-sm  dark:text-white font-[500]">
@@ -61,7 +61,7 @@ function Profile() {
                   </p>
                 </div>
                 <div className=" flex items-center gap-1 flex-col cursor-pointer">
-                  <h1 className=" text-main_dark_violet_color md:text-5xl text-6xl font-[500]">
+                  <h1 className=" text-main_dark_violet_color dark:text-main_light_purple md:text-5xl text-6xl font-[500]">
                     21
                   </h1>
                   <p className=" text-text_black dark:text-white text-sm font-[500]">
@@ -101,13 +101,13 @@ function Profile() {
               >
                 <h1
                   className={`text-sm ${
-                    !showPost ? "text-gray-500" : "text-main_dark_violet_color"
+                    !showPost ? "text-gray-500" : "text-main_dark_violet_color dark:text-main_light_purple"
                   } `}
                 >
                   POST
                 </h1>
                 {showPost && (
-                  <div className=" bg-main_dark_violet_color h-1"></div>
+                  <div className=" bg-main_dark_violet_color dark:bg-main_light_purple h-1"></div>
                 )}
               </div>
               <div
@@ -121,14 +121,14 @@ function Profile() {
                 <h1
                   className={`text-sm ${
                     !showReplies
-                      ? "text-gray-500"
-                      : "text-main_dark_violet_color"
+                      ? "text-gray-500 "
+                      : "text-main_dark_violet_color dark:text-main_light_purple"
                   } `}
                 >
                   REPLIES
                 </h1>
                 {showReplies && (
-                  <div className=" bg-main_dark_violet_color h-1"></div>
+                  <div className=" bg-main_dark_violet_color dark:bg-main_light_purple h-1"></div>
                 )}
               </div>
               <div
@@ -141,13 +141,13 @@ function Profile() {
               >
                 <h1
                   className={`text-sm ${
-                    !showLiked ? "text-gray-500" : "text-main_dark_violet_color"
+                    !showLiked ? "text-gray-500" : "text-main_dark_violet_color dark:text-main_light_purple"
                   } `}
                 >
                   Liked
                 </h1>
                 {showLiked && (
-                  <div className=" bg-main_dark_violet_color h-1"></div>
+                  <div className=" bg-main_dark_violet_color dark:bg-main_light_purple h-1"></div>
                 )}
               </div>
             </div>

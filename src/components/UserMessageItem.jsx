@@ -52,10 +52,10 @@ function UserMessageItem({
         </div>
       </div>
       <div className=" flex items-center gap-4">
-        <p className=" text-main_dark_violet_color text-nowrap">
+        <p className=" text-main_dark_violet_color dark:text-main_light_purple text-nowrap">
           {newMessages} New
         </p>
-        <p>{time}</p>
+        <p className="dark:text-white">{time}</p>
       </div>
     </div>
   );

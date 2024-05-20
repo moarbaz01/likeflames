@@ -73,7 +73,7 @@ function Notifications() {
 
             <div
               onClick={() => setShowRequest(!showRequest)}
-              className=" bg-main_bg_white hover:bg-white/80 transition cursor-pointer w-full flex items-center justify-between mt-4 rounded-xl md:px-4 px-4 py-4"
+              className=" bg-main_bg_white dark:bg-dark_secondary_bg text-white dark:drop-shadow-md hover:bg-white/80 transition cursor-pointer w-full flex items-center justify-between mt-4 rounded-xl md:px-4 px-4 py-4"
             >
               <h1>Requests</h1>
               {filteredRequests.length === 0 ? (
@@ -92,7 +92,7 @@ function Notifications() {
                   return (
                     <div
                       key={index}
-                      className=" bg-main_bg_white animate-slideDown hover:bg-white/80 transition cursor-pointer w-full md:flex-row flex-col flex md:items-center justify-between mt-4 rounded-xl md:px-4 px-4 py-4"
+                      className=" bg-main_bg_white dark:bg-dark_secondary_bg dark:drop-shadow-md animate-slideDown hover:bg-white/80 transition cursor-pointer w-full md:flex-row flex-col flex md:items-center justify-between mt-4 rounded-xl md:px-4 px-4 py-4"
                     >
                       <div className="flex items-start ">
                         <img
@@ -101,7 +101,7 @@ function Notifications() {
                           alt=""
                         />
                         <div className=" pl-4">
-                          <h1 className=" font-[500] text-main_dark_violet_color">
+                          <h1 className=" font-[500] text-main_dark_violet_color dark:text-main_light_purple">
                             {notification.sender.name}
                           </h1>
                           <div
@@ -113,9 +113,9 @@ function Notifications() {
                             {notification.type === "like" && (
                               <BsHeartFill fill="red" />
                             )}
-                            <p className=" text-md">{notification.message}</p>
+                            <p className=" text-md dark:text-white">{notification.message}</p>
                           </div>
-                          <p className=" opacity-60 hidden md:block text-sm">
+                          <p className=" opacity-60 dark:opacity-100 dark:text-gray-400 hidden md:block text-sm">
                             {notification.time}
                           </p>
                         </div>
@@ -130,7 +130,7 @@ function Notifications() {
                           </button>
                         </div>
                       )}
-                      <p className=" opacity-60 mt-2  md:hidden text-sm">
+                      <p className=" opacity-60 dark:opacity-100 dark:text-gray-400 mt-2   md:hidden text-sm">
                         {notification.time}
                       </p>
                     </div>
@@ -146,7 +146,7 @@ function Notifications() {
               return (
                 <div
                   key={index}
-                  className=" bg-main_bg_white hover:bg-white/80 transition cursor-pointer w-full md:flex-row flex-col flex md:items-center justify-between mt-4 rounded-xl md:px-4 px-4 py-4"
+                  className=" bg-main_bg_white dark:bg-dark_secondary_bg dark:drop-shadow-md hover:bg-white/80 transition cursor-pointer w-full md:flex-row flex-col flex md:items-center justify-between mt-4 rounded-xl md:px-4 px-4 py-4"
                 >
                   <div className="flex items-start ">
                     <img
@@ -155,7 +155,7 @@ function Notifications() {
                       alt=""
                     />
                     <div className=" pl-4">
-                      <h1 className=" font-[500] text-main_dark_violet_color">
+                      <h1 className=" font-[500] text-main_dark_violet_color dark:text-main_light_purple">
                         {notification.sender.name}
                       </h1>
                       <div
@@ -166,14 +166,14 @@ function Notifications() {
                         {notification.type === "like" && (
                           <BsHeartFill fill="red" />
                         )}
-                        <p className=" text-md">{notification.message}</p>
+                        <p className=" text-md dark:text-white">{notification.message}</p>
                       </div>
-                      <p className=" opacity-60 hidden md:block text-sm">
+                      <p className=" dark:opacity-100 dark:text-gray-400  opacity-60 hidden md:block text-sm">
                         {notification.time}
                       </p>
                     </div>
                   </div>
-                  <p className=" opacity-60 mt-2  md:hidden text-sm">
+                  <p className=" opacity-60 dark:text-gray-400 dark:opacity-100 mt-2  md:hidden text-sm">
                     {notification.time}
                   </p>
                 </div>

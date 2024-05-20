@@ -47,7 +47,7 @@ function PostItem({ user, file, likes, comments, caption, fileType }) {
             <h1 className="text-lg font-[400] dark:text-white text-main_text_black">
               {user.name}
             </h1>
-            <p className="text-gray-500 text-xs">12 February 2024</p>
+            <p className="text-gray-500 text-xs dark:text-gray-400">12 February 2024</p>
           </div>
         </div>
         <HiOutlineDotsHorizontal
@@ -80,18 +80,18 @@ function PostItem({ user, file, likes, comments, caption, fileType }) {
               onClick={() =>
                 setFileIndex((prev) => (prev - 1 + file.length) % file.length)
               }
-              className=" md:text-main_dark_violet_color text-white text-3xl cursor-pointer top-[50%] left-4 absolute z-[50]"
+              className=" md:text-main_dark_violet_color text-white dark:text-white text-3xl cursor-pointer top-[50%] left-4 absolute z-[50]"
             />
           )}
           {Array.isArray(file) && file.length > 1 && (
             <BiRightArrowAlt
               onClick={() => setFileIndex((prev) => (prev + 1) % file.length)}
-              className="md:text-main_dark_violet_color text-white text-3xl cursor-pointer top-[50%] right-4 absolute z-[50]"
+              className="md:text-main_dark_violet_color dark:text-white text-white text-3xl cursor-pointer top-[50%] right-4 absolute z-[50]"
             />
           )}
 
           {Array.isArray(file) && file.length > 1 && (
-            <p className="absolute top-4 left-6 text-white md:text-main_dark_violet_color">
+            <p className="absolute top-4 left-6 text-white dark:text-white md:text-main_dark_violet_color">
               {fileIndex + 1} / {file.length}
             </p>
           )}
@@ -100,7 +100,7 @@ function PostItem({ user, file, likes, comments, caption, fileType }) {
 
       {/* Bottom */}
       <div className="px-2 py-2 w-[90] gap-2  flex flex-wrap">
-        <span className="text-gray-500">@{user.username}</span>{" "}
+        <span className="text-gray-500 dark:text-gray-400">@{user.username}</span>{" "}
         <span className="text-md dark:text-white text-gray-700">{caption}</span>
       </div>
       <div className="flex items-center justify-between px-2">
@@ -124,25 +124,21 @@ function PostItem({ user, file, likes, comments, caption, fileType }) {
         <CiBookmarkPlus className="cursor-pointer dark:text-white text-3xl" />
       </div>
       <div className="px-4 py-2 flex flex-col">
-        <p className="text-gray-500 text-sm">{likes} Likes</p>
+        <p className="text-gray-500 text-sm dark:text-gray-400">{likes} Likes</p>
         <p
           onClick={() => navigate("/comments")}
-          className="text-gray-500 cursor-pointer hover:text-gray-600 transition text-sm"
+          className="text-gray-500 cursor-pointer hover:text-gray-600 dark:text-gray-400 transition text-sm"
         >
           View all {comments} comments
         </p>
         <p
           onClick={handleOpenCommentModal}
-          className=" text-main_dark_violet_color mt-2 cursor-pointer font-[500] text-sm"
+          className=" text-main_dark_violet_color dark:text-main_light_purple mt-2 cursor-pointer font-[500] text-sm"
         >
           Write comment
         </p>
       </div>
 
-      <CommentModal
-        isOpen={showCommentModal}
-        onClose={handleCloseCommentModal}
-      />
       {showPostOptionModal && (
         <div className=" flex flex-col gap-4 absolute right-4 top-12 bg-white shadow-xl rounded-xl p-2 ">
           <div className=" flex items-center gap-2 cursor-pointer">
@@ -159,6 +155,11 @@ function PostItem({ user, file, likes, comments, caption, fileType }) {
           </div>
         </div>
       )}
+
+      <CommentModal
+        isOpen={showCommentModal}
+        onClose={handleCloseCommentModal}
+      />
     </div>
   );
 }

@@ -9,9 +9,9 @@ import { ThemeContext } from "../context/useTheme";
 
 function Navbar() {
   const [dropdown, setDropdown] = React.useState(false);
-  const [themeMode, setThemeMode] = React.useState("light");
+  const { theme,setTheme } = useContext(ThemeContext);
+  const [themeMode, setThemeMode] = React.useState(theme);
   const navigate = useNavigate();
-  const { setTheme } = useContext(ThemeContext);
 
   const handleTheme = () => {
     const newTheme = themeMode === "light" ? "dark" : "light";
@@ -25,7 +25,7 @@ function Navbar() {
   };
 
   return (
-    <div className=" bg-main_bg_white dark:bg-dark_main_bg left-0 h-16 w-full  px-4 md:px-8">
+    <div className=" bg-main_bg_white dark:bg-main_dark_violet_color left-0 h-16 w-full  px-4 md:px-8">
       <div className=" flex items-center  h-full my-auto justify-between">
         <h1
           onClick={() => navigate("/")}
@@ -55,7 +55,7 @@ function Navbar() {
               onClick={() => navigate("/notifications")}
               className=" text-4xl dark:text-white"
             />
-            <div className=" bg-main_dark_violet_color absolute rounded-full h-4 w-4 top-0 right-0 text-white flex items-center justify-center text-[10px]">
+            <div className=" bg-main_dark_violet_color dark:bg-white dark:text-black absolute rounded-full h-4 w-4 top-0 right-0 text-white flex items-center justify-center text-[10px]">
               2
             </div>
           </div>

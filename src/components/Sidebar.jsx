@@ -84,8 +84,8 @@ function Sidebar() {
       >
         <img src={avatar2} className="h-10 w-10 rounded-full" alt="" />
         <div className=" flex items-start flex-col">
-          <h1 className=" font-[500]">Sameer Khan</h1>
-          <p className=" text-sm text-slate-500">@sameerkhan</p>
+          <h1 className=" font-[500] dark:text-white">Sameer Khan</h1>
+          <p className=" text-sm text-slate-500 dark:text-gray-400">@sameerkhan</p>
         </div>
       </div>
 
@@ -98,23 +98,23 @@ function Sidebar() {
                 : () => navigate(item.pathname)
             }
             key={index}
-            className=" flex items-center relative cursor-pointer gap-2 w-full"
+            className=" flex dark:text-white items-center relative cursor-pointer gap-2 w-full"
           >
             <div
               className={` ${
                 pathname !== item.pathname && "hidden"
-              } h-full w-1 bg-main_dark_violet_color absolute -left-4`}
+              } h-full w-1 bg-main_dark_violet_color dark:bg-main_light_purple absolute -left-4`}
             ></div>
             <div
               className={` ${
-                pathname === item.pathname && " text-main_dark_violet_color"
+                pathname === item.pathname && " text-main_dark_violet_color dark:text-main_light_purple"
               } `}
             >
               {item.icon}
             </div>
             <span
               className={` ${
-                pathname === item.pathname && " text-main_dark_violet_color"
+                pathname === item.pathname && " text-main_dark_violet_color dark:text-main_light_purple"
               } pl-3 font-[500]`}
             >
               {item.name}

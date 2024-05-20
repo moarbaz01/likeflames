@@ -35,8 +35,8 @@ function Home() {
                       alt=""
                     />
                     <div className=" pl-4">
-                      <h1 className=" font-[500]">{request.name}</h1>
-                      <p className=" opacity-80 text-sm">
+                      <h1 className=" font-[500] dark:text-white">{request.name}</h1>
+                      <p className=" opacity-80 dark:opacity-80 dark:text-gray-400 text-sm">
                         {request.mutuals} Mutual
                       </p>
                     </div>

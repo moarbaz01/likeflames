@@ -229,7 +229,7 @@ function Chat() {
       <div className="relative mx-auto max-w-[1400px] md:mt-4">
         <Sidebar />
         <div className=" md:ml-[320px]  flex justify-between gap-4 ">
-          <div className=" md:h-[90vh] pb-24 md:pb-10 relative  md:rounded-xl w-full md:w-full bg-white/25 md:mr-6 lg:w-[70%] ">
+          <div className=" md:h-[90vh] pb-24 md:pb-10 relative  md:rounded-xl w-full md:w-full bg-white/25 dark:bg-white/10 md:mr-6 lg:w-[70%] ">
             {/* Messages Top */}
             <div className=" bg-main_dark_violet_color fixed z-[998] md:absolute top-0 left-0 w-full flex items-center justify-between py-2 px-2 md:px-4">
               <div className=" flex items-center gap-4">
@@ -501,9 +501,9 @@ function Chat() {
               >
                 +
               </div>
-              <div className=" flex items-center ml-4 flex-[9] border-main_light_purple border-2 bg-white  gap-4 rounded-xl md:py-4 px-2">
+              <div className=" flex items-center ml-4 flex-[9] border-main_light_purple border-2 bg-white dark:bg-dark_secondary_bg  gap-4 rounded-xl md:py-4 px-2">
                 <MdEmojiEmotions
-                  className=" hidden md:block mb-6 text-2xl cursor-pointer"
+                  className=" hidden md:block mb-6 dark:text-yellow-500 text-2xl cursor-pointer"
                   onClick={handleShowPicker}
                 />
                 <textarea
@@ -512,9 +512,9 @@ function Chat() {
                   onChange={(e) => setText(e.target.value)}
                   onFocus={() => setShowPicker(false)}
                   placeholder="Type a message"
-                  className="text-text_black h-12 my-2 outline-none bg-transparent resize-none w-[90%] "
+                  className="text-text_black h-12 my-2  outline-none bg-transparent resize-none w-[90%] "
                 />
-                <BsSendArrowUp className=" mb-6 cursor-pointer text-xl" />
+                <BsSendArrowUp className=" mb-6 dark:text-white cursor-pointer text-xl" />
               </div>
             </div>
             {showPicker && (
@@ -535,13 +535,8 @@ function Chat() {
           </div>
           {/* Followers Messages */}
           <div className=" md:p-2 hidden md:hidden lg:block">
-            {/* Heading */}
-            <div className="flex items-center justify-between">
-              <h1 className=" md:text-2xl text-3xl font-[500]">Messages</h1>
-              <CiEdit className=" text-2xl cursor-pointer" />
-            </div>
             {/* Search bar */}
-            <div className=" flex items-center my-4 gap-2">
+            <div className=" flex items-center mb-4 gap-2">
               <input
                 type="text"
                 name="search"
@@ -563,7 +558,7 @@ function Chat() {
                 return (
                   <div
                     key={index}
-                    className=" flex items-end cursor-pointer hover:bg-main_light_purple transition w-full bg-white rounded-xl py-4 px-2 justify-between"
+                    className=" flex items-end cursor-pointer dark:bg-dark_secondary_bg dark:drop-shadow-md hover:bg-main_light_purple transition w-full bg-white rounded-xl py-4 px-2 justify-between"
                   >
                     <div className=" flex items-center gap-4">
                       <div className="relative  h-[50px] w-[50px]">
@@ -575,11 +570,11 @@ function Chat() {
                         <div className="h-4 w-4 bg-green-500 rounded-full absolute bottom-0 -right-1 border-2 border-main_dark_violet_color"></div>
                       </div>
                       <div className=" flex flex-col w-[150px]  text-black">
-                        <p className=" ml-2 text-ellipsis overflow-x-hidden text-nowrap">
+                        <p className=" ml-2 text-ellipsis dark:text-white overflow-x-hidden text-nowrap">
                           {chat.name}
                           {""}
                         </p>
-                        <p className=" ml-2 text-ellipsis overflow-x-hidden text-nowrap">
+                        <p className=" ml-2 text-ellipsis dark:text-main_light_purple overflow-x-hidden text-nowrap">
                           {chat.lastMsg}
                         </p>
                       </div>
@@ -588,7 +583,6 @@ function Chat() {
                       <p className=" text-main_dark_violet_color text-nowrap">
                         2 New
                       </p>
-                      <p className="">2h</p>
                     </div>
                   </div>
                 );

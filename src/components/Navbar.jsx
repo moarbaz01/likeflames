@@ -1,23 +1,35 @@
 import { useNavigate } from "react-router-dom";
-import React from "react";
-import { CiBellOn, CiSearch } from "react-icons/ci";
+import React, { useContext } from "react";
+import { CiBellOn, CiDark, CiLight, CiSearch } from "react-icons/ci";
 import avatar2 from "../assets/avatars/avatar2.png";
 import PostModal from "./PostModal";
+import { MdDarkMode, MdLightMode } from "react-icons/md";
+import { CgDarkMode } from "react-icons/cg";
+import { ThemeContext } from "../context/useTheme";
 
 function Navbar() {
   const [dropdown, setDropdown] = React.useState(false);
+  const [themeMode, setThemeMode] = React.useState("light");
   const navigate = useNavigate();
+  const { setTheme } = useContext(ThemeContext);
+
+  const handleTheme = () => {
+    const newTheme = themeMode === "light" ? "dark" : "light";
+    setThemeMode(newTheme);
+    setTheme(newTheme);
+    console.log(newTheme);
+  };
 
   const dropdownHandler = () => {
     setDropdown(!dropdown);
   };
 
   return (
-    <div className=" bg-main_bg_white left-0 h-16 w-full  px-4 md:px-8">
-      <div className=" flex items-center h-full my-auto justify-between">
+    <div className=" bg-main_bg_white dark:bg-dark_main_bg left-0 h-16 w-full  px-4 md:px-8">
+      <div className=" flex items-center  h-full my-auto justify-between">
         <h1
           onClick={() => navigate("/")}
-          className=" text-2xl font-bold cursor-pointer text-main_dark_violet_color"
+          className=" text-2xl font-bold cursor-pointer dark:text-white text-main_dark_violet_color"
         >
           LikeFlames
         </h1>
@@ -31,21 +43,29 @@ function Navbar() {
           />
         </div>
 
-        <div className=" md:flex items-center hidden relative  gap-7">
+        <div className=" flex items-center gap-4  relative">
           <img
             onClick={dropdownHandler}
-            className=" h-10 w-10 cursor-pointer"
+            className=" h-10 w-10 hidden md:block cursor-pointer"
             src={avatar2}
             alt=""
           />
-        </div>
-        <div className=" md:hidden flex items-center relative">
-          <CiBellOn
-            onClick={() => navigate("/notifications")}
-            className=" text-3xl"
-          />
-          <div className=" bg-main_dark_violet_color absolute rounded-full h-4 w-4 top-0 right-0 text-white flex items-center justify-center text-[10px]">
-            2
+          <div className="flex items-center relative  md:hidden ">
+            <CiBellOn
+              onClick={() => navigate("/notifications")}
+              className=" text-4xl dark:text-white"
+            />
+            <div className=" bg-main_dark_violet_color absolute rounded-full h-4 w-4 top-0 right-0 text-white flex items-center justify-center text-[10px]">
+              2
+            </div>
+          </div>
+          <div onClick={handleTheme} className="flex text-3xl items-center ">
+            {themeMode === "light" && (
+              <MdDarkMode className=" cursor-pointer text-black" />
+            )}
+            {themeMode === "dark" && (
+              <MdLightMode className=" cursor-pointer text-white" />
+            )}
           </div>
         </div>
       </div>

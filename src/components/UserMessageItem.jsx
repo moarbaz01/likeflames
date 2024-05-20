@@ -29,8 +29,12 @@ function UserMessageItem({
     <div
       onClick={handlerOnClick}
       className={`flex items-end cursor-pointer ${
-        mode ? (count === -1 ? "bg-main_light_purple" : "bg-white") : "bg-white"
-      } transition w-full rounded-xl py-4 px-2 justify-between`}
+        mode
+          ? count === -1
+            ? "bg-main_light_purple"
+            : "bg-white dark:bg-dark_secondary_bg"
+          : "bg-white dark:bg-dark_secondary_bg"
+      } transition dark:drop-shadow-md w-full rounded-xl py-4 px-2 justify-between`}
     >
       <div className=" flex items-center gap-4">
         <div className="relative  h-[50px] w-[50px]">
@@ -38,11 +42,11 @@ function UserMessageItem({
           <div className="h-4 w-4 bg-green-500 rounded-full absolute bottom-0 -right-1 border-2 border-main_dark_violet_color"></div>
         </div>
         <div className=" flex flex-col w-[150px]  text-black">
-          <p className=" ml-2 text-ellipsis overflow-x-hidden text-nowrap">
+          <p className=" ml-2 text-ellipsis dark:text-white overflow-x-hidden text-nowrap">
             {name}
             {""}
           </p>
-          <p className=" ml-2 text-ellipsis overflow-x-hidden text-nowrap">
+          <p className=" ml-2 text-ellipsis dark:text-white overflow-x-hidden text-nowrap">
             {lastMsg}
           </p>
         </div>

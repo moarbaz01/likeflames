@@ -77,10 +77,10 @@ function Sidebar() {
     },
   ];
   return (
-    <aside className=" absolute w-[280px] hidden top-0 left-4  md:flex items-start flex-col justify-center">
+    <aside className=" absolute w-[280px] hidden top-0 left-4   md:flex items-start flex-col justify-center">
       <div
         onClick={() => navigate("/profile")}
-        className="flex items-center cursor-pointer  w-full py-2 px-4 mb-2 rounded-xl bg-main_bg_white gap-4"
+        className="flex items-center cursor-pointer  w-full py-2 px-4 mb-2 rounded-xl dark:shadow-lg  dark:bg-dark_secondary_bg bg-main_bg_white gap-4"
       >
         <img src={avatar2} className="h-10 w-10 rounded-full" alt="" />
         <div className=" flex items-start flex-col">
@@ -89,7 +89,7 @@ function Sidebar() {
         </div>
       </div>
 
-      <ul className="flex items-start w-full py-6 px-6 rounded-xl mb-2 bg-main_bg_white gap-6 flex-col">
+      <ul className="flex items-start w-full py-6 px-6 rounded-xl mb-2 dark:bg-dark_secondary_bg bg-main_bg_white gap-6 flex-col">
         {navList.map((item, index) => (
           <li
             onClick={
@@ -122,7 +122,7 @@ function Sidebar() {
           </li>
         ))}
       </ul>
-      <div className=" w-full">   
+      <div className=" w-full">
         <button
           onClick={handleOpenModal}
           className=" rounded-full w-full transition hover:opacity-80  text-text_color py-2 px-4 bg-main_dark_violet_color border-none outline-none"

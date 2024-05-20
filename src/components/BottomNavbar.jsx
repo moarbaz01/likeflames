@@ -54,7 +54,7 @@ function BottomNavbar() {
   }, [location.pathname]);
 
   return (
-    <div className=" bg-white h-20 fixed md:hidden rounded-t-3xl  border-t-2 border-t-gray-200 w-full bottom-0 left-0 z-[999]">
+    <div className=" bg-white dark:bg-dark_main_bg h-20 fixed md:hidden border-t-2 dark:border-t-main_dark_violet_color border-t-gray-200 w-full bottom-0 left-0 z-[999]">
       <div className=" flex items-center my-2 mx-4 justify-around">
         {/* Home Navigation */}
 
@@ -63,8 +63,10 @@ function BottomNavbar() {
             <Link
               to={item.pathname}
               className={` flex items-center ${
-                pathname === item.pathname && "text-main_dark_violet_color"
-              } font-[500] flex-col justify-center gap-2`}
+                pathname === item.pathname
+                  ? "text-main_dark_violet_color"
+                  : "dark:text-white"
+              }  font-[500] flex-col justify-center gap-2`}
             >
               {item.icon}
               <p className=" text-xs">{item.title}</p>

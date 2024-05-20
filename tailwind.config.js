@@ -4,15 +4,18 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
+  darkMode: "class",
   theme: {
     extend: {
       colors: {
-        main_dark_violet_color: "#5755FE",
         main_light_purple: "#8B93FF",
         main_dark_bg: "#382B47",
         text_color: "#FFF6FF",
         text_black: '#black',
-        main_bg_white: "white"
+        main_bg_white: "white",
+        dark_main_bg: "rgb(26 28 35)",
+        dark_secondary_bg: "rgb(37 39 49)",
+        main_dark_violet_color: "#5755FE",
       },
       fontFamily: {
         logo_font: "Exo, sans-serif"

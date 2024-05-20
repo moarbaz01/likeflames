@@ -95,7 +95,7 @@ const ImageGrid = () => {
       {chunkedImages.map((chunk, chunkIndex) => (
         <div key={chunkIndex} className="grid gap-4">
           {chunk.map((file, index) => (
-            <div className="cursor-pointer" key={index}>
+            <div className="cursor-pointer dark:drop-shadow-md" key={index}>
               {file.type === "video" ? (
                 <video
                   onClick={() => handleVideoNavigate(file.content)}

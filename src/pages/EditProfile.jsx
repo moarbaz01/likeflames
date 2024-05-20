@@ -30,7 +30,7 @@ function EditProfile() {
         <Navbar />
       </div>
       {/* Back  */}
-      <div className=" bg-main_bg_white left-0 h-16 w-full md:hidden  px-4 md:px-8">
+      <div className=" bg-main_bg_white dark:bg-dark_main_bg left-0 h-16 w-full md:hidden  px-4 md:px-8">
         <div className=" flex items-center h-full my-auto justify-between">
           <div
             onClick={() => navigate("/profile")}
@@ -44,15 +44,15 @@ function EditProfile() {
       <div className="relative  mx-auto md:max-w-[1400px] md:px-4 mt-4">
         <Sidebar />
         <div className=" md:ml-[320px] mx-2 md:mx-0 flex items-start justify-between gap-4 ">
-          <div className=" w-full md:h-[90vh] rounded-xl overflow-y-scroll">
+          <div className=" w-full md:h-[90vh] rounded-xl  md:overflow-y-scroll">
             {/* Notification on social media */}
             <div
               onClick={() =>
                 setShowPersonalInformation(!showPersonalInformation)
               }
-              className=" bg-main_bg_white hover:bg-white/80 transition cursor-pointer w-full flex items-center justify-between rounded-xl md:px-4 px-4 py-4"
+              className=" bg-main_bg_white dark:bg-dark_secondary_bg dark:drop-shadow-md hover:bg-white/80 transition cursor-pointer w-full flex items-center justify-between rounded-xl md:px-4 px-4 py-4"
             >
-              <h1>Personal Information</h1>
+              <h1 className=" dark:text-white">Personal Information</h1>
 
               <BiSolidDownArrow
                 className={`text-main_dark_violet_color ${
@@ -129,9 +129,9 @@ function EditProfile() {
 
             <div
               onClick={() => setShowChangePassword(!showChangePassword)}
-              className=" bg-main_bg_white hover:bg-white/80 transition cursor-pointer w-full flex items-center justify-between mt-4 rounded-xl md:px-4 px-4 py-4"
+              className=" bg-main_bg_white dark:bg-dark_secondary_bg dark:drop-shadow-md hover:bg-white/80 transition cursor-pointer w-full flex items-center justify-between mt-4 rounded-xl md:px-4 px-4 py-4"
             >
-              <h1>Change Password</h1>
+              <h1 className=" dark:text-white">Change Password</h1>
               <BiSolidDownArrow
                 className={`text-main_dark_violet_color ${
                   showChangePassword && "rotate-180"
@@ -167,9 +167,9 @@ function EditProfile() {
 
             <div
               onClick={() => setShowPrivacy(!showPrivacy)}
-              className=" bg-main_bg_white hover:bg-white/80 transition cursor-pointer w-full flex items-center justify-between mt-4 rounded-xl md:px-4 px-4 py-4"
+              className=" bg-main_bg_white dark:bg-dark_secondary_bg dark:drop-shadow-md hover:bg-white/80 transition cursor-pointer w-full flex items-center justify-between mt-4 rounded-xl md:px-4 px-4 py-4"
             >
-              <h1>Privacy</h1>
+              <h1 className=" dark:text-white">Privacy</h1>
 
               <BiSolidDownArrow
                 className={`text-main_dark_violet_color ${
@@ -202,9 +202,9 @@ function EditProfile() {
 
             <div
               onClick={() => setShowSecurity(!showSecurity)}
-              className=" bg-main_bg_white hover:bg-white/80 transition cursor-pointer w-full flex items-center justify-between mt-4 rounded-xl md:px-4 px-4 py-4"
+              className=" bg-main_bg_white dark:bg-dark_secondary_bg dark:drop-shadow-md hover:bg-white/80 transition cursor-pointer w-full flex items-center justify-between mt-4 rounded-xl md:px-4 px-4 py-4"
             >
-              <h1>Security</h1>
+              <h1 className=" dark:text-white">Security</h1>
 
               <BiSolidDownArrow
                 className={`text-main_dark_violet_color ${

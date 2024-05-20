@@ -21,7 +21,6 @@ import { PiTrash } from "react-icons/pi";
 
 function PostItem({ user, file, likes, comments, caption, fileType }) {
   const [heart, setHeart] = useState(false);
-  const [play, setPlay] = useState(false);
   const navigate = useNavigate();
   const [showPostOptionModal, setShowPostOptionModal] = useState(false);
   const [showCommentModal, setShowCommentModal] = useState(false);
@@ -35,7 +34,7 @@ function PostItem({ user, file, likes, comments, caption, fileType }) {
   };
 
   return (
-    <div className="w-full mb-4 relative bg-main_bg_white rounded-xl">
+    <div className="w-full mb-4 relative dark:drop-shadow-xl bg-main_bg_white dark:bg-dark_secondary_bg rounded-xl">
       {/* Top */}
       <div className="flex w-full items-center justify-between px-4 py-2">
         <div className="flex cursor-pointer items-center gap-4">
@@ -45,7 +44,7 @@ function PostItem({ user, file, likes, comments, caption, fileType }) {
             alt=""
           />
           <div>
-            <h1 className="text-lg font-[400] text-main_text_black">
+            <h1 className="text-lg font-[400] dark:text-white text-main_text_black">
               {user.name}
             </h1>
             <p className="text-gray-500 text-xs">12 February 2024</p>
@@ -53,7 +52,7 @@ function PostItem({ user, file, likes, comments, caption, fileType }) {
         </div>
         <HiOutlineDotsHorizontal
           onClick={() => setShowPostOptionModal((prev) => !prev)}
-          className="cursor-pointer"
+          className="cursor-pointer dark:text-white"
         />
       </div>
       {/* Media */}
@@ -100,13 +99,13 @@ function PostItem({ user, file, likes, comments, caption, fileType }) {
       )}
 
       {/* Bottom */}
-      <div className="px-2 py-2 w-[90] gap-2 flex flex-wrap">
+      <div className="px-2 py-2 w-[90] gap-2  flex flex-wrap">
         <span className="text-gray-500">@{user.username}</span>{" "}
-        <span className="text-md text-gray-700">{caption}</span>
+        <span className="text-md dark:text-white text-gray-700">{caption}</span>
       </div>
       <div className="flex items-center justify-between px-2">
         {/* Caption */}
-        <div className="flex items-center text-3xl gap-4">
+        <div className="flex items-center dark:text-white text-3xl gap-4">
           {!heart ? (
             <CiHeart
               onClick={() => setHeart(!heart)}
@@ -122,7 +121,7 @@ function PostItem({ user, file, likes, comments, caption, fileType }) {
           <CiChat2 className="cursor-pointer" />
           <CiShare2 className="cursor-pointer" />
         </div>
-        <CiBookmarkPlus className="cursor-pointer text-3xl" />
+        <CiBookmarkPlus className="cursor-pointer dark:text-white text-3xl" />
       </div>
       <div className="px-4 py-2 flex flex-col">
         <p className="text-gray-500 text-sm">{likes} Likes</p>

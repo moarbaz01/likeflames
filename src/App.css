@@ -22,6 +22,10 @@ input::-webkit-inner-spin-button {
   }
 }
 
+.dark-body {
+  background: rgb(30, 32, 40);
+}
+
 ::-webkit-scrollbar-thumb {
   background-color: #5755fe; /* Color of the scrollbar thumb */
   border-radius: 10px; /* Rounded corners */

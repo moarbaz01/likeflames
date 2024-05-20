@@ -18,13 +18,13 @@ function Explore() {
       <div className="relative mx-auto max-w-[1400px] mt-4">
         <Sidebar />
         <div className=" md:ml-[320px] mx-2 md:mr-6  flex justify-between gap-4 ">
-          <div className=" md:h-[90vh]  overflow-y-scroll ">
+          <div className=" md:h-[90vh]  md:overflow-y-scroll ">
             {/* Search bar */}
             <div className=" flex items-center gap-2">
               <input
                 type="text"
                 name="search"
-                className=" w-full text-text_black border-2 border-main_light_purple rounded-md focus:outline-main_dark_violet_color p-2"
+                className=" w-full text-text_black dark:bg-dark_secondary_bg border-2 border-main_light_purple rounded-md focus:outline-main_dark_violet_color p-2"
                 placeholder="Search"
                 onChange={handleChange}
                 value={search}
@@ -34,7 +34,7 @@ function Explore() {
               </div>
             </div>
             {/* Image grid */}
-            <ImageGrid/>
+            <ImageGrid />
           </div>
           {/* <div className=" md:flex hidden flex-col gap-4">
             <h1 className=" text-gray-500">Requests</h1>

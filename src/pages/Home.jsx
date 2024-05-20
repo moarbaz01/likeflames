@@ -11,13 +11,13 @@ import Breadcrumbs from "../components/Breadcrumbs";
 function Home() {
   return (
     <div className=" md:pb-0 pb-24 ">
-      <div className="md:static md:border-b-0 fixed border-b-2 top-0 left-0 w-full z-[999]">
+      <div className="md:static md:border-b-0 fixed dark:border-main_dark_violet_color border-b-2 top-0 left-0 w-full z-[999]">
         <Navbar />
       </div>
       <div className="relative mx-auto max-w-[1400px] mt-4">
         <Sidebar />
         <div className=" md:ml-[320px] mx-2 md:mr-6  flex justify-between gap-4 ">
-          <div className=" md:h-[90vh] md:min-w-[40%] rounded-xl md:mt-0 mt-16  overflow-y-scroll ">
+          <div className=" md:h-[90vh] md:min-w-[40%] rounded-xl md:mt-0 mt-16  md:overflow-y-scroll ">
             <Posts />
           </div>
           <div className=" lg:flex hidden flex-col gap-4">
@@ -26,9 +26,9 @@ function Home() {
               return (
                 <div
                   key={index}
-                  className=" bg-main_bg_white  rounded-xl px-4 py-2"
+                  className=" bg-main_bg_white dark:bg-dark_secondary_bg  rounded-xl px-4 py-2"
                 >
-                  <div className="flex items-start">
+                  <div className="flex items-start">  
                     <img
                       className="max-h-8 max-w-8"
                       src={request.profile}

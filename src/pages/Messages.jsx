@@ -51,10 +51,12 @@ function Messages() {
           <div className=" md:p-2 w-full">
             {/* Heading */}
             <div className="flex items-center justify-between">
-              <h1 className=" md:text-2xl text-3xl font-[500]">Messages</h1>
+              <h1 className=" md:text-2xl text-3xl dark:text-white font-[500]">
+                Messages
+              </h1>
               <CiEdit
                 onClick={handleChangeMode}
-                className=" text-2xl cursor-pointer hover:text-red-500"
+                className=" text-2xl dark:text-white cursor-pointer hover:text-red-500"
               />
             </div>
             {/* Search bar */}
@@ -62,7 +64,7 @@ function Messages() {
               <input
                 type="text"
                 name="search"
-                className=" w-full text-text_black border-2 border-main_light_purple rounded-md focus:outline-main_dark_violet_color p-2"
+                className=" w-full text-text_black border-2 dark:bg-dark_secondary_bg dark:text-white border-main_light_purple rounded-md focus:outline-main_dark_violet_color p-2"
                 placeholder="Search"
                 onChange={handleChange}
                 value={search}
@@ -77,7 +79,7 @@ function Messages() {
             {/* Edit Options */}
             {editMode && (
               <div className="flex animate-slideDown items-center gap-2 w-full mb-2 px-2 justify-between">
-                <p>{selected} Selected</p>
+                <p className="dark:text-white">{selected} Selected</p>
                 <div>
                   <button className="h-10 px-2 bg-red-500 mr-2 text-white rounded-lg ">
                     Delete

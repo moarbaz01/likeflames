@@ -117,7 +117,7 @@ const messageOptionModal = (msg) => {
     msg.type === "audio"
   ) {
     return (
-      <div className=" flex flex-col gap-4 bg-white shadow-xl rounded-2xl p-2 ">
+      <div className=" flex  flex-col gap-4 bg-white shadow-xl rounded-2xl p-2 ">
         {/* <div className=" flex items-center gap-2 cursor-pointer"></div> */}
         <div className=" flex items-center gap-2 cursor-pointer">
           <BiLeftArrowAlt />
@@ -222,13 +222,13 @@ function Chat() {
   };
 
   return (
-    <div className=" md:pb-0 ">
+    <div className=" md:pb-0">
       <div className=" hidden md:block">
         <Navbar />
       </div>
       <div className="relative mx-auto max-w-[1400px] md:mt-4">
         <Sidebar />
-        <div className=" md:ml-[320px]  flex justify-between gap-4 ">
+        <div className=" md:ml-[320px] flex justify-between gap-4 ">
           <div className=" md:h-[90vh] pb-24 md:pb-10 relative  md:rounded-xl w-full md:w-full bg-white/25 dark:bg-white/10 md:mr-6 lg:w-[70%] ">
             {/* Messages Top */}
             <div className=" bg-main_dark_violet_color fixed z-[998] md:absolute top-0 left-0 w-full flex items-center justify-between py-2 px-2 md:px-4">

@@ -16,23 +16,23 @@ function Username() {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen max-w-screen">
+    <div className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center">
       <form
         onSubmit={handleSubmit}
-        className="py-12 px-12 w-[90%] sm:w-[40%] lg:w-[30%] rounded-md flex justify-center flex-col "
+        className=" px-4 md:w-1/3 rounded-md flex justify-center flex-col "
       >
         <Link className=" flex items-center gap-4 mb-2 text-text_black text-xl">
           <FaArrowLeft className=" text-main_dark_violet_color" />
-          <span className="text-lg text-text_black">Prev</span>
+          <span className="text-lg text-text_black dark:text-white">Prev</span>
         </Link>
         <div className="flex items-center gap-2 mt-4">
-          <span className=" text-text_black font-[500]">Enter a username</span>
+          <span className=" text-text_black font-[500] dark:text-white">Enter a username</span>
           <img className=" h-4 w-4" src={downHand} alt="" />
         </div>
         <input
           type="text"
           name="username"
-          className=" my-2 bg-transparent w-full text-black border-[2px] border-main_light_purple mt-2 rounded-md focus:outline-main_dark_violet_color p-2"
+          className=" my-2 bg-transparent w-full dark:text-white text-black border-[2px] border-main_light_purple mt-2 rounded-md focus:outline-main_dark_violet_color p-2"
           placeholder="Username"
           onChange={handleChange}
           value={username}

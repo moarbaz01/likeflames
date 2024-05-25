@@ -65,8 +65,8 @@ function Notifications() {
       </div>
       <div className="relative  mx-auto md:max-w-[1400px] md:px-4 mt-4">
         <Sidebar />
-        <div className=" md:ml-[320px] mx-2 md:mr-6 flex items-start justify-between gap-4 ">
-          <div className=" w-full md:h-[90vh] rounded-xl overflow-y-scroll">
+        <div className=" md:ml-[320px] mx-2 md:mr-6 flex justify-between gap-4 ">
+          <div className=" md:p-2 w-full md:max-h-[90vh] md:overflow-y-scroll">
             {/* Notification on social media */}
 
             <h1 className=" text-lg font-[400] text-gray-500">Requests</h1>

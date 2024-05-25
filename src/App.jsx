@@ -14,13 +14,16 @@ function App() {
     "/feed",
     "/video-call",
     "/voice-call",
+    "/login",
+    "/password",
+    "/otp",
+    "/signup",
+    "/username",
   ];
   const location = useLocation();
   return (
     <div>
       {!hiddenBottomNavbar.includes(location.pathname) && <BottomNavbar />}
-      {/* <CallModal user={{ avatar: avatar2, name: "Arbaz" }} /> */}
-      <PostModal/>
       <Router />
     </div>
   );

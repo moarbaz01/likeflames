@@ -35,11 +35,17 @@ function PostModal({ isOpen, onClose }) {
     setText((prev) => prev + emoji.native);
   };
 
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  }, [isOpen]);
+
   return (
     <div
-      className={` bg-[rgba(0,0,0,0.61)] items-center ${
-        isOpen ? "flex" : "hidden"
-      } justify-center fixed z-[999] top-0 left-0 h-screen w-full`}
+      className={` bg-[rgba(0,0,0,0.61)] items-center flex justify-center fixed z-[1000] top-0 left-0 h-screen w-full`}
     >
       <div className="md:h-3/4 h-full w-full md:w-1/3 overflow-y-scroll bg-white md:rounded-xl">
         <div className=" flex justify-end p-4">

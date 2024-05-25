@@ -10,15 +10,15 @@ function Explore() {
     setSearch(e.target.value);
   };
   return (
-    <div className=" md:pb-0 pb-24 ">
+    <div className=" md:pb-0  pb-24 ">
       <div className="hidden md:block">
         <Navbar />
       </div>
 
       <div className="relative mx-auto max-w-[1400px] mt-4">
         <Sidebar />
-        <div className=" md:ml-[320px] mx-2 md:mr-6  flex justify-between gap-4 ">
-          <div className=" md:h-[90vh]  md:overflow-y-scroll ">
+        <div className=" md:ml-[320px] mx-2 md:mr-6 flex h-full justify-between gap-4 ">
+          <div className=" md:p-2 md:overflow-y-scroll">
             {/* Search bar */}
             <div className=" flex items-center gap-2">
               <input

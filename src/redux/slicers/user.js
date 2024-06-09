@@ -84,7 +84,6 @@ const userSlice = createSlice({
       state.token = action.payload.accessToken;
       state.isUser = true;
       state.isError = false;
-      localStorage.setItem("likeflame-token", action.payload.accessToken);
     });
 
     builder.addCase(fetchUser.rejected, (state, action) => {

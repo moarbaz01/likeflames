@@ -2,9 +2,7 @@ import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import avatar2 from "../assets/avatars/avatar2.png";
-import { PiNotePencilThin, PiShare, PiShareThin } from "react-icons/pi";
-import { CiEdit } from "react-icons/ci";
-// import Reels from "../components/Reels";
+import { PiNotePencilThin, PiShareThin } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
 import Posts from "../components/Posts";
 function Profile() {
@@ -33,7 +31,7 @@ function Profile() {
                 @Sameer Khan
               </p>
             </div>
-            <div className=" flex justify-evenly bg-white dark:bg-dark_secondary_bg rounded-xl mt-4 py-4 lg:flex-row flex-col items-center w-full">
+            <div className=" flex justify-evenly bg-white dark:bg-dark_secondary_bg rounded-t-xl mt-4 py-4 lg:flex-row flex-col items-center w-full">
               <div className="relative mx-2">
                 <img
                   src={avatar2}
@@ -84,7 +82,7 @@ function Profile() {
               </div>
             </div>
             {/* Social Media User info Info */}
-            <div className=" flex flex-col bg-white dark:bg-dark_secondary_bg px-4 py-4 mt-4 overflow-x-hidden rounded-xl w-full">
+            <div className=" flex flex-col bg-white dark:bg-dark_secondary_bg px-4 py-4 overflow-x-hidden rounded-b-xl w-full">
               <h1 className=" text-gray-400 font-[500] text-xl">Your Bio</h1>
 
               <p className="mt-4 text-gray-400 ">{bio}</p>
@@ -101,7 +99,9 @@ function Profile() {
               >
                 <h1
                   className={`text-sm ${
-                    !showPost ? "text-gray-500" : "text-main_dark_violet_color dark:text-main_light_purple"
+                    !showPost
+                      ? "text-gray-500"
+                      : "text-main_dark_violet_color dark:text-main_light_purple"
                   } `}
                 >
                   POST
@@ -141,7 +141,9 @@ function Profile() {
               >
                 <h1
                   className={`text-sm ${
-                    !showLiked ? "text-gray-500" : "text-main_dark_violet_color dark:text-main_light_purple"
+                    !showLiked
+                      ? "text-gray-500"
+                      : "text-main_dark_violet_color dark:text-main_light_purple"
                   } `}
                 >
                   Liked

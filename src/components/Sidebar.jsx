@@ -15,12 +15,13 @@ import { useNavigate } from "react-router-dom";
 import SettingsModal from "./SettingsModal";
 import LoginModal from "./LoginModal";
 import Breadcrumbs from "./Breadcrumbs";
+import { useSelector } from "react-redux";
 
 function Sidebar() {
   const [showModal, setShowModal] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
+  const { isUser, user } = useSelector((state) => state.user);
   const navigate = useNavigate();
-  const user = false;
   const pathname = useLocation().pathname;
 
   const handleOpenModal = () => {
@@ -76,74 +77,83 @@ function Sidebar() {
       // pathname: "/settings",
     },
   ];
+
   return (
-    <aside className=" absolute w-[280px] hidden top-0 left-4   md:flex items-start flex-col justify-center">
-      <div
-        onClick={() => navigate("/profile")}
-        className="flex items-center cursor-pointer  w-full py-2 px-4 mb-2 rounded-xl dark:shadow-lg  dark:bg-dark_secondary_bg bg-main_bg_white gap-4"
-      >
-        <img src={avatar2} className="h-10 w-10 rounded-full" alt="" />
-        <div className=" flex items-start flex-col">
-          <h1 className=" font-[500] dark:text-white">Sameer Khan</h1>
-          <p className=" text-sm text-slate-500 dark:text-gray-400">@sameerkhan</p>
-        </div>
-      </div>
 
-      <ul className="flex items-start w-full py-6 px-6 rounded-xl mb-2 dark:bg-dark_secondary_bg bg-main_bg_white gap-6 flex-col">
-        {navList.map((item, index) => (
-          <li
-            onClick={
-              item.handleClick
-                ? item.handleClick
-                : () => navigate(item.pathname)
-            }
-            key={index}
-            className=" flex dark:text-white items-center relative cursor-pointer gap-2 w-full"
-          >
-            <div
-              className={` ${
-                pathname !== item.pathname && "hidden"
-              } h-full w-1 bg-main_dark_violet_color dark:bg-main_light_purple absolute -left-4`}
-            ></div>
-            <div
-              className={` ${
-                pathname === item.pathname && " text-main_dark_violet_color dark:text-main_light_purple"
-              } `}
-            >
-              {item.icon}
-            </div>
-            <span
-              className={` ${
-                pathname === item.pathname && " text-main_dark_violet_color dark:text-main_light_purple"
-              } pl-3 font-[500]`}
-            >
-              {item.name}
-            </span>
-          </li>
-        ))}
-      </ul>
-      <div className=" w-full">
-        <button
-          onClick={handleOpenModal}
-          className=" rounded-full w-full transition hover:opacity-80  text-text_color py-2 px-4 bg-main_dark_violet_color border-none outline-none"
+      <aside className=" absolute w-[280px] hidden top-0 left-4   md:flex items-start flex-col justify-center">
+        <div
+          onClick={() => navigate("/profile")}
+          className="flex items-center cursor-pointer  w-full py-2 px-4 mb-2 rounded-xl dark:shadow-lg  dark:bg-dark_secondary_bg bg-main_bg_white gap-4"
         >
-          Create Post
-        </button>
-      </div>
-      <SettingsModal isOpen={showSettings} onClose={handleCloseSettingsModal} />
-      {user ? (
-        <PostModal isOpen={showModal} onClose={handleCloseModal} />
-      ) : (
-        showModal && (
-          <LoginModal isOpen={showModal} onClose={handleCloseModal} />
-        )
-      )}
+          <img src={avatar2} className="h-10 w-10 rounded-full" alt="" />
+          <div className=" flex items-start flex-col">
+            <h1 className=" font-[500] dark:text-white">{user?.name}</h1>
+            <p className=" text-sm text-slate-500 dark:text-gray-400">
+              @{user?.username}
+            </p>
+          </div>
+        </div>
 
-      <div className="mt-6">
-        <Breadcrumbs />
-      </div>
-    </aside>
-  );
+        <ul className="flex items-start w-full py-6 px-6 rounded-xl mb-2 dark:bg-dark_secondary_bg bg-main_bg_white gap-6 flex-col">
+          {navList.map((item, index) => (
+            <li
+              onClick={
+                item.handleClick
+                  ? item.handleClick
+                  : () => navigate(item.pathname)
+              }
+              key={index}
+              className=" flex dark:text-white items-center relative cursor-pointer gap-2 w-full"
+            >
+              <div
+                className={` ${
+                  pathname !== item.pathname && "hidden"
+                } h-full w-1 bg-main_dark_violet_color dark:bg-main_light_purple absolute -left-4`}
+              ></div>
+              <div
+                className={` ${
+                  pathname === item.pathname &&
+                  " text-main_dark_violet_color dark:text-main_light_purple"
+                } `}
+              >
+                {item.icon}
+              </div>
+              <span
+                className={` ${
+                  pathname === item.pathname &&
+                  " text-main_dark_violet_color dark:text-main_light_purple"
+                } pl-3 font-[500]`}
+              >
+                {item.name}
+              </span>
+            </li>
+          ))}
+        </ul>
+        <div className=" w-full">
+          <button
+            onClick={handleOpenModal}
+            className=" rounded-full w-full transition hover:opacity-80  text-text_color py-2 px-4 bg-main_dark_violet_color border-none outline-none"
+          >
+            Create Post
+          </button>
+        </div>
+        <SettingsModal
+          isOpen={showSettings}
+          onClose={handleCloseSettingsModal}
+        />
+        {user ? (
+          <PostModal isOpen={showModal} onClose={handleCloseModal} />
+        ) : (
+          showModal && (
+            <LoginModal isOpen={showModal} onClose={handleCloseModal} />
+          )
+        )}
+
+        <div className="mt-6">
+          <Breadcrumbs />
+        </div>
+      </aside>
+    )
 }
 
 export default Sidebar;

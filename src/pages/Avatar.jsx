@@ -9,6 +9,7 @@ import avatar7 from "../assets/avatars/avatar7.png";
 import avatar8 from "../assets/avatars/avatar8.png";
 import { Link } from "react-router-dom";
 import { FaArrowLeft, FaPlusSquare } from "react-icons/fa";
+import toast from "react-hot-toast";
 
 function Avatar() {
   const [image, setImage] = useState("");
@@ -29,30 +30,23 @@ function Avatar() {
       const image = URL.createObjectURL(e.target.files[0]);
       setFile(image);
     }
-  }
-
-  const handleChangeAvatar = () => {
-    if (image) {
-    } else {
-      alert("Please choose an avatar");
-    }
   };
 
-  const handleSubmit = (e) => {
+  const handleChangeAvatar = (e) => {
     e.preventDefault();
-    alert("Submited");
-  }
+    if (!image) return toast.error("Please choose an avatar");
+  };
 
   useEffect(() => {
     console.log(image);
   }, [image]);
   return (
     <div className="flex items-center h-screen max-w-screen justify-center">
-      <form onSubmit={handleSubmit} className="lg:w-1/3 w-[80%]">
-        <Link className=" flex items-center gap-4 mb-4 text-text_black text-xl">
+      <form onSubmit={handleChangeAvatar} className="lg:w-1/3 w-[80%]">
+        {/* <Link className=" flex items-center gap-4 mb-4 text-text_black text-xl">
           <FaArrowLeft className=" text-main_dark_violet_color" />
           <span className="text-lg dark:text-white">Skip</span>
-        </Link>
+        </Link> */}
         <h1 className=" text-xl text-text_black font-[500] my-4 dark:text-white">
           Choose Your Avatar
         </h1>
@@ -99,7 +93,6 @@ function Avatar() {
 
         <button
           type="submit"
-          onClick={handleChangeAvatar}
           className="w-full rounded-sm mt-4 h-12 bg-main_dark_violet_color text-white font-bold"
         >
           NEXT

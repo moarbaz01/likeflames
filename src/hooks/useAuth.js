@@ -17,13 +17,6 @@ function useAuth() {
     }
   };
 
-  useEffect(() => {
-    if (isUser) {
-      toast.success("Welcome back!");
-      navigate("/");
-    }
-  }, [isUser]);
-
   return { autoLoginHandler };
 }
 

@@ -3,7 +3,7 @@ import { createContext, useEffect, useState } from "react";
 const ThemeContext = createContext();
 
 const ThemeContextProvider = ({ children }) => {
-  const [theme, setTheme] = useState("dark");
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
 
   useEffect(() => {
     // Accessing the body directly from the document

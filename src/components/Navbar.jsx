@@ -9,15 +9,17 @@ import { ThemeContext } from "../context/useTheme";
 
 function Navbar() {
   const [dropdown, setDropdown] = React.useState(false);
-  const { theme,setTheme } = useContext(ThemeContext);
-  const [themeMode, setThemeMode] = React.useState(theme);
+  const { theme, setTheme } = useContext(ThemeContext);
   const navigate = useNavigate();
 
   const handleTheme = () => {
-    const newTheme = themeMode === "light" ? "dark" : "light";
-    setThemeMode(newTheme);
-    setTheme(newTheme);
-    console.log(newTheme);
+    if (theme === "light") {
+      localStorage.setItem("theme", "dark");
+      setTheme("dark");
+      return;
+    }
+    localStorage.setItem("theme", "light");
+    setTheme("light");
   };
 
   const dropdownHandler = () => {
@@ -25,8 +27,8 @@ function Navbar() {
   };
 
   return (
-    <div className=" bg-main_bg_white dark:bg-main_dark_violet_color left-0 h-16 w-full  px-4 md:px-8">
-      <div className=" flex items-center  h-full my-auto justify-between">
+    <div className=" bg-main_bg_white dark:bg-main_dark_violet_color flex items-center left-0 py-4 w-full  px-4 md:px-8">
+      <div className=" flex items-center h-full w-full my-auto justify-between">
         <h1
           onClick={() => navigate("/")}
           className=" text-2xl font-bold cursor-pointer dark:text-white text-main_dark_violet_color"
@@ -60,10 +62,10 @@ function Navbar() {
             </div>
           </div>
           <div onClick={handleTheme} className="flex text-3xl items-center ">
-            {themeMode === "light" && (
+            {theme === "light" && (
               <MdDarkMode className=" cursor-pointer text-black" />
             )}
-            {themeMode === "dark" && (
+            {theme === "dark" && (
               <MdLightMode className=" cursor-pointer text-white" />
             )}
           </div>

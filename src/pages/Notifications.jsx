@@ -73,9 +73,9 @@ function Notifications() {
 
             <div
               onClick={() => setShowRequest(!showRequest)}
-              className=" bg-main_bg_white dark:bg-dark_secondary_bg text-white dark:drop-shadow-md hover:bg-white/80 transition cursor-pointer w-full flex items-center justify-between mt-4 rounded-xl md:px-4 px-4 py-4"
+              className=" bg-main_bg_white dark:bg-dark_secondary_bg dark:drop-shadow-md hover:bg-white/80 transition cursor-pointer w-full flex items-center justify-between mt-4 rounded-xl md:px-4 px-4 py-4"
             >
-              <h1>Requests</h1>
+              <h1 className=" dark:text-white text-black">Requests</h1>
               {filteredRequests.length === 0 ? (
                 <p className=" opacity-60">No requests</p>
               ) : (

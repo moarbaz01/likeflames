@@ -254,7 +254,7 @@ function Chat() {
                 <BiVideo fill="white" className=" cursor-pointer" stroke="4" />
               </div>
             </div>
-            <div className="w-full md:h-[80%] overflow-y-scroll px-4 mt-16">
+            <div className="w-full md:h-[80%] md:overflow-y-scroll px-4 mt-16">
               {messagesData.map((msg, index) => {
                 if (msg.type === "text") {
                   return (
@@ -512,7 +512,7 @@ function Chat() {
                   onChange={(e) => setText(e.target.value)}
                   onFocus={() => setShowPicker(false)}
                   placeholder="Type a message"
-                  className="text-text_black h-12 my-2  outline-none bg-transparent resize-none w-[90%] "
+                  className="text-text_black dark:text-white h-12 my-2  outline-none bg-transparent resize-none w-[90%] "
                 />
                 <BsSendArrowUp className=" mb-6 dark:text-white cursor-pointer text-xl" />
               </div>

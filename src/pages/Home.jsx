@@ -1,16 +1,11 @@
 import React from "react";
 import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
-import Stories from "../components/Stories";
 import { requests } from "../data";
-import avatar2 from "../assets/avatars/avatar2.png";
-// import Reels from "../components/Reels";
 import Posts from "../components/Posts";
-import CallModal from "../components/CallModal";
-import Breadcrumbs from "../components/Breadcrumbs";
 function Home() {
   return (
-    <div className=" md:pb-0 pb-24 ">
+    <div className=" md:pb-0 pb-24">
       <div className="md:static md:border-b-0 fixed dark:border-main_dark_violet_color border-b-2 top-0 left-0 w-full z-[999]">
         <Navbar />
       </div>
@@ -28,14 +23,16 @@ function Home() {
                   key={index}
                   className=" bg-main_bg_white dark:bg-dark_secondary_bg  rounded-xl px-4 py-2"
                 >
-                  <div className="flex items-start">  
+                  <div className="flex items-start">
                     <img
                       className="max-h-8 max-w-8"
                       src={request.profile}
                       alt=""
                     />
                     <div className=" pl-4">
-                      <h1 className=" font-[500] dark:text-white">{request.name}</h1>
+                      <h1 className=" font-[500] dark:text-white">
+                        {request.name}
+                      </h1>
                       <p className=" opacity-80 dark:opacity-80 dark:text-gray-400 text-sm">
                         {request.mutuals} Mutual
                       </p>
@@ -55,7 +52,6 @@ function Home() {
           </div>
         </div>
       </div>
-      
     </div>
   );
 }

@@ -3,9 +3,16 @@
 body {
   background-color: #eaebfb;
   font-family: "Poppins", sans-serif;
+  /* overflow: hidden; */
   /* Smooth Scrolling locomative */
 }
-/* Smooth Scrolling */
+
+/* @media (width < 420px) {
+  body {
+    overflow: auto;
+  }
+}
+Smooth Scrolling */
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {

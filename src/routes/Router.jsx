@@ -57,6 +57,10 @@ const routesData = [
     element: lazy(() => import("../pages/Username")),
   },
   {
+    path : '/name',
+    element : lazy(() => import('../pages/Name'))
+  },
+  {
     path: "/signup",
     element: lazy(() => import("../pages/Signup")),
   },

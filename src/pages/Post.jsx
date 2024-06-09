@@ -17,7 +17,7 @@ function Post({ reelData }) {
       <div className="relative mx-auto max-w-[1400px] mt-4">
         <Sidebar />
         <div className=" md:ml-[320px] md:mt-0 mt-20 mx-2 md:mx-0  flex justify-between gap-4 ">
-          <div className=" md:h-[90vh] w-full md:w-[70%] rounded-xl overflow-y-scroll ">
+          <div className=" md:h-[90vh] w-full md:w-[70%] rounded-xl md:overflow-y-scroll ">
             <PostItem
               user={posts[0].user}
               file={posts[0].file}

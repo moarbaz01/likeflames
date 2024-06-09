@@ -8,7 +8,7 @@ import avatar6 from "../assets/avatars/avatar6.png";
 import avatar7 from "../assets/avatars/avatar7.png";
 import avatar8 from "../assets/avatars/avatar8.png";
 import { Link } from "react-router-dom";
-import { FaArrowLeft, FaPlus, FaPlusSquare } from "react-icons/fa";
+import { FaArrowLeft, FaPlusSquare } from "react-icons/fa";
 
 function Avatar() {
   const [image, setImage] = useState("");
@@ -24,14 +24,21 @@ function Avatar() {
     avatar8,
   ];
 
-  function handleImage(e) {
+  const handleImage = (e) => {
     if (e.target.files[0]) {
       const image = URL.createObjectURL(e.target.files[0]);
       setFile(image);
     }
   }
 
-  function handleSubmit(e) {
+  const handleChangeAvatar = () => {
+    if (image) {
+    } else {
+      alert("Please choose an avatar");
+    }
+  };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
     alert("Submited");
   }
@@ -44,9 +51,11 @@ function Avatar() {
       <form onSubmit={handleSubmit} className="lg:w-1/3 w-[80%]">
         <Link className=" flex items-center gap-4 mb-4 text-text_black text-xl">
           <FaArrowLeft className=" text-main_dark_violet_color" />
-          <span className="text-lg">Prev</span>
+          <span className="text-lg dark:text-white">Skip</span>
         </Link>
-        <h1 className=" text-xl text-text_black font-[500] my-4">Choose Your Avatar</h1>
+        <h1 className=" text-xl text-text_black font-[500] my-4 dark:text-white">
+          Choose Your Avatar
+        </h1>
         <div className=" flex justify-start items-center mt-2 flex-wrap ">
           {avatarsArr.map((a, index) => {
             return (
@@ -90,6 +99,7 @@ function Avatar() {
 
         <button
           type="submit"
+          onClick={handleChangeAvatar}
           className="w-full rounded-sm mt-4 h-12 bg-main_dark_violet_color text-white font-bold"
         >
           NEXT

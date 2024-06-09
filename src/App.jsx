@@ -1,13 +1,13 @@
+import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import "./App.css";
 import BottomNavbar from "./components/BottomNavbar";
 import Router from "./routes/Router";
-import CallModal from "./components/CallModal";
-import avatar2 from "../src/assets/avatars/avatar2.png";
-import PostModal from "./components/PostModal";
-import Breadcrumbs from "./components/Breadcrumbs";
+import { Toaster } from "react-hot-toast";
+import useAuth from "./hooks/useAuth";
 
 function App() {
+  const { autoLoginHandler } = useAuth();
   const hiddenBottomNavbar = [
     "/chat",
     "/profile/edit",
@@ -19,10 +19,20 @@ function App() {
     "/otp",
     "/signup",
     "/username",
+    "/name",
   ];
   const location = useLocation();
+
+  useEffect(() => {
+    autoLoginHandler();
+  }, []);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
   return (
     <div>
+      <Toaster />
       {!hiddenBottomNavbar.includes(location.pathname) && <BottomNavbar />}
       <Router />
     </div>

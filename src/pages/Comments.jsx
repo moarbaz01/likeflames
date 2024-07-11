@@ -1,139 +1,89 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
-import { comments, posts } from "../data";
-import { CiHeart } from "react-icons/ci";
-import { FaHeart } from "react-icons/fa6";
-import PostItem from "../components/PostIem";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import CommentItem from "../components/CommentItem";
+import { useSelector } from "react-redux";
+import { CiEdit } from "react-icons/ci";
+import CommentModal from "../components/CommentModal";
+import BackNavigate from "../components/BackNavigate";
+import RequestItems from "../components/RequestItems";
+function Comments() {
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const id = searchParams.get("id");
+  const postType = searchParams.get("post");
+  const [newComments, setNewComments] = useState([]);
+  const { comments, isLoading } = useSelector((state) => state.comment);
+  const [showCommentModal, setShowCommentModal] = useState(false);
+  const { user } = useSelector((state) => state.user);
 
-function Comments({ reelData }) {
-  const [showReplies, setShowReplies] = useState(false);
-  const [heart, setHeart] = useState(false);
+  const handleOpenCommentModal = () => {
+    setShowCommentModal(true);
+  };
+
+  const handleCloseCommentModal = () => {
+    setShowCommentModal(false);
+  };
+
+  const handleNavigateBack = () => {
+    if (postType === "reel") {
+      navigate(`/feed?id=${id}`);
+    } else {
+      navigate(-1);
+    }
+  };
+
+  useEffect(() => {
+    const postComments = comments?.filter(
+      (item) => !item.parent && item.post === id
+    );
+
+    const sortedComments = postComments?.sort(
+      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+    );
+    // Set sorted comments to state
+    setNewComments(sortedComments);
+  }, [id, comments]);
+
   return (
-    <div className=" md:pb-0 pb-24 ">
-      <div className=" md:static fixed border-b-2 top-0 left-0 w-full z-[999]">
+    <div className="">
+      <BackNavigate handleNavigateBack={handleNavigateBack} />
+      <div className="hidden md:block">
         <Navbar />
       </div>
-      <div className="relative mx-auto max-w-[1400px] mt-4">
+      <div className="flex w-full relative justify-center px-2 md:gap-4 md:pt-24 pt-4 md:h-screen rounded-xl md:overflow-y-auto">
         <Sidebar />
-        <div className=" md:ml-[320px] md:mt-0 mt-20 mx-2 md:mx-0  flex justify-between gap-4 ">
-          <div className=" md:h-[90vh] w-full md:w-[70%] rounded-xl overflow-y-scroll ">
+        <div className="md:overflow-y-auto relative h-auto lg:w-[50vw] md:w-[70vw] w-full ">
+          <div className="w-full rounded-xl md:pb-4 pb-0 ">
             {/* Comments */}
             <h1 className=" text-lg font-[400] text-gray-500">All Comments</h1>
             <div className="  p-2 rounded-md">
-              {comments.map((comment, index) => {
-                return (
-                  <div key={index} className="mt-4">
-                    <div className=" flex items-start text-lg gap-2 ">
-                      <img
-                        src={comment.user.profile}
-                        alt=""
-                        className="w-[40px] h-[40px] rounded-full"
-                      />
-                      <h1 className=" font-[400] text-gray-500">
-                        {comment.user.name}
-                      </h1>
-                    </div>
-                    {/* Gif image */}
-                    <div className="ml-12">
-                      <img
-                        src={comment.gif}
-                        alt=""
-                        className=" rounded-xl h-[100px] mt-2"
-                      />
-                      <p className=" mt-2 text-gray-500">{comment.comment}</p>
-                      <div className=" w-full flex items-center gap-2">
-                        <div className="flex items-center gap-1">
-                          <span>0</span>
-                          {!heart ? (
-                            <CiHeart
-                              onClick={() =>
-                                heart ? setHeart(false) : setHeart(true)
-                              }
-                              className=" cursor-pointer text-xl"
-                            />
-                          ) : (
-                            <FaHeart
-                              fill="red"
-                              onClick={() =>
-                                heart ? setHeart(false) : setHeart(true)
-                              }
-                              className=" cursor-pointer text-xl"
-                            />
-                          )}
-                        </div>
-                        {comment.replies && comment.replies.length > 1 && (
-                          <div
-                            onClick={() => setShowReplies(!showReplies)}
-                            className="flex cursor-pointer hover:text-main_dark_violet_color text-main_dark_violet_color items-center gap-1"
-                          >
-                            view 2 replies
-                          </div>
-                        )}
-                      </div>
-                      {/* Replies */}
-                      {showReplies &&
-                        comment.replies?.map((reply, index) => {
-                          return (
-                            <div key={index} className="mt-4">
-                              <div className=" flex items-start text-lg gap-2 ">
-                                <img
-                                  src={reply.user.profile}
-                                  alt=""
-                                  className="w-[40px] h-[40px] rounded-full"
-                                />
-                                <h1 className=" font-[400] text-gray-500">
-                                  {reply.user.name}
-                                </h1>
-                                <p className="">@{reply.reciever}</p>
-                              </div>
-                              {/* Gif image */}
-                              <div className="ml-12">
-                                <img
-                                  src={reply?.gif}
-                                  alt=""
-                                  className=" rounded-xl h-[100px] mt-2"
-                                />
-                                <p className=" mt-2 text-gray-500">
-                                  {reply?.comment}
-                                </p>
-                                <div className=" w-full flex items-center gap-2">
-                                  <div className="flex items-center gap-1">
-                                    <span>0</span>
-                                    {!heart ? (
-                                      <CiHeart
-                                        onClick={() =>
-                                          heart
-                                            ? setHeart(false)
-                                            : setHeart(true)
-                                        }
-                                        className=" cursor-pointer text-xl"
-                                      />
-                                    ) : (
-                                      <FaHeart
-                                        fill="red"
-                                        onClick={() =>
-                                          heart
-                                            ? setHeart(false)
-                                            : setHeart(true)
-                                        }
-                                        className=" cursor-pointer text-xl"
-                                      />
-                                    )}
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          );
-                        })}
-                    </div>
-                  </div>
-                );
-              })}
+              {newComments?.length > 0 &&
+                newComments?.map((comment, index) => {
+                  return <CommentItem key={index} props={comment} />;
+                })}
             </div>
           </div>
+          {user && (
+            <div
+              onClick={handleOpenCommentModal}
+              className="fixed md:sticky md:w-fit float-end md:right-0 right-4 bottom-10  cursor-pointer z-[50] bg-main_light_purple p-4 flex items-center justify-center rounded-full text-3xl"
+            >
+              <CiEdit />
+            </div>
+          )}
+        </div>
+        <div className="sticky z-0 top-0 h-full md:block  ">
+          <RequestItems />
         </div>
       </div>
+
+      <CommentModal
+        isOpen={showCommentModal}
+        onClose={handleCloseCommentModal}
+        postId={id}
+      />
     </div>
   );
 }

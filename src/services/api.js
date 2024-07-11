@@ -7,27 +7,38 @@ const CHANGE_PASSWORD = "/change-password";
 const LOGOUT = "/logout";
 const SENDOTP = "/otp";
 const ACCEPT_AND_REJECT_REQUEST = "/request";
-const FOLLOE_AND_UNFOLLOW = "/follow-unfollow";
+const FOLLOW_AND_UNFOLLOW = "/follow-unfollow";
 const FETCH_USER = "/user";
 const FETCH_ALL_USERS = "/users";
-const UPDATE_INFORMATION = '/info'
+const UPDATE_INFORMATION = "/info";
 
 // POST APIS
-const CRUD_POST = "/post";
-const FETCH_ALL_POST = "/post/posts";
-const LIKE_AND_DISLIKE = "/post/likedislike";
+const CRUD_POST = "/posts/post";
+const FETCH_ALL_POST = "/posts";
+const LIKE_AND_DISLIKE = "/posts/post/likedislike";
 
 // NOTIFICATIONS APIS
-const CREATE_NOTIFICATION = "/notification";
-const DELETE_NOTIFICATION = "/notification";
+const CREATE_NOTIFICATION = "/notifications";
+const DELETE_NOTIFICATION = "/notifications";
 
 // COMMENT APIS
 const CRUD_COMMENT = "/comment";
 const LIKE_ON_COMMENT = "/comment/like";
 const FETCH_COMMMENT = "/comment";
+const REPLY_ON_COMMENT = "/comment/reply";
+const GET_POST_COMMENT = "/comment/post";
+
+// Chats APIS
+const FETCH_CHATS = "/chat";
+const SEND_CHATS = "/chat/send";
+const USER_CHATS = "/chat/user";
+const DELETE_CHAT_BY_ONE_SIDE = "/chat/single";
+const DELETE_CHAT_BY_ALL = "/chat/all";
+const DELETE_FULL_CHAT = "/chat/fullChat";
+const READ_CHAT = "/chat/readChat";
 
 // Exports
-export  {
+export {
   LOGIN,
   SIGNUP,
   RESET_PASSWORD,
@@ -36,7 +47,7 @@ export  {
   LOGOUT,
   SENDOTP,
   ACCEPT_AND_REJECT_REQUEST,
-  FOLLOE_AND_UNFOLLOW,
+  FOLLOW_AND_UNFOLLOW,
   FETCH_USER,
   FETCH_ALL_USERS,
   CRUD_POST,
@@ -47,5 +58,14 @@ export  {
   CRUD_COMMENT,
   LIKE_ON_COMMENT,
   FETCH_COMMMENT,
-  UPDATE_INFORMATION
+  UPDATE_INFORMATION,
+  REPLY_ON_COMMENT,
+  FETCH_CHATS,
+  SEND_CHATS,
+  USER_CHATS,
+  DELETE_CHAT_BY_ONE_SIDE,
+  DELETE_CHAT_BY_ALL,
+  DELETE_FULL_CHAT,
+  READ_CHAT,
+  GET_POST_COMMENT,
 };

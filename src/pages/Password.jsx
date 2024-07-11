@@ -32,8 +32,14 @@ const passwordStrengthData = [
 ];
 
 function Password() {
-  const { email, password, setPassword, confirmPassword, setConfirmPassword, sessionExpiredHandler } =
-    useContext(SignupContext);
+  const {
+    email,
+    password,
+    setPassword,
+    confirmPassword,
+    setConfirmPassword,
+    sessionExpiredHandler,
+  } = useContext(SignupContext);
   const [passwordEye, setPasswordEye] = useState(false);
   const [confirmPasswordEye, setConfirmPasswordEye] = useState(false);
   const [passwordStrength, setPasswordStrength] = useState([]);

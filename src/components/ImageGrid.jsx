@@ -1,122 +1,59 @@
 import React, { useCallback, useMemo } from "react";
-import reel2 from "../assets/reel2.mp4";
-import reel1 from "../assets/reel1.mp4";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import useGetFileType from "../hooks/useGetFileType";
 
-const ImageGrid = () => {
+const ImageGrid = ({ data }) => {
   const navigate = useNavigate();
-  const images = [
-    {
-      src: "https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image.jpg",
-      type: "image",
-      content: "post",
-    },
-    {
-      src: "https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-1.jpg",
-      type: "image",
-      content: "post",
-    },
-    {
-      src: "https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-2.jpg",
-      type: "image",
-      content: "post",
-    },
-    {
-      src: reel2,
-      type: "video",
-      content: "post",
-    },
-    {
-      src: reel1,
-      type: "video",
-      content: "reel",
-    },
-    {
-      src: "https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-5.jpg",
-      type: "image",
-      content: "post",
-    },
-    {
-      src: "https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-6.jpg",
-      type: "image",
-      content: "post",
-    },
-    {
-      src: "https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-7.jpg",
-      type: "image",
-      content: "post",
-    },
-    {
-      src: "https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-8.jpg",
-      type: "image",
-      content: "post",
-    },
-    {
-      src: "https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-9.jpg",
-      type: "image",
-      content: "post",
-    },
-    {
-      src: "https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-10.jpg",
-      type: "image",
-      content: "post",
-    },
-    {
-      src: "https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-11.jpg",
-      type: "image",
-      content: "post",
-    },
-  ];
+  const { posts } = useSelector((state) => state.post);
+  const { getFileType } = useGetFileType();
 
-  const handleVideoNavigate = (content) => {
-    if (content === "reel") {
-      navigate("/feed");
+  const handleVideoNavigate = ({ type, _id }) => {
+    if (type === "reel") {
+      navigate(`/feed?id=${_id}`);
     } else {
-      navigate("/post/33");
+      navigate(`/post/${_id}`);
     }
   };
 
-  // Function to chunk array into sub-arrays of a specific size
-  const chunkArray = useCallback((array, size) => {
-    const result = [];
-    for (let i = 0; i < array.length; i += size) {
-      result.push(array.slice(i, i + size));
-    }
-    return result;
-  }, []);
-
-  const chunkedImages = useMemo(
-    () => chunkArray(images, 3),
-    [images, chunkArray]
-  );
-
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 mt-6 gap-4">
-      {chunkedImages.map((chunk, chunkIndex) => (
-        <div key={chunkIndex} className="grid gap-4">
-          {chunk.map((file, index) => (
-            <div className="cursor-pointer dark:drop-shadow-md" key={index}>
-              {file.type === "video" ? (
-                <video
-                  onClick={() => handleVideoNavigate(file.content)}
-                  src={file.src}
-                  className="h-auto rounded-lg"
-                  autoPlay
-                  loop
-                  muted
-                />
-              ) : (
-                <img
-                  onClick={() => navigate("/post")}
-                  className="h-auto max-w-full rounded-lg"
-                  src={file.src}
-                  alt={`Gallery image ${chunkIndex * chunk.length + index + 1}`} // Fixed index calculation
-                />
-              )}
-            </div>
-          ))}
-        </div>
-      ))}
+    <div className="container mx-auto mt-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {(data ? data : posts).map((file, index) => (
+          <div className="cursor-pointer dark:drop-shadow-md" key={index}>
+            {file.postType === "reel" ? (
+              <video
+                onClick={() =>
+                  handleVideoNavigate({ type: file.postType, _id: file._id })
+                }
+                src={file.files[0]}
+                className="w-full h-full object-cover rounded-lg"
+                autoPlay
+                loop
+                muted
+              />
+            ) : getFileType(file.files[0]) === "image" ? (
+              <img
+                onClick={() => navigate(`/post/${file._id}`)}
+                className="w-full h-full object-cover rounded-lg"
+                src={file.files[0]}
+                alt={file._id} // Added alt text for accessibility
+              />
+            ) : (
+              <video
+                onClick={() =>
+                  handleVideoNavigate({ type: file.postType, _id: file._id })
+                }
+                src={file.files[0]}
+                className="w-full h-full object-cover rounded-lg"
+                autoPlay
+                loop
+                muted
+              />
+            )}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

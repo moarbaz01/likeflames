@@ -1,39 +1,25 @@
-import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useContext, useEffect } from "react";
 import "./App.css";
 import BottomNavbar from "./components/BottomNavbar";
 import Router from "./routes/Router";
 import { Toaster } from "react-hot-toast";
 import useAuth from "./hooks/useAuth";
+import { SocketsContext } from "./context/useSockets";
+import { PeerContext } from "./context/usePeer";
 
 function App() {
-  const { autoLoginHandler } = useAuth();
-  const hiddenBottomNavbar = [
-    "/chat",
-    "/profile/edit",
-    "/feed",
-    "/video-call",
-    "/voice-call",
-    "/login",
-    "/password",
-    "/otp",
-    "/signup",
-    "/username",
-    "/name",
-  ];
-  const location = useLocation();
-
-  useEffect(() => {
-    autoLoginHandler();
-  }, []);
+  useContext(PeerContext);
+  useAuth();
+  useContext(SocketsContext);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location]);
+
   return (
-    <div>
+    <div className="min-h-screen  overflow-x-hidden">
+      <BottomNavbar />
       <Toaster />
-      {!hiddenBottomNavbar.includes(location.pathname) && <BottomNavbar />}
       <Router />
     </div>
   );

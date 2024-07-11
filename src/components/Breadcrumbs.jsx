@@ -12,12 +12,12 @@ function Breadcrumbs() {
   };
 
   return (
-    <div className="flex space-x-2">
+    <div className="flex space-x-2 ">
       <span
         className="cursor-pointer text-blue-600 hover:text-blue-700"
         onClick={() => navigate("/")}
       >
-        <span className="text-gray-500">&gt;  </span>
+        <span className="text-gray-500">&gt; </span>
         Home
       </span>
       {paths.map((path, i) => (

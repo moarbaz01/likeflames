@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 
 function LoginModal({ isOpen, onClose }) {
-  if (!isOpen) return null;
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
@@ -9,6 +8,7 @@ function LoginModal({ isOpen, onClose }) {
       document.body.style.overflow = "auto";
     }
   }, [isOpen]);
+  if (!isOpen) return null;
   return (
     <div className="fixed flex items-center justify-center top-0  left-0 right-0 bottom-0 z-[1000] bg-black/40">
       <div className="h-full flex flex-col items-center justify-center rounded-xl relative md:h-1/4 w-full md:w-1/3 bg-white">

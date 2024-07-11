@@ -5,6 +5,16 @@ const ThemeContext = createContext();
 const ThemeContextProvider = ({ children }) => {
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
 
+  const handleTheme = () => {
+    if (theme === "light") {
+      localStorage.setItem("theme", "dark");
+      setTheme("dark");
+      return;
+    }
+    localStorage.setItem("theme", "light");
+    setTheme("light");
+  };
+
   useEffect(() => {
     // Accessing the body directly from the document
     const body = document.body;
@@ -24,6 +34,7 @@ const ThemeContextProvider = ({ children }) => {
   const value = {
     theme,
     setTheme,
+    handleTheme
   };
 
   return (

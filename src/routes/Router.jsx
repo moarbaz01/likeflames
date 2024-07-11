@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import ProtectedRoutes from "./ProtectedRoutes";
 import { Suspense, lazy } from "react";
+import Spinner from "../components/Spinner";
 
 const routesData = [
   {
@@ -8,7 +9,7 @@ const routesData = [
     element: lazy(() => import("../pages/Home")),
   },
   {
-    path: "/profile",
+    path: "/profile/:id",
     element: lazy(() => import("../pages/Profile")),
     protected: true,
   },
@@ -21,7 +22,11 @@ const routesData = [
     element: lazy(() => import("../pages/Password")),
   },
   {
-    path: "/profile/edit",
+    path: "/createPost",
+    element: lazy(() => import("../pages/CreatePost")),
+  },
+  {
+    path: "/edit-profile",
     element: lazy(() => import("../pages/EditProfile")),
     protected: true,
   },
@@ -44,28 +49,29 @@ const routesData = [
     protected: true,
   },
   {
-    path: "/chat",
+    path: "/chat/:id",
     element: lazy(() => import("../pages/Chat")),
     protected: true,
   },
   {
     path: "/avatar",
     element: lazy(() => import("../pages/Avatar")),
+    protected: true,
   },
   {
     path: "/username",
     element: lazy(() => import("../pages/Username")),
   },
   {
-    path : '/name',
-    element : lazy(() => import('../pages/Name'))
+    path: "/name",
+    element: lazy(() => import("../pages/Name")),
   },
   {
     path: "/signup",
     element: lazy(() => import("../pages/Signup")),
   },
   {
-    path: "/Login",
+    path: "/login",
     element: lazy(() => import("../pages/Login")),
   },
   {
@@ -73,12 +79,14 @@ const routesData = [
     element: lazy(() => import("../pages/Otp")),
   },
   {
-    path: "/video-call",
+    path: "/video-call/:id",
     element: lazy(() => import("../pages/VideoCall")),
+    protected: true,
   },
   {
     path: "/voice-call",
     element: lazy(() => import("../pages/VoiceCall")),
+    protected: true,
   },
   {
     path: "/comments",
@@ -90,13 +98,8 @@ const Router = () => {
   return (
     <Suspense
       fallback={
-        <div className="flex items-center justify-center mt-[300px]">
-          <div className="spinner">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-          </div>
+        <div className="flex  z-[9999] gap-12 flex-col items-center justify-center fixed top-0 bottom-0 left-0 right-0">
+          <Spinner />
         </div>
       }
     >

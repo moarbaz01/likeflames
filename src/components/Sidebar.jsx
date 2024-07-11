@@ -1,42 +1,111 @@
 import { useLocation } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import {
   CiHome,
   CiYoutube,
   CiGrid41,
-  CiBookmark,
   CiLocationArrow1,
   CiSettings,
   CiBellOn,
 } from "react-icons/ci";
-import avatar2 from "../assets/avatars/avatar2.png";
-import PostModal from "./PostModal";
+
 import { useNavigate } from "react-router-dom";
-import SettingsModal from "./SettingsModal";
-import LoginModal from "./LoginModal";
-import Breadcrumbs from "./Breadcrumbs";
 import { useSelector } from "react-redux";
+import BlankProfile from "../assets/blankProfile.png";
+import LoginModal from "../components/LoginModal";
+import SelectPostTypeModal from "./SelectPostTypeModal";
+
+const NavList = ({ navList, navigate, pathname }) => (
+  <ul className="flex items-start w-full py-6 px-6 rounded-xl mb-2 dark:bg-dark_secondary_bg bg-main_bg_white gap-6 flex-col">
+    {navList?.map(
+      (item, index) =>
+        !item.protected && (
+          <li
+            onClick={
+              item.handleClick
+                ? item.handleClick
+                : () => navigate(item.pathname)
+            }
+            key={index}
+            className=" flex dark:text-white items-center relative cursor-pointer gap-2 w-full"
+          >
+            <div
+              className={` ${
+                pathname !== item.pathname && "hidden"
+              } h-full w-1 bg-main_dark_violet_color dark:bg-main_light_purple absolute -left-4`}
+            ></div>
+            <div
+              className={` ${
+                pathname === item.pathname &&
+                " text-main_dark_violet_color dark:text-main_light_purple"
+              } `}
+            >
+              {item.icon}
+            </div>
+            <div
+              className={` ${
+                pathname === item.pathname &&
+                " text-main_dark_violet_color dark:text-main_light_purple"
+              } pl-3 text-sm font-[500 flex items-center`}
+            >
+              <span>{item.name}</span>
+              {item.notification && (
+                <span className="ml-2 h-4 w-4 flex items-center justify-center bg-main_dark_violet_color text-white rounded-full text-[8px]">
+                  {item.notification}
+                </span>
+              )}
+            </div>
+          </li>
+        )
+    )}
+  </ul>
+);
 
 function Sidebar() {
   const [showModal, setShowModal] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
-  const { isUser, user } = useSelector((state) => state.user);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const { chats } = useSelector((state) => state.chat);
   const navigate = useNavigate();
   const pathname = useLocation().pathname;
+  const { user } = useSelector((state) => state.user);
 
   const handleOpenModal = () => {
+    if (!user) {
+      setShowLoginModal(true);
+      return;
+    }
     setShowModal(true);
-  };
-  const handleOpenSettingsModal = () => {
-    setShowSettings(true);
-  };
-
-  const handleCloseSettingsModal = () => {
-    setShowSettings(false);
   };
   const handleCloseModal = () => {
     setShowModal(false);
   };
+
+  const groupUnreadMessage = useMemo(
+    () =>
+      chats?.filter((chat) => {
+        if (chat.to._id === user?._id) {
+          return !chat.isRead;
+        }
+      }),
+    [chats, user?._id]
+  );
+
+  const groupUsersByUnreadMessage = useMemo(() => {
+    let tempUsers = [];
+    groupUnreadMessage?.forEach((chat) => {
+      if (!tempUsers.includes(chat.to._id)) {
+        tempUsers.push(chat.to._id);
+      }
+    });
+
+    return tempUsers;
+  }, [groupUnreadMessage]);
+
+  const handleNavigateProfile = useCallback(() => {
+    if (!user) return;
+    navigate(`/profile/${user?._id}`);
+  }, [user, navigate]);
 
   const navList = [
     {
@@ -59,76 +128,49 @@ function Sidebar() {
       icon: <CiBellOn className=" text-xl" />,
       name: "Notifications",
       pathname: "/notifications",
+      notification: user?.notifications?.length || null,
+      protected: user ? false : true,
     },
-    // {
-    //   icon: <CiBookmark className=" text-xl" />,
-    //   name: "Saves",
-    //   // pathname: "/saves",
-    // },
     {
       icon: <CiLocationArrow1 className=" text-xl" />,
-      name: "Messages",
-      pathname: "/messages",
+      name: "Chats",
+      pathname: "/chat/selectUser",
+      notification: groupUsersByUnreadMessage?.length || null,
+      protected: user ? false : true,
     },
-    {
-      icon: <CiSettings className=" text-xl" />,
-      name: "Settings",
-      handleClick: handleOpenSettingsModal,
-      // pathname: "/settings",
-    },
+    // {
+    //   icon: <CiSettings className=" text-xl" />,
+    //   name: "Settings",
+    //   handleClick: handleOpenSettingsModal,
+    //   protected: user ? false : true,
+    //   // pathname: "/settings",
+    // },
   ];
 
   return (
-
-      <aside className=" absolute w-[280px] hidden top-0 left-4   md:flex items-start flex-col justify-center">
+    <>
+      <aside className=" md:flex hidden md:w-[30vw] sticky z-0 top-0 h-full lg:w-[20vw] flex-col">
         <div
-          onClick={() => navigate("/profile")}
+          onClick={handleNavigateProfile}
           className="flex items-center cursor-pointer  w-full py-2 px-4 mb-2 rounded-xl dark:shadow-lg  dark:bg-dark_secondary_bg bg-main_bg_white gap-4"
         >
-          <img src={avatar2} className="h-10 w-10 rounded-full" alt="" />
+          <img
+            src={user?.profilePicture || BlankProfile}
+            className="h-10 w-10 rounded-full"
+            alt=""
+          />
           <div className=" flex items-start flex-col">
-            <h1 className=" font-[500] dark:text-white">{user?.name}</h1>
+            <h1 className=" font-[500] dark:text-white">
+              {user?.name || "Guest Account"}
+            </h1>
             <p className=" text-sm text-slate-500 dark:text-gray-400">
-              @{user?.username}
+              @{user?.username || "guestaccount"}
             </p>
           </div>
         </div>
 
-        <ul className="flex items-start w-full py-6 px-6 rounded-xl mb-2 dark:bg-dark_secondary_bg bg-main_bg_white gap-6 flex-col">
-          {navList.map((item, index) => (
-            <li
-              onClick={
-                item.handleClick
-                  ? item.handleClick
-                  : () => navigate(item.pathname)
-              }
-              key={index}
-              className=" flex dark:text-white items-center relative cursor-pointer gap-2 w-full"
-            >
-              <div
-                className={` ${
-                  pathname !== item.pathname && "hidden"
-                } h-full w-1 bg-main_dark_violet_color dark:bg-main_light_purple absolute -left-4`}
-              ></div>
-              <div
-                className={` ${
-                  pathname === item.pathname &&
-                  " text-main_dark_violet_color dark:text-main_light_purple"
-                } `}
-              >
-                {item.icon}
-              </div>
-              <span
-                className={` ${
-                  pathname === item.pathname &&
-                  " text-main_dark_violet_color dark:text-main_light_purple"
-                } pl-3 font-[500]`}
-              >
-                {item.name}
-              </span>
-            </li>
-          ))}
-        </ul>
+        <NavList navList={navList} pathname={pathname} navigate={navigate} />
+
         <div className=" w-full">
           <button
             onClick={handleOpenModal}
@@ -137,23 +179,18 @@ function Sidebar() {
             Create Post
           </button>
         </div>
-        <SettingsModal
-          isOpen={showSettings}
-          onClose={handleCloseSettingsModal}
-        />
-        {user ? (
-          <PostModal isOpen={showModal} onClose={handleCloseModal} />
-        ) : (
-          showModal && (
-            <LoginModal isOpen={showModal} onClose={handleCloseModal} />
-          )
-        )}
 
-        <div className="mt-6">
+        {/* <div className="mt-6 w-full">
           <Breadcrumbs />
-        </div>
+        </div> */}
       </aside>
-    )
+      <SelectPostTypeModal isOpen={showModal} onClose={handleCloseModal} />
+      <LoginModal
+        isOpen={showLoginModal}
+        onClose={() => setShowLoginModal(false)}
+      />
+    </>
+  );
 }
 
 export default Sidebar;

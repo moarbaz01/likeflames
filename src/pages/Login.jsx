@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useState } from "react";
 import hand from "../assets/hand.png";
 import downHand from "../assets/down_hand.png";
 import lock from "../assets/lock.png";
@@ -7,16 +7,18 @@ import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUser } from "../redux/slicers/user";
+import Loader from "../components/Loader";
+import { LOGIN } from "../services/api";
+import apiRequest from '../services/apiRequest'
+import { login } from '../redux/slicers/user'
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [eye, setEye] = useState(false);
-  const { isError, isUser } = useSelector((state) => state.user);
+  const { error, user, isLoading } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const loadingRef = useRef(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,30 +30,36 @@ function Login() {
     }
   };
 
-  const loginUserHandler = () => {
-    dispatch(loginUser({ username, password }));
-    loadingRef.current = toast.loading("Loading...");
-  };
+  // Login User Handler----------------
+  const loginUserHandler =
+    useCallback(async () => {
+      const data = { username, password };
+      try {
+        const response = await apiRequest({
+          method: "post",
+          url: LOGIN,
+          data,
+        });
+        if (response.data.user) {
+          dispatch(login(response.data.user));
+          navigate("/");
+          toast.success(response.data.message);
+        }
+      } catch (error) {
+        toast.error(error.response.data.message);
+      }
+    }, [username, password, dispatch, navigate]);
 
-  useEffect(() => {
-    if (isError) {
-      toast.dismiss(loadingRef.current);
-      toast.error(isError.message);
-    }
-    if (isUser) {
-      toast.dismiss(loadingRef.current);
-      navigate("/");
-      toast.success("Login Successful");
-    }
-  }, [isError, isUser, navigate]);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (username.length === 0 || password.length === 0) {
-      return toast.error("Please fill all the fields");
-    }
-    loginUserHandler();
-  };
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      if (username.length === 0 || password.length === 0) {
+        return toast.error("Please fill all the fields");
+      }
+      loginUserHandler();
+    },
+    [username, password, loginUserHandler]
+  );
 
   return (
     <div className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center">
@@ -113,10 +121,11 @@ function Login() {
         </div>
         <button
           type="submit"
-          className="w-full rounded-sm mt-4 h-12 bg-main_dark_violet_color text-white font-bold"
+          disabled={isLoading}
+          className="w-full rounded-sm mt-4 flex items-center justify-center h-12 bg-main_dark_violet_color text-white font-bold"
           aria-label="Login"
         >
-          LOGIN
+          {isLoading ? <Loader /> : "Login"}
         </button>
         <div className="flex flex-col gap-1 mt-4">
           <span className="text-text_black dark:text-white">

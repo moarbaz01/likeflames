@@ -2,112 +2,72 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import apiRequest from "../../services/apiRequest";
 import { FETCH_USER, LOGIN, UPDATE_INFORMATION } from "../../services/api";
 
+// Thunks
 export const fetchUser = createAsyncThunk(
-  "fetch user",
-  async (_, { getState, rejectWithValue }) => {
+  "user/fetchUser",
+  async (_, { rejectWithValue }) => {
+    const token = localStorage.getItem("likeflame-token");
     try {
-      const token = localStorage.getItem("likeflame-token");
-      console.log(token);
       const response = await apiRequest({
         method: "get",
         url: FETCH_USER,
         token,
       });
-      return response.data;
-    } catch (error) {
-      return rejectWithValue(error.response.data);
-    }
-  }
-);
-
-export const updateUser = createAsyncThunk(
-  "Update User",
-  async (data, { getState, rejectWithValue }) => {
-    try {
-      const token = getState.user.token;
-      const res = await apiRequest({
-        method: "put",
-        url: UPDATE_INFORMATION,
-        token,
-        data,
-      });
-      return res.data;
-    } catch (error) {
-      return rejectWithValue(error.response.data);
-    }
-  }
-);
-
-export const loginUser = createAsyncThunk(
-  "login user",
-  async (data, { rejectWithValue }) => {
-    try {
-      const response = await apiRequest({
-        method: "post",
-        url: LOGIN,
-        data,
-      });
       return response.data.user;
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      if (error.response && error.response.status === 401) {
+        return rejectWithValue("Unauthorized: Token may be expired or invalid");
+      }
+      return rejectWithValue(error.message);
     }
   }
 );
 
-const userSlice = createSlice({
+// Slice
+export const userSlice = createSlice({
   name: "user",
   initialState: {
     user: null,
     token: null,
     isUser: false,
-    isError: null,
+    error: null,
+    isLoading: false,
   },
   reducers: {
     login: (state, action) => {
       state.user = action.payload;
       state.token = action.payload.accessToken;
       state.isUser = true;
-      state.isError = null;
+      localStorage.setItem("likeflame-token", action.payload.accessToken);
     },
     logout: (state) => {
       state.user = null;
       state.token = null;
       state.isUser = false;
-      state.isError = null;
+      state.error = null;
+      state.isLoading = false;
       localStorage.removeItem("likeflame-token");
     },
   },
-
   extraReducers: (builder) => {
-    builder.addCase(fetchUser.fulfilled, (state, action) => {
-      state.user = action.payload;
-      state.token = action.payload.accessToken;
-      state.isUser = true;
-      state.isError = false;
-    });
-
-    builder.addCase(fetchUser.rejected, (state, action) => {
-      state.user = null;
-      state.token = null;
-      state.isUser = false;
-      state.isError = action.payload;
-    });
-
-    builder.addCase(loginUser.fulfilled, (state, action) => {
-      state.user = action.payload;
-      state.token = action.payload.accessToken;
-      state.isUser = true;
-      state.isError = false;
-      localStorage.setItem("likeflame-token", action.payload.accessToken);
-    });
-    builder.addCase(loginUser.rejected, (state, action) => {
-      state.user = null;
-      state.token = null;
-      state.isUser = false;
-      state.isError = action.payload;
-    });
+    builder
+      .addCase(fetchUser.fulfilled, (state, action) => {
+        state.user = action.payload;
+        state.token = action.payload.accessToken;
+        state.isUser = true;
+        state.error = null;
+        state.isLoading = false;
+      })
+      .addCase(fetchUser.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchUser.rejected, (state, action) => {
+        state.error = action.payload || action.error.message;
+        state.isLoading = false;
+      });
   },
 });
 
 export const { login, logout } = userSlice.actions;
+
 export default userSlice.reducer;

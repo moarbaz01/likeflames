@@ -1,29 +1,88 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { CiPause1, CiPlay1 } from "react-icons/ci";
 import { FaHeart, FaShare } from "react-icons/fa";
 import { FaMessage } from "react-icons/fa6";
+import apiRequest from "../services/apiRequest";
+import toast from "react-hot-toast";
+import { fetchUser } from "../redux/slicers/user";
+import { useDispatch, useSelector } from "react-redux";
+import { LIKE_AND_DISLIKE } from "../services/api";
+import { fetchPosts } from "../redux/slicers/post";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
-const FeedItem = ({ user, text, videoUrl }) => {
+const FeedItem = ({
+  author,
+  description,
+  files,
+  _id,
+  likes,
+  shares,
+  views,
+  dislikes,
+  comments,
+  postType,
+  publish,
+}) => {
   const [play, setPlay] = useState(true);
-  const [heart, setHeart] = useState(false);
+  const { user, token } = useSelector((state) => state.user);
+  const [heart, setHeart] = useState(likes?.includes(user?._id) ? true : false);
   const videoRef = useRef(null);
   const containerRef = useRef(null);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const feedId = searchParams.get("id") || null;
+  const [loading, setLoading] = useState(false);
 
-  const likeHandler = () => {
-    setHeart(!heart);
+  useEffect(() => {
+    if (feedId === _id) {
+      videoRef?.current?.scrollIntoView();
+    }
+  }, [_id, feedId]);
+
+  const handleLikeAndDislike = async () => {
+    if (!user) {
+      toast.error("Login your account");
+      return;
+    }
+    if (loading) return;
+    try {
+      setHeart(!heart);
+      const res = await apiRequest({
+        method: "put",
+        url: `${LIKE_AND_DISLIKE}/${_id}`,
+        data: { type: "like" },
+        token,
+      });
+      toast.success(res.data.message);
+      dispatch(fetchPosts());
+      dispatch(fetchUser(token));
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong");
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const videoHandler = () => {
+  const togglePlayPause = useCallback(() => {
     setPlay(!play);
-    const video = videoRef.current;
+    const video = videoRef?.current;
     if (play) {
       video.play();
     } else {
       video.pause();
     }
+  }, [play]);
+
+  const handleShare = () => {
+    navigator.clipboard.writeText(`http://localhost:5173/feed?id=${_id}`);
+    toast.success("Link copied to clipboard");
   };
 
-  const openCommentsModal = () => {};
+  const handleComment = () => {
+    navigate(`/comments?id=${_id}&post=${postType}`);
+  };
 
   useEffect(() => {
     const options = {
@@ -36,10 +95,10 @@ const FeedItem = ({ user, text, videoUrl }) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) {
           setPlay(true);
-          videoRef.current.pause();
+          videoRef.current?.pause();
         } else {
           setPlay(false);
-          videoRef.current.play();
+          videoRef.current?.play();
         }
       });
     };
@@ -55,68 +114,67 @@ const FeedItem = ({ user, text, videoUrl }) => {
         observer.unobserve(containerRef.current);
       }
     };
-  }, []);
+  }, [videoRef, containerRef]);
 
   return (
     <div
       ref={containerRef}
-      className="h-full w-full snap-start bg-white overflow-hidden"
+      className=" h-full w-full md:w-[420px] md:min-w-[320px] snap-start bg-white overflow-hidden"
     >
       <div className="relative h-full w-full md:mx-0 mx-auto flex items-center justify-center">
         <video
-          onClick={videoHandler}
+          onClick={togglePlayPause}
           loop
           autoPlay
           ref={videoRef}
           className="w-full object-cover object-center h-full"
-          src={videoUrl}
+          src={files[0]}
         />
         {/* Bottom */}
         <div className="absolute bg-white/40 bottom-0 left-0 right-0 px-2 py-3 text-white">
-          <div className="flex items-center justify-between">
-            <div className="flex">
-              <img src={user.avatar} className="size-12 " alt="" />
-              <div className="ml-4">
-                <h2 className="text-xl font-bold">{user.name}</h2>
-                <p className="text-sm ">2 hours ago</p>
-              </div>
-            </div>
-            <div className="flex items-center flex-col gap-2">
-              <button className="text-sm bg-main_dark_violet_color px-6 py-2 rounded-xl">
-                Follow
-              </button>
+          <div
+            className="flex cursor-pointer"
+            onClick={() => navigate(`/profile/${author?._id}`)}
+          >
+            <img
+              src={author?.profilePicture}
+              className="h-12 w-12 rounded-full "
+              alt=""
+            />
+            <div className="ml-4">
+              <h2 className="text-xl font-bold">{author?.name}</h2>
+              <p className="text-sm ">2 hours ago</p>
             </div>
           </div>
-          <p className="text-sm mt-2">{text}</p>
+          <p className="text-sm mt-2">{description}</p>
         </div>
 
         {/* Right icons */}
         <div className="absolute right-2 top-[50%]">
           <div className="text-white text-center">
             <FaHeart
-              onClick={likeHandler}
+              onClick={() => {
+                handleLikeAndDislike();
+              }}
               fill={heart ? "red" : "white"}
               size={30}
               className="cursor-pointer"
             />
-            <span>0</span>
+            <span>{likes?.length}</span>
           </div>
-          <div
-            onClick={openCommentsModal}
-            className="text-white mt-4 md:hidden text-center"
-          >
+          <div onClick={handleComment} className="text-white mt-4 text-center">
             <FaMessage size={30} className="cursor-pointer" />
-            <span>0</span>
+            <span>{comments?.length}</span>
           </div>
-          <div className="text-white mt-4 text-center">
+          <div onClick={handleShare} className="text-white mt-4 text-center">
             <FaShare size={30} className="cursor-pointer" />
-            <span>0</span>
+            <span>{shares?.length}</span>
           </div>
         </div>
 
         {/* Play And Pause Button */}
         <div className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
-          <button onClick={videoHandler}>
+          <button onClick={togglePlayPause}>
             {play && (
               <CiPlay1
                 size={40}

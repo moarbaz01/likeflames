@@ -1,166 +1,118 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useSelector } from "react-redux";
+import toast from "react-hot-toast";
+import { useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
-import avatar2 from "../assets/avatars/avatar2.png";
-import { PiNotePencilThin, PiShareThin } from "react-icons/pi";
-import { useNavigate } from "react-router-dom";
 import Posts from "../components/Posts";
-function Profile() {
-  const bio =
-    "👋 Hi there! I'm a software engineer 💻 passionate about coding and building cool projects. In my free time, you'll find me hiking 🏞️ or playing guitar 🎸. Let's connect!";
+import apiRequest from "../services/apiRequest";
+import { FETCH_USER } from "../services/api";
+import CommentItem from "../components/CommentItem";
+import TopSection from "../components/Profile/TopSection";
+import FollowersSection from "../components/Profile/FollowersSection";
+import UserInfoSection from "../components/Profile/UserSection";
+import SwitchPostSection from "../components/Profile/SwitchPostSection";
+import LoadingModal from "../components/LoadingModal";
+
+const Profile = () => {
+  const { user } = useSelector((state) => state.user);
+  const { id } = useParams();
   const [showPost, setShowPost] = useState(true);
   const [showReplies, setShowReplies] = useState(false);
+  const { posts } = useSelector((state) => state.post);
   const [showLiked, setShowLiked] = useState(false);
-  const navigate = useNavigate();
+  const [currentUser, setCurrentUser] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const likedPosts = useMemo(() => {
+    return [...posts]?.filter((item) =>
+      item.likes.some((like) => like === currentUser?._id)
+    );
+  }, [posts, currentUser?._id]);
+
+  const fetchCurrentUser = useCallback(async () => {
+    try {
+      setLoading(true);
+      const res = await apiRequest({
+        method: "get",
+        url: `${FETCH_USER}/${id}`,
+      });
+      setCurrentUser((prev) => ({ ...prev, ...res.data.user }));
+      console.log(res.data.user);
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to fetch user data");
+    } finally {
+      setLoading(false);
+    }
+  }, [id]);
+
+  useEffect(() => {
+    if (id) {
+      fetchCurrentUser();
+    }
+  }, [id]);
+
+  if (loading) {
+    return <LoadingModal isOpen={loading} message={"Loading..."} />;
+  }
 
   return (
-    <div className=" md:pb-0 pb-24 ">
-      <div className="md:block hidden">
+    <div className="">
+      <div className="hidden md:block">
         <Navbar />
       </div>
-      <div className="relative  mx-auto md:max-w-[1400px] md:px-4 mt-4">
+      <div className="flex w-full justify-center px-2 md:gap-4 md:pt-24 pt-4 md:h-screen rounded-xl md:overflow-y-auto">
         <Sidebar />
-        <div className=" md:ml-[320px] mx-2 md:mx-0 flex items-start justify-between gap-4 ">
-          <div className=" w-full md:h-[90vh] rounded-xl md:overflow-y-scroll">
-            {/* Top */}
-            <div className=" flex flex-col dark:bg-dark_secondary_bg bg-white px-2 py-2 rounded-xl w-full">
-              <h1 className=" text-main_dark_violet_color dark:text-main_light_purple font-[500] text-2xl">
-                Sameer Khan
-              </h1>
-              <p className="  text-gray-400 dark:text-white font-[500] text-sm m-0">
-                @Sameer Khan
-              </p>
-            </div>
-            <div className=" flex justify-evenly bg-white dark:bg-dark_secondary_bg rounded-t-xl mt-4 py-4 lg:flex-row flex-col items-center w-full">
-              <div className="relative mx-2">
-                <img
-                  src={avatar2}
-                  className=" md:size-32 size-40 border-main_dark_violet_color hover:opacity-80 transition cursor-pointer border-8 shadow-2xl dark:shadow-none shadow-white rounded-full"
-                  alt=""
-                />
-              </div>
-
-              <div className=" flex justify-between mx-2 gap-16 mt-6 ">
-                <div className=" flex items-center cursor-pointer gap-1 flex-col">
-                  <h1 className=" text-main_dark_violet_color dark:text-main_light_purple md:text-5xl text-6xl font-[500]">
-                    0
-                  </h1>
-                  <p className=" text-text_black dark:text-white text-sm font-[500]">
-                    Posts
-                  </p>
+        <div className="md:overflow-y-auto md:h-full h-auto md:w-[70vw] w-full ">
+          <div className="w-full rounded-xl md:pb-12 pb-24 ">
+            <TopSection currentUser={currentUser} />
+            <FollowersSection
+              currentUser={currentUser}
+              fetchCurrentUser={fetchCurrentUser}
+              setCurrentUser={setCurrentUser}
+            />
+            <UserInfoSection currentUser={currentUser} />
+            {(currentUser?.privacy === "public" ||
+              currentUser?.followers?.includes(user?._id) ||
+              user?._id === id) && (
+              <SwitchPostSection
+                showLiked={showLiked}
+                showReplies={showReplies}
+                showPost={showPost}
+                setShowLiked={setShowLiked}
+                setShowPost={setShowPost}
+                setShowReplies={setShowReplies}
+              />
+            )}
+            {(currentUser?.privacy === "public" ||
+              currentUser?.followers?.includes(user?._id) ||
+              user?._id === id) && (
+              <>
+                <div className="mt-4 w-full">
+                  {showPost && (
+                    <Posts posts={currentUser?.posts} condition={"both"} />
+                  )}
+                  {showReplies &&
+                    currentUser?.comments?.map((c, index) => (
+                      <CommentItem key={index} props={c} tag="profile" />
+                    ))}
+                  {showLiked && likedPosts?.length > 0 && (
+                    <Posts posts={likedPosts} condition={"both"} />
+                  )}
                 </div>
-                <div className=" flex items-center gap-1 flex-col cursor-pointer">
-                  <h1 className=" text-main_dark_violet_color dark:text-main_light_purple md:text-5xl text-6xl font-[500]">
-                    23
-                  </h1>
-                  <p className=" text-text_black text-sm  dark:text-white font-[500]">
-                    {" "}
-                    Followers
-                  </p>
-                </div>
-                <div className=" flex items-center gap-1 flex-col cursor-pointer">
-                  <h1 className=" text-main_dark_violet_color dark:text-main_light_purple md:text-5xl text-6xl font-[500]">
-                    21
-                  </h1>
-                  <p className=" text-text_black dark:text-white text-sm font-[500]">
-                    Following
-                  </p>
-                </div>
-              </div>
-              <div className=" flex items-center w-full  md:w-fit  justify-center gap-4 mt-6  ">
-                <button
-                  onClick={() => navigate("/profile/edit")}
-                  className=" bg-main_dark_violet_color dark:drop-shadow-md hover:bg-main_light_purple transition text-white border-[1px] flex items-center gap-2 border-main_dark_violet_color py-4 px-6 rounded-xl"
-                >
-                  <PiNotePencilThin className=" text-xl" />
-                  <span>Edit</span>
-                </button>
-                <button className=" bg-white border-[1px] dark:drop-shadow-md lg:hidden hover:bg-gray-50 transition flex items-center gap-2 border-black py-4 px-6 rounded-xl">
-                  <PiShareThin className=" text-xl" />
-                  <span>Share</span>
-                </button>
-              </div>
-            </div>
-            {/* Social Media User info Info */}
-            <div className=" flex flex-col bg-white dark:bg-dark_secondary_bg px-4 py-4 overflow-x-hidden rounded-b-xl w-full">
-              <h1 className=" text-gray-400 font-[500] text-xl">Your Bio</h1>
-
-              <p className="mt-4 text-gray-400 ">{bio}</p>
-            </div>
-
-            <div className=" flex bg-white dark:bg-dark_secondary_bg px-4 py-2 mt-4 justify-between rounded-xl  w-full">
-              <div
-                onClick={() => {
-                  setShowPost(true);
-                  setShowReplies(false);
-                  setShowLiked(false);
-                }}
-                className=" cursor-pointer"
-              >
-                <h1
-                  className={`text-sm ${
-                    !showPost
-                      ? "text-gray-500"
-                      : "text-main_dark_violet_color dark:text-main_light_purple"
-                  } `}
-                >
-                  POST
-                </h1>
-                {showPost && (
-                  <div className=" bg-main_dark_violet_color dark:bg-main_light_purple h-1"></div>
-                )}
-              </div>
-              <div
-                onClick={() => {
-                  setShowPost(false);
-                  setShowReplies(true);
-                  setShowLiked(false);
-                }}
-                className=" cursor-pointer"
-              >
-                <h1
-                  className={`text-sm ${
-                    !showReplies
-                      ? "text-gray-500 "
-                      : "text-main_dark_violet_color dark:text-main_light_purple"
-                  } `}
-                >
-                  REPLIES
-                </h1>
-                {showReplies && (
-                  <div className=" bg-main_dark_violet_color dark:bg-main_light_purple h-1"></div>
-                )}
-              </div>
-              <div
-                onClick={() => {
-                  setShowPost(false);
-                  setShowReplies(false);
-                  setShowLiked(true);
-                }}
-                className=" cursor-pointer"
-              >
-                <h1
-                  className={`text-sm ${
-                    !showLiked
-                      ? "text-gray-500"
-                      : "text-main_dark_violet_color dark:text-main_light_purple"
-                  } `}
-                >
-                  Liked
-                </h1>
-                {showLiked && (
-                  <div className=" bg-main_dark_violet_color dark:bg-main_light_purple h-1"></div>
-                )}
-              </div>
-            </div>
-            <div className="mt-4 w-full">
-              <Posts />
-            </div>
+              </>
+            )}
           </div>
         </div>
+
+        {/* Right */}
+        {/* <div className="sticky top-0 h-full md:block  ">
+        <RequestItems />
+      </div> */}
       </div>
     </div>
   );
-}
+};
 
 export default Profile;

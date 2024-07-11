@@ -1,72 +1,56 @@
-import React from "react";
+import React, { useState } from "react";
 import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
 import { CiSearch } from "react-icons/ci";
 import ImageGrid from "../components/ImageGrid";
+import SearchResults from "../components/SearchResults";
+import { BiLeftArrowAlt } from "react-icons/bi";
 
 function Explore() {
-  const [search, setSearch] = React.useState("");
-  const handleChange = (e) => {
-    setSearch(e.target.value);
-  };
+  const [query, setQuery] = useState("");
+  const [resultsModal, setResultsModal] = useState(false);
+
   return (
-    <div className=" md:pb-0  pb-24 ">
+    <div className="">
       <div className="hidden md:block">
         <Navbar />
       </div>
+      <div className="flex w-full justify-center px-2 md:gap-4 md:pt-24 pt-4 md:h-screen rounded-xl md:overflow-y-auto">
 
-      <div className="relative mx-auto max-w-[1400px] mt-4">
         <Sidebar />
-        <div className=" md:ml-[320px] mx-2 md:mr-6 flex h-full justify-between gap-4 ">
-          <div className=" md:p-2 md:h-[90vh] md:overflow-y-scroll">
-            {/* Search bar */}
-            <div className=" flex items-center gap-2">
+        <div className="md:overflow-y-auto md:h-full h-auto md:w-[70vw] w-full ">
+          <div className="w-full rounded-xl md:pb-12 pb-24 ">
+
+            {/* Search Bar */}
+            <div className=" flex items-center relative z-50 gap-2">
+              {resultsModal && <div className=" bg-main_dark_violet_color p-2 text-white rounded-full">
+                <BiLeftArrowAlt onClick={() => setResultsModal(false)} className="dark:text-white cursor-pointer md:hidden text-3xl" />
+              </div>}
               <input
                 type="text"
                 name="search"
-                className=" w-full dark:text-white text-text_black dark:bg-dark_secondary_bg border-2 border-main_light_purple rounded-md focus:outline-main_dark_violet_color p-2"
+                className=" w-full md:hidden dark:text-white text-text_black dark:bg-dark_secondary_bg border-2 border-main_light_purple rounded-md focus:outline-main_dark_violet_color p-2"
                 placeholder="Search"
-                onChange={handleChange}
-                value={search}
+                onFocus={() => setResultsModal(true)}
+                onChange={(e) => setQuery(e.target.value)}
+                value={query}
               />
-              <div className=" bg-main_dark_violet_color p-2 text-white rounded-full">
-                <CiSearch className=" text-2xl" />
-              </div>
+              <input
+                type="text"
+                name="search"
+                className=" w-full hidden md:block dark:text-white text-text_black dark:bg-dark_secondary_bg border-2 border-main_light_purple rounded-md focus:outline-main_dark_violet_color p-2"
+                placeholder="Search"
+                onChange={(e) => setQuery(e.target.value)}
+                value={query}
+              />
             </div>
-            {/* Image grid */}
+            {/*  */}
             <ImageGrid />
           </div>
-          {/* <div className=" md:flex hidden flex-col gap-4">
-            <h1 className=" text-gray-500">Requests</h1>
-            {requests.map((request, index) => {
-              return (
-                <div
-                  key={index}
-                  className=" bg-main_bg_white w-full rounded-xl px-4 py-2"
-                >
-                  <div className="flex items-start">
-                    <img className="h-8 w-8" src={request.profile} alt="" />
-                    <div className=" pl-4">
-                      <h1 className=" font-[500]">{request.name}</h1>
-                      <p className=" opacity-80 text-sm">
-                        {request.mutuals} Mutual
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-4 mt-2">
-                    <button className=" bg-main_dark_violet_color hover:bg-main_light_purple transition rounded-full px-8 text-text_color py-2">
-                      Accept
-                    </button>
-                    <button className=" bg-main_bg_white border-[1px] border-black rounded-full text-black px-8 py-2">
-                      Reject
-                    </button>
-                  </div>
-                </div>
-              );
-            })}
-          </div> */}
         </div>
       </div>
+
+      <SearchResults isOpen={resultsModal} query={query} />
     </div>
   );
 }

@@ -1,19 +1,21 @@
-import React from "react";
-import { posts } from "../data";
+import React, { useMemo } from "react";
 import PostItem from "./PostIem";
-function Posts() {
+function Posts({ posts = [], condition = "single" }) {
+  const filteredPosts = useMemo(() => {
+    if (posts.length === 0) {
+      return [];
+    }
+    if (condition === "single") {
+      return posts?.filter((item) => item?.postType === "post");
+    } else {
+      return posts;
+    }
+  }, [posts, condition]);
+
   return (
     <div className="">
-      {posts.map((post, index) => (
-        <PostItem
-          key={index}
-          user={post.user}
-          file={post.file}
-          likes={post.likes}
-          comments={post.comments}
-          caption={post.caption}
-          fileType={post.fileType}
-        />
+      {filteredPosts?.map((post, index) => (
+        <PostItem key={index} {...post} />
       ))}
     </div>
   );

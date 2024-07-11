@@ -1,55 +1,30 @@
-import React from "react";
+import React, { useMemo } from "react";
 import Sidebar from "../components/Sidebar";
-import Navbar from "../components/Navbar";
-import { requests } from "../data";
 import Posts from "../components/Posts";
+import { useSelector } from "react-redux";
+import RequestItems from "../components/RequestItems";
+import Navbar from "../components/Navbar";
+
 function Home() {
+  const { posts, isLoading } = useSelector((state) => state.post);
+  const sortedPosts = useMemo(
+    () =>
+      [...posts]?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)),
+    [posts]
+  );
+
   return (
-    <div className=" md:pb-0 pb-24">
-      <div className="md:static md:border-b-0 fixed dark:border-main_dark_violet_color border-b-2 top-0 left-0 w-full z-[999]">
-        <Navbar />
-      </div>
-      <div className="relative mx-auto max-w-[1400px] mt-4">
+    <div className="">
+      <Navbar />
+      <div className="flex w-full justify-center relative px-2 md:gap-4 md:pt-24 pt-20  md:h-screen rounded-xl md:overflow-y-auto">
         <Sidebar />
-        <div className=" md:ml-[320px] mx-2 md:mr-6  flex justify-between gap-4 ">
-          <div className=" md:h-[90vh] md:min-w-[40%] rounded-xl md:mt-0 mt-16  md:overflow-y-scroll ">
-            <Posts />
+        <div className="md:overflow-y-auto lg:w-[50vw] md:h-full md:[70vw] w-full ">
+          <div className="w-full rounded-xl md:pb-12 pb-24 ">
+            {<Posts posts={sortedPosts} />}
           </div>
-          <div className=" lg:flex hidden flex-col gap-4">
-            <h1 className=" text-gray-500">Requests</h1>
-            {requests.map((request, index) => {
-              return (
-                <div
-                  key={index}
-                  className=" bg-main_bg_white dark:bg-dark_secondary_bg  rounded-xl px-4 py-2"
-                >
-                  <div className="flex items-start">
-                    <img
-                      className="max-h-8 max-w-8"
-                      src={request.profile}
-                      alt=""
-                    />
-                    <div className=" pl-4">
-                      <h1 className=" font-[500] dark:text-white">
-                        {request.name}
-                      </h1>
-                      <p className=" opacity-80 dark:opacity-80 dark:text-gray-400 text-sm">
-                        {request.mutuals} Mutual
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-4 mt-2">
-                    <button className=" bg-main_dark_violet_color hover:bg-main_light_purple transition rounded-full px-8 text-text_color py-2">
-                      Accept
-                    </button>
-                    <button className=" bg-main_bg_white border-[1px] border-black rounded-full text-black px-8 py-2">
-                      Reject
-                    </button>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+        </div>
+        <div className="sticky z-0 top-0 h-full md:block  ">
+          <RequestItems />
         </div>
       </div>
     </div>

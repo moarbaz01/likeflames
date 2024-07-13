@@ -35,7 +35,7 @@ export const userSlice = createSlice({
   },
   reducers: {
     login: (state, action) => {
-      state.user = action.payload;
+      state.user = { ...state.user, ...action.payload };
       state.token = action.payload.accessToken;
       state.isUser = true;
       localStorage.setItem("likeflame-token", action.payload.accessToken);
@@ -52,7 +52,7 @@ export const userSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchUser.fulfilled, (state, action) => {
-        state.user = action.payload;
+        state.user = { ...state.user, ...action.payload };
         state.token = action.payload.accessToken;
         state.isUser = true;
         state.error = null;

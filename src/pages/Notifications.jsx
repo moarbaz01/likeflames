@@ -4,7 +4,7 @@ import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 // import { requests } from "../data";
 import { BsHeartFill } from "react-icons/bs";
-import BlankProfile from "../assets/blankProfile.png";
+import BlankProfile from "../assets/blankProfile.png"
 import { useSelector } from "react-redux";
 import useDate from "../hooks/useDate";
 import toast from "react-hot-toast";

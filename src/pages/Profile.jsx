@@ -1,11 +1,5 @@
 import { useDispatch } from "react-redux";
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
@@ -37,7 +31,7 @@ const Profile = () => {
         item.author._id !== user._id &&
         item.likes.some((like) => like === profileUser?._id)
     );
-  }, [posts, profileUser]);
+  }, [posts, profileUser, user]);
 
   useEffect(() => {
     if (id) {

@@ -8,7 +8,11 @@ import apiRequest from "../services/apiRequest";
 import useDate from "../hooks/useDate";
 import toast from "react-hot-toast";
 import CommentModal from "./CommentModal";
-import { fetchComments } from "../redux/slicers/comments";
+import {
+  fetchComments,
+  likeOnComment,
+  likeOnCommentApi,
+} from "../redux/slicers/comments";
 import useRelativeTime from "../hooks/useRelativeTime";
 
 const CommentItem = ({ props, hiddenReplies = true, tag }) => {
@@ -42,27 +46,16 @@ const CommentItem = ({ props, hiddenReplies = true, tag }) => {
     navigate(`/post/${post}`);
   }, [post, navigate]);
 
-  const handleLikeAndUnlike = async () => {
+  const handleLikeAndUnlike = useCallback(async () => {
     if (!user) {
       toast.error("Please login to like or unlike");
       return;
     }
-    try {
-      const res = await apiRequest({
-        method: "put",
-        url: `${LIKE_ON_COMMENT}/${_id}`,
-        token,
-      });
-      console.log(res);
-      toast.success(res.data.message);
-      dispatch(fetchPosts());
-      dispatch(fetchComments());
-      setIsLiked(!isLiked); // Toggle like state
-    } catch (error) {
-      console.log(error);
-      toast.error(error.response?.data?.message || "Failed to like/unlike");
-    }
-  };
+    setIsLiked(!isLiked); // Toggle like state
+    dispatch(likeOnCommentApi({ _id }));
+    dispatch(likeOnComment({ userId: user?._id, commentId: _id }));
+    dispatch(fetchPosts());
+  }, [user?._id, _id, dispatch, isLiked]);
 
   return (
     <div>
@@ -116,7 +109,7 @@ const CommentItem = ({ props, hiddenReplies = true, tag }) => {
                   Reply...
                 </button>
               )}
-              {tag !== "profile" && (hiddenReplies && replies?.length) > 0 && (
+              {tag !== "profile" && hiddenReplies && replies?.length !== 0 && (
                 <div
                   onClick={() => setShowReplies(!showReplies)}
                   className="cursor-pointer hover:text-main_light_purple text-lg text-main_dark_violet_color items-center gap-1"

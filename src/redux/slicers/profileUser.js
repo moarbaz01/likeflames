@@ -11,6 +11,7 @@ export const fetchProfileUser = createAsyncThunk(
         method: "get",
         url: `${FETCH_USER}/${userId}`,
       });
+      console.log("User : ", res.data.user.followers);
       return res.data.user;
     } catch (error) {
       console.log(error);
@@ -19,20 +20,22 @@ export const fetchProfileUser = createAsyncThunk(
   }
 );
 
+// Initial state
 const initialState = {
   profileUser: null,
   loading: false,
   error: null,
 };
 
+// Profile User Slice
 export const profileUserSlice = createSlice({
   name: "profileUser",
   initialState,
   reducers: {
-    updateProfileUser(state, action) {
+    updateProfileUser: (state, action) => {
       state.profileUser = { ...state.profileUser, ...action.payload };
     },
-    likePostProfileUser(state, action) {
+    likePostProfileUser: (state, action) => {
       const { postId, userId } = action.payload;
       const postIndex = state.profileUser.posts.findIndex(
         (post) => post._id === postId
@@ -48,6 +51,26 @@ export const profileUserSlice = createSlice({
         }
         state.profileUser.posts[postIndex] = post;
       }
+    },
+    followAndUnfollowUser: (state, action) => {
+      const { userId } = action.payload;
+      const isUser = state.profileUser.followers.some(
+        (item) => item === userId
+      );
+      if (isUser) {
+        state.profileUser.followers = state.profileUser.followers.filter(
+          (item) => item !== userId
+        );
+      } else {
+        state.profileUser.followers = [...state.profileUser.followers, userId];
+      }
+    },
+    updateNotification: (state, action) => {
+      const { userId } = action.payload;
+      state.profileUser.notifications = [
+        ...state.profileUser.notifications,
+        { from: { _id: userId } },
+      ];
     },
   },
   extraReducers: (builder) => {
@@ -66,5 +89,9 @@ export const profileUserSlice = createSlice({
   },
 });
 
-export const { updateProfileUser, likePostProfileUser } =
-  profileUserSlice.actions;
+export const {
+  updateProfileUser,
+  likePostProfileUser,
+  followAndUnfollowUser,
+  updateNotification,
+} = profileUserSlice.actions;

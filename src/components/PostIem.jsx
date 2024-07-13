@@ -19,7 +19,6 @@ import UsernameAndDescription from "./Post/UsernameAndDescription";
 import { fetchPosts, likePost, updatePostOnLike } from "../redux/slicers/post";
 import { fetchUser } from "../redux/slicers/user";
 import {
-  fetchProfileUser,
   likePostProfileUser,
 } from "../redux/slicers/profileUser";
 import CommentModal from "./CommentModal";

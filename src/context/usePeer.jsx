@@ -3,6 +3,7 @@ import { useRef, useState, createContext, useEffect, useCallback } from "react";
 import useSocket from "../hooks/useSocket";
 import { useSelector } from "react-redux";
 import useToaster from "../hooks/useToaster";
+import { toast } from "react-hot-toast";
 
 const blankProfile =
   "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
@@ -87,6 +88,13 @@ export function PeerContextProvider({ children }) {
     }
   }, [localStreamRef.current, cameraMode]);
 
+  const checkUserDevices = async () => {
+    const devices = await navigator.mediaDevices.enumerateDevices();
+    const videoDevices = devices.filter((device) => device.kind === "video");
+    const audioDevices = devices.filter((device) => device.kind === "audio");
+    return { videoDevices, audioDevices };
+  };
+
   //   Create Peer Connection ---------------------------
   const createPeerConnection = async (opponentId) => {
     peerConnectionRef.current = new RTCPeerConnection(servers);
@@ -132,6 +140,16 @@ export function PeerContextProvider({ children }) {
       console.log("A call is already in progress.");
       return;
     }
+    const outputDevices = await checkUserDevices();
+    if (outputDevices.videoDevices.length === 0) {
+      toast.error("No video devices found");
+      return;
+    }
+    if (outputDevices.audioDevices.length === 0) {
+      toast.error("No audio devices found");
+      return;
+    }
+
     if (!window.confirm("Do you want to start a call?")) return;
 
     await getUserMedia();

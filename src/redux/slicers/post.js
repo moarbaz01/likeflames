@@ -18,8 +18,6 @@ export const likePost = createAsyncThunk("like post", async ({ id }) => {
     data: { type: "like" },
     token,
   });
-
-  return res.data.post;
 });
 
 export const postSlice = createSlice({
@@ -32,6 +30,21 @@ export const postSlice = createSlice({
   reducers: {
     addPost: (state, action) => {
       state.posts.push(action.payload);
+    },
+    updatePostOnLike: (state, action) => {
+      const { postId, userId } = action.payload;
+      const postIndex = state.posts.findIndex((post) => post._id === postId);
+      console.log("Post Index : ", postIndex);
+      if (postIndex !== -1) {
+        const post = state.posts[postIndex];
+        if (post.likes.includes(userId)) {
+          post.likes = post.likes.filter((id) => id !== userId);
+        } else {
+          post.likes = [...post.likes, userId];
+          console.log("Hello");
+        }
+        state.posts[postIndex] = post;
+      }
     },
   },
   extraReducers: (builder) => {
@@ -46,14 +59,7 @@ export const postSlice = createSlice({
       state.isLoading = false;
       state.error = action.error.message;
     });
-
-    builder.addCase(likePost.fulfilled, (state, action) => {
-      const updatedPost = action.payload;
-      state.posts = state.posts.map((post) =>
-        post._id === updatedPost._id ? updatedPost : post
-      );
-    });
   },
 });
 
-export const { addPost } = postSlice.actions;
+export const { addPost,updatePostOnLike } = postSlice.actions;

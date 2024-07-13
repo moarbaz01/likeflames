@@ -5,6 +5,7 @@ import { commentSlice } from "../slicers/comments";
 import { chatSlice } from "../slicers/chat";
 import { connectedUsers } from "../slicers/connectedUsers";
 import { usersSlice } from "../slicers/users";
+import { profileUserSlice } from "../slicers/profileUser";
 
 export const store = configureStore({
   reducer: {
@@ -14,5 +15,6 @@ export const store = configureStore({
     chat: chatSlice.reducer,
     connectedUsers: connectedUsers.reducer,
     users: usersSlice.reducer,
+    profileUser: profileUserSlice.reducer,
   },
 });

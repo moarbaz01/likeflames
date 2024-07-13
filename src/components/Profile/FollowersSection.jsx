@@ -179,7 +179,7 @@ const FollowersSection = ({ currentUser, setCurrentUser }) => {
         <div className="flex justify-between mx-2 gap-16 mt-6">
           <div className="flex items-center cursor-pointer gap-1 flex-col">
             <h1 className="text-main_dark_violet_color dark:text-main_light_purple md:text-5xl text-6xl font-[500]">
-              {currentUser?.posts.length}
+              {currentUser?.posts?.length}
             </h1>
             <p className="text-text_black dark:text-white text-sm font-[500]">
               Posts
@@ -190,7 +190,7 @@ const FollowersSection = ({ currentUser, setCurrentUser }) => {
             className="flex items-center gap-1 flex-col cursor-pointer"
           >
             <h1 className="text-main_dark_violet_color dark:text-main_light_purple md:text-5xl text-6xl font-[500]">
-              {currentUser?.followers.length}
+              {currentUser?.followers?.length}
             </h1>
             <p className="text-text_black text-sm dark:text-white font-[500]">
               Followers
@@ -201,7 +201,7 @@ const FollowersSection = ({ currentUser, setCurrentUser }) => {
             className="flex items-center gap-1 flex-col cursor-pointer"
           >
             <h1 className="text-main_dark_violet_color dark:text-main_light_purple md:text-5xl text-6xl font-[500]">
-              {currentUser?.following.length}
+              {currentUser?.following?.length}
             </h1>
             <p className="text-text_black dark:text-white text-sm font-[500]">
               Following

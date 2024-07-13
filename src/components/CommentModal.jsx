@@ -35,17 +35,19 @@ function CommentModal({ isOpen, onClose, postId, comment }) {
       toast.success(res.data.message);
       dispatch(fetchPosts());
       dispatch(fetchComments());
+      if(location.pathname.startsWith("/profile")){
+        
+      }
       setText("");
       onClose();
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message);
     }
-  }, [text, postId, onClose, token, dispatch])
+  }, [text, postId, onClose, token, dispatch]);
 
   const handleReplyOnComment = useCallback(async () => {
     try {
-
       const res = await apiRequest({
         method: "post",
         url: `${REPLY_ON_COMMENT}/${comment?._id}`,
@@ -65,7 +67,7 @@ function CommentModal({ isOpen, onClose, postId, comment }) {
       console.log(error);
       toast.error(error.response.data.message);
     }
-  }, [comment, onClose, text, token, dispatch])
+  }, [comment, onClose, text, token, dispatch]);
 
   const handleSubmit = () => {
     if (comment?._id) {

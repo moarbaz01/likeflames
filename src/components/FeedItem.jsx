@@ -7,8 +7,9 @@ import toast from "react-hot-toast";
 import { fetchUser } from "../redux/slicers/user";
 import { useDispatch, useSelector } from "react-redux";
 import { LIKE_AND_DISLIKE } from "../services/api";
-import { fetchPosts } from "../redux/slicers/post";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { fetchPosts, likePost, updatePostOnLike } from "../redux/slicers/post";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { likePostProfileUser } from "../redux/slicers/profileUser";
 
 const FeedItem = ({
   author,
@@ -32,7 +33,7 @@ const FeedItem = ({
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const feedId = searchParams.get("id") || null;
-  const [loading, setLoading] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     if (feedId === _id) {
@@ -40,30 +41,19 @@ const FeedItem = ({
     }
   }, [_id, feedId]);
 
-  const handleLikeAndDislike = async () => {
+  const handleLikeAndDislike = useCallback(async () => {
     if (!user) {
       toast.error("Login your account");
       return;
     }
-    if (loading) return;
-    try {
-      setHeart(!heart);
-      const res = await apiRequest({
-        method: "put",
-        url: `${LIKE_AND_DISLIKE}/${_id}`,
-        data: { type: "like" },
-        token,
-      });
-      toast.success(res.data.message);
-      dispatch(fetchPosts());
-      dispatch(fetchUser(token));
-    } catch (error) {
-      console.log(error);
-      toast.error("Something went wrong");
-    } finally {
-      setLoading(false);
+    setHeart(!heart);
+    dispatch(likePost({ id: _id }));
+    dispatch(updatePostOnLike({ postId: _id, userId: user?._id }));
+    dispatch(fetchUser(token));
+    if (location.pathname.startsWith("/profile")) {
+      dispatch(likePostProfileUser({ postId: _id, userId: user?._id }));
     }
-  };
+  }, [dispatch, token, _id, heart, user, location.pathname]);
 
   const togglePlayPause = useCallback(() => {
     setPlay(!play);

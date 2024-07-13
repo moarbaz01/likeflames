@@ -86,9 +86,17 @@ function SendMessagesBar({ isLoading, setIsLoading }) {
     [setText]
   );
 
+  const handleOnEnter = useCallback(
+    (e) => {
+      if (e.key === "Enter") {
+        handleSendMessage();
+      }
+    },
+    [handleSendMessage]
+  );
+
   const handleSetSelectFileModal = useCallback(() => {
     if (!isLoading) {
-
       setSelectFileModal(true);
     }
   }, [selectFileModal]);
@@ -104,6 +112,9 @@ function SendMessagesBar({ isLoading, setIsLoading }) {
         </div>
         <div className="dark:bg-dark_secondary_bg bg-white rounded-lg p-2 w-3/4">
           <textarea
+            onKeyDown={handleOnEnter}
+            rows={2}
+            cols={50}
             name="message"
             onChange={handleSetText}
             value={text}
@@ -112,7 +123,11 @@ function SendMessagesBar({ isLoading, setIsLoading }) {
           ></textarea>
           <PickEmojiComponent />
         </div>
-        <button className="h-12 w-12" disabled={isLoading} onClick={handleSendMessage}>
+        <button
+          className="h-12 w-12"
+          disabled={isLoading}
+          onClick={handleSendMessage}
+        >
           {isLoading ? (
             <Loader />
           ) : (

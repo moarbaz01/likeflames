@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const WriteCommentAndIconsLabels = ({
   comments,
@@ -8,6 +8,7 @@ const WriteCommentAndIconsLabels = ({
   postType,
 }) => {
   const { user } = useSelector((state) => state.user);
+  const location = useLocation();
   const navigate = useNavigate();
   return (
     <div className=" py-2 flex flex-col">
@@ -17,14 +18,15 @@ const WriteCommentAndIconsLabels = ({
       >
         View all {comments?.length} comments
       </p>
-      {user && (
-        <p
-          onClick={handleOpenCommentModal}
-          className="text-main_dark_violet_color dark:text-main_light_purple mt-2 cursor-pointer font-[500] text-sm"
-        >
-          Write comment
-        </p>
-      )}
+      {user &&
+        !location.pathname.startsWith("/profile") && (
+          <p
+            onClick={handleOpenCommentModal}
+            className="text-main_dark_violet_color dark:text-main_light_purple mt-2 cursor-pointer font-[500] text-sm"
+          >
+            Write comment
+          </p>
+        )}
     </div>
   );
 };

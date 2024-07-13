@@ -1,7 +1,6 @@
 import { toast } from "react-hot-toast";
-import React, { useCallback, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import CommentModal from "./CommentModal";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -17,8 +16,13 @@ import ImageTagItem from "./Post/ImageTagItem";
 import VideoTagItem from "./Post/VideoTagItem";
 import PostTopSection from "./Post/PostTopSection";
 import UsernameAndDescription from "./Post/UsernameAndDescription";
-import { fetchPosts, likePost } from "../redux/slicers/post";
+import { fetchPosts, likePost, updatePostOnLike } from "../redux/slicers/post";
 import { fetchUser } from "../redux/slicers/user";
+import {
+  fetchProfileUser,
+  likePostProfileUser,
+} from "../redux/slicers/profileUser";
+import CommentModal from "./CommentModal";
 
 const settings = {
   dots: true,
@@ -49,6 +53,7 @@ function PostItem({
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const getFileType = (file) => {
     const firstSplit = file.split("/upload")[0];
@@ -85,10 +90,14 @@ function PostItem({
       toast.error("Login your account");
       return;
     }
-    setHeart(!isLiked);
+    setHeart(!heart);
     dispatch(likePost({ id: _id }));
+    dispatch(updatePostOnLike({ postId: _id, userId: user?._id }));
     dispatch(fetchUser(token));
-  }, [dispatch, token, _id, isLiked, user]);
+    if (location.pathname.startsWith("/profile")) {
+      dispatch(likePostProfileUser({ postId: _id, userId: user?._id }));
+    }
+  }, [dispatch, token, _id, heart, user, location.pathname]);
 
   const handleOpenCommentModal = () => {
     if (!user) {
@@ -99,6 +108,12 @@ function PostItem({
   };
 
   const handleCloseCommentModal = () => setShowCommentModal(false);
+
+  useEffect(() => {
+    if (heart !== isLiked) {
+      setHeart(isLiked);
+    }
+  }, [isLiked, heart]);
 
   return (
     <>

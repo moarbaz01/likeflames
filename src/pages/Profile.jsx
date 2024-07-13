@@ -1,57 +1,49 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useDispatch } from "react-redux";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { useSelector } from "react-redux";
-import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import Posts from "../components/Posts";
-import apiRequest from "../services/apiRequest";
-import { FETCH_USER } from "../services/api";
 import CommentItem from "../components/CommentItem";
 import TopSection from "../components/Profile/TopSection";
 import FollowersSection from "../components/Profile/FollowersSection";
 import UserInfoSection from "../components/Profile/UserSection";
 import SwitchPostSection from "../components/Profile/SwitchPostSection";
 import LoadingModal from "../components/LoadingModal";
+import { fetchProfileUser } from "../redux/slicers/profileUser";
 
 const Profile = () => {
   const { user } = useSelector((state) => state.user);
+  const { profileUser, loading } = useSelector((state) => state.profileUser);
+  const { posts } = useSelector((state) => state.post);
   const { id } = useParams();
+  const dispatch = useDispatch();
+
+  // Switch Post Sections
   const [showPost, setShowPost] = useState(true);
   const [showReplies, setShowReplies] = useState(false);
-  const { posts } = useSelector((state) => state.post);
   const [showLiked, setShowLiked] = useState(false);
-  const [currentUser, setCurrentUser] = useState(null);
-  const [loading, setLoading] = useState(false);
 
   const likedPosts = useMemo(() => {
-    return [...posts]?.filter((item) =>
-      item.likes.some((like) => like === currentUser?._id)
+    return [...posts]?.filter(
+      (item) =>
+        item.author._id !== user._id &&
+        item.likes.some((like) => like === profileUser?._id)
     );
-  }, [posts, currentUser?._id]);
-
-  const fetchCurrentUser = useCallback(async () => {
-    try {
-      setLoading(true);
-      const res = await apiRequest({
-        method: "get",
-        url: `${FETCH_USER}/${id}`,
-      });
-      setCurrentUser((prev) => ({ ...prev, ...res.data.user }));
-      console.log(res.data.user);
-    } catch (error) {
-      console.error(error);
-      toast.error("Failed to fetch user data");
-    } finally {
-      setLoading(false);
-    }
-  }, [id]);
+  }, [posts, profileUser]);
 
   useEffect(() => {
     if (id) {
-      fetchCurrentUser();
+      dispatch(fetchProfileUser({ userId: id }));
     }
-  }, [id]);
+  }, [id, dispatch]);
 
   if (loading) {
     return <LoadingModal isOpen={loading} message={"Loading..."} />;
@@ -66,15 +58,15 @@ const Profile = () => {
         <Sidebar />
         <div className="md:overflow-y-auto md:h-full h-auto md:w-[70vw] w-full ">
           <div className="w-full rounded-xl md:pb-12 pb-24 ">
-            <TopSection currentUser={currentUser} />
+            <TopSection currentUser={profileUser} />
             <FollowersSection
-              currentUser={currentUser}
-              fetchCurrentUser={fetchCurrentUser}
-              setCurrentUser={setCurrentUser}
+              currentUser={profileUser}
+              fetchCurrentUser={fetchProfileUser}
+              setCurrentUser={() => {}}
             />
-            <UserInfoSection currentUser={currentUser} />
-            {(currentUser?.privacy === "public" ||
-              currentUser?.followers?.includes(user?._id) ||
+            <UserInfoSection currentUser={profileUser} />
+            {(profileUser?.privacy === "public" ||
+              profileUser?.followers?.includes(user?._id) ||
               user?._id === id) && (
               <SwitchPostSection
                 showLiked={showLiked}
@@ -85,16 +77,16 @@ const Profile = () => {
                 setShowReplies={setShowReplies}
               />
             )}
-            {(currentUser?.privacy === "public" ||
-              currentUser?.followers?.includes(user?._id) ||
+            {(profileUser?.privacy === "public" ||
+              profileUser?.followers?.includes(user?._id) ||
               user?._id === id) && (
               <>
                 <div className="mt-4 w-full">
                   {showPost && (
-                    <Posts posts={currentUser?.posts} condition={"both"} />
+                    <Posts posts={profileUser?.posts} condition={"both"} />
                   )}
                   {showReplies &&
-                    currentUser?.comments?.map((c, index) => (
+                    profileUser?.comments?.map((c, index) => (
                       <CommentItem key={index} props={c} tag="profile" />
                     ))}
                   {showLiked && likedPosts?.length > 0 && (

@@ -15,7 +15,12 @@ export const usersSlice = createSlice({
   initialState: {
     users: [],
     isLoading: false,
-    error : null,
+    error: null,
+  },
+  reducers: {
+    updateUsers: (state, action) => {
+      state.users = [...state.users, ...action.payload];
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchUsers.pending, (state) => {

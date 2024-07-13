@@ -9,6 +9,7 @@ import { store } from "./redux/store/store.js";
 import { SignupContextProvider } from "./context/useSignup";
 import { PeerContextProvider } from "./context/usePeer";
 import { SocketsContextProvider } from "./context/useSockets.jsx";
+import { ProfileContextProvider } from "./context/useProfile.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -18,7 +19,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           <PeerContextProvider>
             <SignupContextProvider>
               <ThemeContextProvider>
-                <App />
+                <ProfileContextProvider>
+                  <App />
+                </ProfileContextProvider>
               </ThemeContextProvider>
             </SignupContextProvider>
           </PeerContextProvider>

@@ -27,9 +27,13 @@ function SelectPostTypeModal({ isOpen, onClose }) {
   if (!isOpen) return null;
   return (
     <div
-      className={` bg-black/60 backdrop-blur-sm items-center flex justify-center z-[9999] fixed top-0 left-0 right-0 bottom-0`}
+      onClick={onClose}
+      className={` bg-black/40 items-center flex justify-center z-[9999] fixed top-0 left-0 right-0 bottom-0`}
     >
-      <div className="flex items-center gap-8">
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="flex items-center gap-8"
+      >
         <div
           onClick={handleReelNavigate}
           className="md:size-56 size-32 flex items-center cursor-pointer hover:saturate-0 transition justify-center gap-4 flex-col"

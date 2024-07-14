@@ -17,7 +17,7 @@ const ImageGrid = ({ data }) => {
   };
 
   return (
-    <div className="container mx-auto mt-6">
+    <div className="container mx-auto md:mt-0 mt-6">
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {(data ? data : posts).map((file, index) => (
           <div className="cursor-pointer dark:drop-shadow-md" key={index}>

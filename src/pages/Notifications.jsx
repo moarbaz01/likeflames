@@ -4,7 +4,7 @@ import Navbar from "../components/Layout/Navbar";
 import Sidebar from "../components/Layout/Sidebar";
 // import { requests } from "../data";
 import { BsHeartFill } from "react-icons/bs";
-import BlankProfile from "../assets/blankProfile.png"
+import BlankProfile from "../assets/blankProfile.png";
 import { useSelector } from "react-redux";
 import useDate from "../hooks/useDate";
 import toast from "react-hot-toast";
@@ -12,10 +12,13 @@ import apiRequest from "../services/apiRequest";
 import { ACCEPT_AND_REJECT_REQUEST } from "../services/api";
 import { fetchUser } from "../redux/slicers/user";
 
-const RequestNotificationItem = ({ notification, handleGetDate, handleAcceptAndRejectRequest, loading }) => (
-  <div
-    className=" bg-main_bg_white dark:bg-dark_secondary_bg dark:drop-shadow-md animate-slideDown hover:bg-white/80 transition cursor-pointer w-full md:flex-row flex-col flex md:items-center justify-between mt-4 rounded-xl md:px-4 px-4 py-4"
-  >
+const RequestNotificationItem = ({
+  notification,
+  handleGetDate,
+  handleAcceptAndRejectRequest,
+  loading,
+}) => (
+  <div className=" bg-main_bg_white dark:bg-dark_secondary_bg dark:drop-shadow-md animate-slideDown hover:bg-white/80 transition cursor-pointer w-full md:flex-row flex-col flex md:items-center justify-between mt-4 rounded-xl md:px-4 px-4 py-4">
     <div className="flex items-start ">
       <img
         className="h-8 w-8 rounded-full object-cover"
@@ -27,16 +30,12 @@ const RequestNotificationItem = ({ notification, handleGetDate, handleAcceptAndR
           {notification?.from?.name}
         </h1>
         <div
-          className={`${notification?.type === "like" &&
-            "flex items-center"
-            }  gap-2 md:pr-2`}
+          className={`${
+            notification?.type === "like" && "flex items-center"
+          }  gap-2 md:pr-2`}
         >
-          {notification?.type === "like" && (
-            <BsHeartFill fill="red" />
-          )}
-          <p className=" text-md dark:text-white">
-            {notification?.info}
-          </p>
+          {notification?.type === "like" && <BsHeartFill fill="red" />}
+          <p className=" text-md dark:text-white">{notification?.info}</p>
           <p className=" opacity-60 dark:opacity-100 dark:text-gray-400 mt-2   text-sm">
             {handleGetDate(notification?.createdAt)}
           </p>
@@ -48,10 +47,7 @@ const RequestNotificationItem = ({ notification, handleGetDate, handleAcceptAndR
         <button
           disabled={loading}
           onClick={() =>
-            handleAcceptAndRejectRequest(
-              notification._id,
-              "accept"
-            )
+            handleAcceptAndRejectRequest(notification._id, "accept")
           }
           className=" bg-main_dark_violet_color hover:bg-main_light_purple transition rounded-full px-8 text-text_color py-2"
         >
@@ -60,10 +56,7 @@ const RequestNotificationItem = ({ notification, handleGetDate, handleAcceptAndR
         <button
           disabled={loading}
           onClick={() =>
-            handleAcceptAndRejectRequest(
-              notification._id,
-              "reject"
-            )
+            handleAcceptAndRejectRequest(notification._id, "reject")
           }
           className=" bg-main_bg_white border-[1px] border-black rounded-full text-black px-8 py-2"
         >
@@ -72,12 +65,10 @@ const RequestNotificationItem = ({ notification, handleGetDate, handleAcceptAndR
       </div>
     )}
   </div>
-)
+);
 
 const NotificationItem = ({ notification }) => (
-  <div
-    className=" bg-main_bg_white dark:bg-dark_secondary_bg dark:drop-shadow-md hover:bg-white/80 transition cursor-pointer w-full md:flex-row flex-col flex md:items-center justify-between mt-4 rounded-xl md:px-4 px-4 py-4"
-  >
+  <div className=" bg-main_bg_white dark:bg-dark_secondary_bg dark:drop-shadow-md hover:bg-white/80 transition cursor-pointer w-full md:flex-row flex-col flex md:items-center justify-between mt-4 rounded-xl md:px-4 px-4 py-4">
     <div className="flex items-start ">
       <img
         className="h-8 w-8"
@@ -92,15 +83,12 @@ const NotificationItem = ({ notification }) => (
           {handleGetDate(notification.createdAt)}
         </p>
         <div
-          className={`${notification.type === "like" && "flex items-center"
-            }  gap-2 md:pr-2`}
+          className={`${
+            notification.type === "like" && "flex items-center"
+          }  gap-2 md:pr-2`}
         >
-          {notification.type === "like" && (
-            <BsHeartFill fill="red" />
-          )}
-          <p className=" text-md dark:text-white">
-            {notification.info}
-          </p>
+          {notification.type === "like" && <BsHeartFill fill="red" />}
+          <p className=" text-md dark:text-white">{notification.info}</p>
         </div>
       </div>
     </div>
@@ -108,7 +96,7 @@ const NotificationItem = ({ notification }) => (
       {notification.time}
     </p>
   </div>
-)
+);
 
 function Notifications() {
   const [showRequest, setShowRequest] = useState(false);
@@ -146,7 +134,6 @@ function Notifications() {
     [user, handleAcceptAndRejectRequest, fetchUser]
   );
 
-  
   const filteredRequests = useMemo(
     () =>
       user?.notifications?.filter((item) => {
@@ -187,7 +174,15 @@ function Notifications() {
                 showRequest &&
                 filteredRequests?.map((notification, index) => {
                   return (
-                    <RequestNotificationItem key={index} loading={loading} notification={notification} handleGetDate={handleGetDate} handleAcceptAndRejectRequest={handleAcceptAndRejectRequest} />
+                    <RequestNotificationItem
+                      key={index}
+                      loading={loading}
+                      notification={notification}
+                      handleGetDate={handleGetDate}
+                      handleAcceptAndRejectRequest={
+                        handleAcceptAndRejectRequest
+                      }
+                    />
                   );
                 })}
             </div>

@@ -16,10 +16,15 @@ import ImageTagItem from "./ImageTagItem";
 import VideoTagItem from "./VideoTagItem";
 import PostTopSection from "./PostTopSection";
 import UsernameAndDescription from "./UsernameAndDescription";
-import { fetchPosts, likePost, updatePostOnLike } from "../../redux/slicers/post";
+import {
+  fetchPosts,
+  likePost,
+  updatePostOnLike,
+} from "../../redux/slicers/post";
 import { fetchUser } from "../../redux/slicers/user";
 import { likePostProfileUser } from "../../redux/slicers/profileUser";
 import CommentModal from "../Modal/CommentModal";
+import PostSkeleton from "../Skeleton/PostSkeleton";
 
 const settings = {
   dots: true,
@@ -41,6 +46,7 @@ function PostItem({
   createdAt,
   _id,
   postType,
+  title,
 }) {
   const { user, token } = useSelector((state) => state.user);
   const isLiked = useMemo(() => likes?.includes(user?._id), [user?._id, likes]);
@@ -114,7 +120,10 @@ function PostItem({
 
   return (
     <>
-      <div className="w-full md:p-4 p-2 mb-4 relative dark:drop-shadow-xl bg-main_bg_white dark:bg-dark_secondary_bg rounded-xl">
+      <div
+        onClick={() => setShowPostOptionModal(false)}
+        className="w-full md:p-4 p-2 mb-4 relative dark:drop-shadow-xl bg-main_bg_white dark:bg-dark_secondary_bg rounded-xl"
+      >
         <PostTopSection
           navigateToPostPage={() => navigate(`/profile/${author._id}`)}
           user={author}
@@ -132,7 +141,11 @@ function PostItem({
             )}
           </Slider>
         </div>
-        <UsernameAndDescription user={author} description={description} />
+        <UsernameAndDescription
+          user={author}
+          description={description}
+          title={title}
+        />
         <LikeDislikeAndShareIcons
           handleLikeAndDislike={handleLikeAndDislike}
           setHeart={setHeart}

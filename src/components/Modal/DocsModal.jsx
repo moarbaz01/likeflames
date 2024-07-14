@@ -6,6 +6,7 @@ function DocsModal({ isOpen, onClose }) {
   if (!isOpen) return null;
   return (
     <div
+      onClick={onClose}
       className={` bg-[rgba(0,0,0,0.61)] items-center ${
         isOpen ? "flex" : "hidden"
       } justify-center fixed z-[999] top-0 left-0 h-screen w-full`}
@@ -16,7 +17,7 @@ function DocsModal({ isOpen, onClose }) {
             &times;
           </button>
         </div>
-        <div className=" p-4 relative">
+        <div onClick={(e) => e.stopPropagation()} className=" p-4 relative">
           {/* File Type */}
           <h1 className=" text-2xl font-bold">File Type</h1>
           <p className=" text-sm text-gray-400">

@@ -19,11 +19,14 @@ import { fetchUser } from "../../redux/slicers/user";
 import useSocket from "../../hooks/useSocket";
 import { IoCheckmarkDoneOutline, IoCheckmarkOutline } from "react-icons/io5";
 import { useParams } from "react-router-dom";
+import Loader from "../Loaders/Loader";
 
 const MessageOptions = ({ msg, direction, setShowOptions }) => {
   const { user, token } = useSelector((state) => state.user);
   const { socket } = useSocket();
   const dispatch = useDispatch();
+  const [deleteByAllLoading, setDeleteByAllLoading] = useState(false);
+  const [deleteByOneSideLoading, setDeleteByOneSideLoading] = useState(false);
 
   const handleRealTimeChatUpdates = ({ user, id }) => {
     if (user) {
@@ -32,37 +35,39 @@ const MessageOptions = ({ msg, direction, setShowOptions }) => {
   };
 
   const handleDeleteChatByOneSide = useCallback(async () => {
+    setDeleteByOneSideLoading(true);
     try {
       const res = await apiRequest({
         method: "delete",
-        url: `${DELETE_CHAT_BY_ONE_SIDE}/${msg._id}`,
+        url: `${DELETE_CHAT_BY_ONE_SIDE}/${msg?._id}`,
         token,
       });
-      toast.success(res.data.message);
       dispatch(fetchChats(token));
       dispatch(fetchUser());
-      console.log(res.data.message);
       setShowOptions(false);
     } catch (error) {
       console.log(error);
+    } finally {
+      setDeleteByOneSideLoading(false);
     }
   }, [msg, token, dispatch]);
 
   const handleDeleteChatByAll = useCallback(async () => {
+    setDeleteByAllLoading(true);
     try {
       const res = await apiRequest({
         method: "delete",
         url: `${DELETE_CHAT_BY_ALL}/${msg._id}`,
         token,
       });
-      toast.success(res.data.message);
       dispatch(fetchChats(token));
       dispatch(fetchUser());
-      console.log(res.data.message);
       setShowOptions(false);
       handleRealTimeChatUpdates({ user, id: msg?.to?._id });
     } catch (error) {
       console.log(error);
+    } finally {
+      setDeleteByAllLoading(false);
     }
   }, [token, msg, dispatch]);
 
@@ -72,18 +77,18 @@ const MessageOptions = ({ msg, direction, setShowOptions }) => {
     >
       {user?._id === msg?.from?._id && (
         <button
-          onClick={() => handleDeleteChatByAll()}
+          onClick={handleDeleteChatByAll}
           className="rounded-full flex dark:hover:text-gray-500 transition items-center gap-2 dark:text-white"
         >
-          <CiTrash />
+          {deleteByAllLoading ? <Loader /> : <CiTrash />}
           Delete All
         </button>
       )}
       <button
-        onClick={() => handleDeleteChatByOneSide()}
+        onClick={handleDeleteChatByOneSide}
         className="rounded-full flex dark:hover:text-gray-500 transition items-center gap-2 dark:text-white"
       >
-        <CiTrash />
+        {deleteByOneSideLoading ? <Loader /> : <CiTrash />}
         Delete
       </button>
     </div>

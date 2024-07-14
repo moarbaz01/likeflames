@@ -1,6 +1,10 @@
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import PostItem from "./PostIem";
+import PostSkeleton from "../Skeleton/PostSkeleton";
+import useSkeleton from "../../hooks/useSkeleton";
 function Posts({ posts = [], condition = "single" }) {
+  const skeletonLoading = useSkeleton();
+  // Filtered Posts
   const filteredPosts = useMemo(() => {
     if (posts.length === 0) {
       return [];
@@ -14,9 +18,13 @@ function Posts({ posts = [], condition = "single" }) {
 
   return (
     <div className="">
-      {filteredPosts?.map((post, index) => (
-        <PostItem key={index} {...post} />
-      ))}
+      {skeletonLoading
+        ? Array(6)
+            .fill(0)
+            .map((item, index) => <PostSkeleton key={index} />)
+        : filteredPosts?.map((post, index) => (
+            <PostItem key={index} {...post} />
+          ))}
     </div>
   );
 }

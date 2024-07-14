@@ -34,6 +34,7 @@ const FollowersSection = () => {
 
   // Send Real Time Notifications
   const sendRealTimeNotification = useCallback(() => {
+    console.log("first")
     socket.emit("send:notification", { from: user?._id, to: id });
   }, [socket, user?._id, id]);
 

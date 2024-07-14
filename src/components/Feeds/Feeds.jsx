@@ -1,12 +1,15 @@
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { BiLeftArrowAlt } from "react-icons/bi";
 import FeedItem from "../Feeds/FeedItem";
+import FeedItemSkeleton from "../Skeleton/FeedItemSkeleton";
+import useSkeleton from "../../hooks/useSkeleton";
 
 function Feeds({ feedItems }) {
   const navigate = useNavigate();
   const location = useLocation();
+  const skeletonLoading = useSkeleton();
 
   const filteredFeeds = useMemo(() => {
     if (feedItems.length === 0) {
@@ -14,6 +17,7 @@ function Feeds({ feedItems }) {
     }
     return [...feedItems]?.filter((item) => item.postType === "reel");
   });
+
   return (
     <div
       className={`fixed md:static top-0 left-0 right-0 bottom-0 ${
@@ -28,10 +32,14 @@ function Feeds({ feedItems }) {
           />
         </div>
       )}
-      {filteredFeeds?.map(
-        (item, index) =>
-          item.postType === "reel" && <FeedItem key={index} {...item} />
-      )}
+      {skeletonLoading
+        ? Array(10)
+            .fill()
+            .map((_, index) => <FeedItemSkeleton key={index} />)
+        : filteredFeeds?.map(
+            (item, index) =>
+              item.postType === "reel" && <FeedItem key={index} {...item} />
+          )}
     </div>
   );
 }

@@ -35,8 +35,7 @@ function CommentModal({ isOpen, onClose, postId, comment }) {
       toast.success(res.data.message);
       dispatch(fetchPosts());
       dispatch(fetchComments());
-      if(location.pathname.startsWith("/profile")){
-        
+      if (location.pathname.startsWith("/profile")) {
       }
       setText("");
       onClose();
@@ -69,7 +68,8 @@ function CommentModal({ isOpen, onClose, postId, comment }) {
     }
   }, [comment, onClose, text, token, dispatch]);
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     if (comment?._id) {
       handleReplyOnComment();
     } else {
@@ -88,7 +88,8 @@ function CommentModal({ isOpen, onClose, postId, comment }) {
   if (!isOpen) return null;
   return (
     <div
-      className={` bg-black/60 backdrop-blur-sm items-center flex justify-center fixed z-[9999] top-0 left-0 right-0 bottom-0`}
+      onClick={onClose}
+      className={` bg-black/40 items-center flex justify-center fixed z-[9999] top-0 left-0 right-0 bottom-0`}
     >
       <div className=" flex absolute z-[1000] right-0 top-0 p-4">
         <button onClick={onClose} className=" text-2xl text-gray-400">
@@ -97,7 +98,10 @@ function CommentModal({ isOpen, onClose, postId, comment }) {
       </div>
 
       {/* Write comment */}
-      <div className=" flex flex-col gap-2 md:w-1/3 md:px-0 w-full px-6 relative">
+      <form
+        onClick={(e) => e.stopPropagation()}
+        className=" flex flex-col gap-2 md:w-1/3 md:bg-white md:p-6 rounded-lg w-full px-6 relative"
+      >
         <h1 className=" text-white">Write your comment</h1>
         <textarea
           className=" w-full border dark:text-white dark:bg-dark_secondary_bg border-gray-300 h-[200px] resize-none rounded-lg p-2"
@@ -115,7 +119,7 @@ function CommentModal({ isOpen, onClose, postId, comment }) {
           {isLoading ? "Loading.." : "Comment"}
         </button>
         <EmojiPickerComponent />
-      </div>
+      </form>
     </div>
   );
 }

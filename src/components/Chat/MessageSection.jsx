@@ -187,7 +187,7 @@ const MessageSection = () => {
           </div>
         </div>
       )}
-      <div className="flex flex-col gap-4 mt-4 w-full">
+      <div className="flex flex-col gap-4 mt-4 w-full ">
         {searchResult.length > 0
           ? searchResult.map((user, index) => (
               <UserItem
@@ -221,6 +221,7 @@ const MessageSection = () => {
               />
             ))}
       </div>
+      <div className="h-20 w-full md:hidden"></div>
     </>
   );
 };

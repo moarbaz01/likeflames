@@ -1,11 +1,12 @@
-import React, { useCallback } from "react";
+import React, { useCallback} from "react";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 function UserItem({ profilePicture, userId, name, username, type }) {
   const { connectedUsers } = useSelector((state) => state.connectedUsers);
-  const { user } = useSelector(state => state.user);
+  const { user } = useSelector((state) => state.user);
+  const { users, isLoading } = useSelector((state) => state.users);
   const navigate = useNavigate();
   const handleClick = useCallback(() => {
     if (user) {
@@ -16,10 +17,11 @@ function UserItem({ profilePicture, userId, name, username, type }) {
         navigate(`/profile/${userId}`);
       }
     } else {
-      navigate("/login")
-      toast.error("Login your account")
+      navigate("/login");
+      toast.error("Login your account");
     }
-  }, [userId, navigate, type, user])
+  }, [userId, navigate, type, user]);
+
   return (
     <div
       onClick={handleClick}

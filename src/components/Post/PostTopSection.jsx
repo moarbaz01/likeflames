@@ -8,6 +8,10 @@ const PostTopSection = ({
   navigateToPostPage,
 }) => {
   const relativeTime = useRelativeTime(new Date(date));
+  const handleOptionModal = (e) => {
+    e.stopPropagation();
+    setShowPostOptionModal((prev) => !prev);
+  };
   return (
     <div className="flex w-full items-center justify-between px-4 py-2">
       <div
@@ -29,7 +33,7 @@ const PostTopSection = ({
         </div>
       </div>
       <HiOutlineDotsHorizontal
-        onClick={() => setShowPostOptionModal((prev) => !prev)}
+        onClick={handleOptionModal}
         className="cursor-pointer dark:text-white"
       />
     </div>

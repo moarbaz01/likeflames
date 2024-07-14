@@ -1,47 +1,28 @@
-import React, { useCallback, useEffect, useState } from "react";
-import Sidebar from "../components/Sidebar";
-import Navbar from "../components/Navbar";
-import toast from "react-hot-toast";
-import apiRequest from "../services/apiRequest";
-import { CRUD_POST } from "../services/api";
+import { useMemo } from "react";
+import Sidebar from "../components/Layout/Sidebar";
+import Navbar from "../components/Layout/Navbar";
 import { useNavigate, useParams } from "react-router-dom";
-import PostItem from "../components/PostIem";
-import RequestItems from "../components/RequestItems";
-import BackNavigate from "../components/BackNavigate";
+import PostItem from "../components/Post/PostIem";
+import RequestItems from "../components/Others/RequestItems";
+import BackNavigate from "../components/Layout/BackNavigate";
+import { useSelector } from "react-redux";
 
 function Post() {
   const { id } = useParams();
-  const [loading, setLoading] = useState(false);
-  const [post, setPost] = useState({});
   const navigate = useNavigate();
+  const { posts } = useSelector((state) => state.post);
 
-  const fetchCurrentPost = useCallback(async () => {
-    try {
-      setLoading(true);
-      const res = await apiRequest({
-        method: "get",
-        url: `${CRUD_POST}/${id}`,
-      });
-
-      console.log(res.data);
-      setPost(res.data.post);
-      // toast.success(res.data.message);
-    } catch (error) {
-      toast.error(error.response.data.message);
-    } finally {
-      setLoading(false);
+  const post = useMemo(() => {
+    if (posts.length === 0) {
+      return null;
+    } else {
+      return posts.find((item) => item._id === id);
     }
-  }, [id]);
+  }, [id, posts]);
 
   const handleNavigateBack = () => {
     navigate(-1);
   };
-
-  useEffect(() => {
-    if (id) {
-      fetchCurrentPost();
-    }
-  }, [id]);
 
   // if (loading) {
   //   return <LoadingModal isOpen={loading} message={"Fetching Post"} />;
@@ -56,7 +37,7 @@ function Post() {
         <Sidebar />
         <div className="md:overflow-y-auto relative md:h-full h-auto lg:w-[50vw] md:w-[70vw] w-full ">
           <div className="w-full rounded-xl md:pb-12 pb-24 ">
-            {!loading && <PostItem {...post} />}
+            {post !== null && <PostItem {...post} />}
           </div>
         </div>
         <div className="sticky z-0 top-0 h-full md:block  ">

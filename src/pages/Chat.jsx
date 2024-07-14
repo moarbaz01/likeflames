@@ -1,11 +1,10 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import { MdCall, MdVideocam } from "react-icons/md";
-import ChatItem from "../components/ChatItem";
+import ChatItem from "../components/Chat/ChatItem";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { fetchChats } from "../redux/slicers/chat";
-import useSocket from "../hooks/useSocket";
 import useRelativeTime from "../hooks/useRelativeTime";
 import SendMessagesBar from "../components/Chat/SendMessageBar";
 import MessageSection from "../components/Chat/MessageSection";
@@ -17,14 +16,15 @@ const RightTopSection = ({ status, lastSeen, currentUser }) => {
   const time = useRelativeTime(new Date(lastSeen));
   const navigate = useNavigate();
   const { id } = useParams();
-  const {
-    createOffer,
-  } = useContext(PeerContext);
+  const { createOffer } = useContext(PeerContext);
 
   return (
     <div className="flex w-full justify-between dark:shadow-md py-2 px-4 dark:bg-dark_secondary_bg bg-white">
       <div className="flex items-center gap-2">
-        <BiLeftArrowAlt onClick={() => navigate("/messages")} className="dark:text-white cursor-pointer md:hidden text-3xl" />
+        <BiLeftArrowAlt
+          onClick={() => navigate("/messages")}
+          className="dark:text-white cursor-pointer md:hidden text-3xl"
+        />
         <img
           src={currentUser?.profilePicture || BlankProfile}
           className="h-10 w-10 rounded-full"
@@ -45,7 +45,10 @@ const RightTopSection = ({ status, lastSeen, currentUser }) => {
 
       <div className="flex items-center dark:text-white text-2xl gap-4">
         <MdCall className=" cursor-pointer hover:opacity-80 transition" />
-        <MdVideocam className=" cursor-pointer hover:opacity-80 transition" onClick={() => createOffer(id)} />
+        <MdVideocam
+          className=" cursor-pointer hover:opacity-80 transition"
+          onClick={() => createOffer(id)}
+        />
       </div>
     </div>
   );
@@ -105,15 +108,18 @@ function Chat() {
     );
   }, [id, chats, user]);
 
-
   return (
     <div className="h-full">
       <div className="flex min-h-screen">
-        <div className={`lg:w-[30%] md:w-[50%] hidden md:block px-2  overflow-x-hidden md:px-4 border-r-2 border-gray-600 py-2 `}>
+        <div
+          className={`lg:w-[30%] md:w-[50%] hidden md:block px-2  overflow-x-hidden md:px-4 border-r-2 border-gray-600 py-2 `}
+        >
           <MessageSection />
         </div>
         {/* Right Chat Section */}
-        <div className={`lg:w-[70%] md:w-[50%] w-full bg-violet-200 relative dark:bg-dark_main_bg`}>
+        <div
+          className={`lg:w-[70%] md:w-[50%] w-full bg-violet-200 relative dark:bg-dark_main_bg`}
+        >
           <RightTopSection
             status={status}
             lastSeen={lastSeen}

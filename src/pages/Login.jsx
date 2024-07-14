@@ -7,7 +7,7 @@ import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
-import Loader from "../components/Loader";
+import Loader from "../components/Loaders/Loader";
 import { LOGIN } from "../services/api";
 import apiRequest from '../services/apiRequest'
 import { login } from '../redux/slicers/user'

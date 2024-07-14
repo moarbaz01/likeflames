@@ -2,7 +2,6 @@ import { HiXMark } from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { CiFileOn, CiImageOn, CiVideoOn } from "react-icons/ci";
-import { CgFileDocument } from "react-icons/cg";
 import toast from "react-hot-toast";
 import { PiFileAudio } from "react-icons/pi";
 

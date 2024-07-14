@@ -4,7 +4,7 @@ const api = axios.create({
   baseURL: "http://localhost:5000/api/v1",
 });
 
-const request = ({ method, url, data, token }) => {
+const apiRequest = ({ method, url, data, token }) => {
   // Determine content type based on the presence of FormData
   const isFormData = data instanceof FormData;
   const headers = {
@@ -20,4 +20,4 @@ const request = ({ method, url, data, token }) => {
   });
 };
 
-export default request;
+export default apiRequest;

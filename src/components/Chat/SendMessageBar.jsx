@@ -1,7 +1,7 @@
 import { CgAdd } from "react-icons/cg";
 import { CiLocationArrow1 } from "react-icons/ci";
-import FileTypeModal from "../FileTypeModal";
-import FileComponent from "./FileComponent";
+import FileTypeModal from "../Modal/FileTypeModal";
+import FileComponent from "../Chat/FileComponent";
 import { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import useSocket from "../../hooks/useSocket";
@@ -12,7 +12,7 @@ import apiRequest from "../../services/apiRequest";
 import { fetchChats } from "../../redux/slicers/chat";
 import { fetchUser } from "../../redux/slicers/user";
 import { SEND_CHATS } from "../../services/api";
-import Loader from "../Loader";
+import Loader from "../Loaders/Loader";
 
 function SendMessagesBar({ isLoading, setIsLoading }) {
   const [text, setText] = useState("");

@@ -13,4 +13,5 @@ export const hiddenBottomNavbar = [
     "/createPost",
     "/post",
     "/comments",
+    "/resetpassword"
   ];

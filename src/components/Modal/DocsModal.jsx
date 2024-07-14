@@ -1,6 +1,6 @@
 import React from "react";
-import image from "../assets/image.png";
-import docsImage from "../assets/google-docs.png";
+import image from "../../assets/image.png";
+import docsImage from "../../assets/google-docs.png";
 
 function DocsModal({ isOpen, onClose }) {
   if (!isOpen) return null;

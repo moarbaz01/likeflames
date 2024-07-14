@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import useRelativeTime from "../hooks/useRelativeTime";
+import useRelativeTime from "../../hooks/useRelativeTime";
 import { useSelector } from "react-redux";
 
 function UserMessageItem({

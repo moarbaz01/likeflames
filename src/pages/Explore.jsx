@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import Sidebar from "../components/Sidebar";
-import Navbar from "../components/Navbar";
+import Sidebar from "../components/Layout/Sidebar";
+import Navbar from "../components/Layout/Navbar";
 import { CiSearch } from "react-icons/ci";
-import ImageGrid from "../components/ImageGrid";
-import SearchResults from "../components/SearchResults";
+import ImageGrid from "../components/Others/ImageGrid";
+import SearchResults from "../components/Others/SearchResults";
 import { BiLeftArrowAlt } from "react-icons/bi";
 
 function Explore() {

@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
 import "./App.css";
-import BottomNavbar from "./components/BottomNavbar";
+import BottomNavbar from "./components/Layout/BottomNavbar";
 import Router from "./routes/Router";
 import { Toaster } from "react-hot-toast";
 import useAuth from "./hooks/useAuth";

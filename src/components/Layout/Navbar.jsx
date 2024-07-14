@@ -1,9 +1,9 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import React, { useContext, useMemo, useState } from "react";
+import React, { useContext, useState } from "react";
 import { CiBellOn, CiSearch } from "react-icons/ci";
 import { MdDarkMode, MdLightMode } from "react-icons/md";
-import { ThemeContext } from "../context/useTheme";
-import BlankProfile from "../assets/blankProfile.png";
+import { ThemeContext } from "../../context/useTheme";
+import BlankProfile from "../../assets/blankProfile.png";
 import { useSelector } from "react-redux";
 
 function Navbar() {

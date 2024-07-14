@@ -1,6 +1,6 @@
 import { HiXMark } from "react-icons/hi2";
-import CreatReelImage from "../assets/createReel.png";
-import CreatPostImage from "../assets/createPost.png";
+import CreatReelImage from "../../assets/createReel.png";
+import CreatPostImage from "../../assets/createPost.png";
 import { useNavigate } from "react-router-dom";
 import { useCallback, useEffect } from "react";
 

@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import ProtectedRoutes from "./ProtectedRoutes";
 import { Suspense, lazy } from "react";
-import Spinner from "../components/Spinner";
+import Spinner from "../components/Loaders/Spinner";
 
 const routesData = [
   {
@@ -91,6 +91,14 @@ const routesData = [
   {
     path: "/comments",
     element: lazy(() => import("../pages/Comments")),
+  },
+  {
+    path: "/resetpassword",
+    element: lazy(() => import("../pages/ResetPassword")),
+  },
+  {
+    path: "/reset",
+    element: lazy(() => import("../pages/SendResetLink")),
   },
 ];
 

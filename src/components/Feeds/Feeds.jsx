@@ -2,7 +2,7 @@ import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useMemo } from "react";
 import { BiLeftArrowAlt } from "react-icons/bi";
-import FeedItem from "./FeedItem";
+import FeedItem from "../Feeds/FeedItem";
 
 function Feeds({ feedItems }) {
   const navigate = useNavigate();

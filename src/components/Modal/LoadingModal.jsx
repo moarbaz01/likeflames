@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import Spinner from "./Spinner";
+import Spinner from "../Loaders/Spinner";
 
 function LoadingModal({ isOpen, message }) {
   useEffect(() => {
@@ -12,9 +12,9 @@ function LoadingModal({ isOpen, message }) {
 
   if (!isOpen) return null;
   return (
-    <div className="flex  z-[9999] bg-black/20 backdrop-blur-sm gap-12  flex-col items-center justify-center fixed top-0 bottom-0 left-0 right-0">
+    <div className="flex  z-[9999] bg-white dark:bg-dark_main_bg backdrop-blur-sm gap-12  flex-col items-center justify-center fixed top-0 bottom-0 left-0 right-0">
       <Spinner />
-      <div className="text-white">{message}...</div>
+      <div className="text-black dark:text-white">{message}...</div>
     </div>
   );
 }

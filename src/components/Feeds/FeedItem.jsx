@@ -1,15 +1,13 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { CiPause1, CiPlay1 } from "react-icons/ci";
+import {  CiPlay1 } from "react-icons/ci";
 import { FaHeart, FaShare } from "react-icons/fa";
 import { FaMessage } from "react-icons/fa6";
-import apiRequest from "../services/apiRequest";
 import toast from "react-hot-toast";
-import { fetchUser } from "../redux/slicers/user";
+import { fetchUser } from "../../redux/slicers/user";
 import { useDispatch, useSelector } from "react-redux";
-import { LIKE_AND_DISLIKE } from "../services/api";
-import { fetchPosts, likePost, updatePostOnLike } from "../redux/slicers/post";
+import {  likePost, updatePostOnLike } from "../../redux/slicers/post";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
-import { likePostProfileUser } from "../redux/slicers/profileUser";
+import { likePostProfileUser } from "../../redux/slicers/profileUser";
 
 const FeedItem = ({
   author,

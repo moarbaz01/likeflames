@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 import BlankProfile from "../../assets/blankProfile.png";
 import { FaSms } from "react-icons/fa";
 import { PiNotePencilThin, PiShareThin } from "react-icons/pi";
-import ViewFollowersModal from "../ViewFollowersModal";
+import ViewFollowersModal from "../Modal/ViewFollowersModal";
 import {
   followAndUnfollowUser,
   updateNotification,

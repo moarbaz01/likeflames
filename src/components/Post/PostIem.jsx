@@ -4,24 +4,22 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { CRUD_POST } from "../services/api";
+import { CRUD_POST } from "../../services/api";
 import { useDispatch, useSelector } from "react-redux";
-import apiRequest from "../services/apiRequest";
-import LoadingModal from "./LoadingModal";
-import PostOptionModal from "./Post/PostOptionModal";
-import PostTagsItem from "./Post/PostTagsItem";
-import WriteCommentAndIconsLabels from "./Post/WriteCommentAndIconsLabels";
-import LikeDislikeAndShareIcons from "./Post/LikeDislikeAndShareIcons";
-import ImageTagItem from "./Post/ImageTagItem";
-import VideoTagItem from "./Post/VideoTagItem";
-import PostTopSection from "./Post/PostTopSection";
-import UsernameAndDescription from "./Post/UsernameAndDescription";
-import { fetchPosts, likePost, updatePostOnLike } from "../redux/slicers/post";
-import { fetchUser } from "../redux/slicers/user";
-import {
-  likePostProfileUser,
-} from "../redux/slicers/profileUser";
-import CommentModal from "./CommentModal";
+import apiRequest from "../../services/apiRequest";
+import LoadingModal from "../Modal/LoadingModal";
+import PostOptionModal from "../Modal/PostOptionModal";
+import PostTagsItem from "./PostTagsItem";
+import WriteCommentAndIconsLabels from "./WriteCommentAndIconsLabels";
+import LikeDislikeAndShareIcons from "./LikeDislikeAndShareIcons";
+import ImageTagItem from "./ImageTagItem";
+import VideoTagItem from "./VideoTagItem";
+import PostTopSection from "./PostTopSection";
+import UsernameAndDescription from "./UsernameAndDescription";
+import { fetchPosts, likePost, updatePostOnLike } from "../../redux/slicers/post";
+import { fetchUser } from "../../redux/slicers/user";
+import { likePostProfileUser } from "../../redux/slicers/profileUser";
+import CommentModal from "../Modal/CommentModal";
 
 const settings = {
   dots: true,

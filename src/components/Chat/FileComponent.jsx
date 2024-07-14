@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { FiFile } from "react-icons/fi";
 import { HiXMark } from "react-icons/hi2";
-import Loader from "../Loader";
+import Loader from "../Loaders/Loader";
 
 function FileComponent({ file, index, setFiles, isLoading }) {
   const [type, setType] = useState("");

@@ -10,9 +10,8 @@ import AddFileImage from "../assets/addFile.png";
 import { CiTrash } from "react-icons/ci";
 import { CRUD_POST } from "../services/api";
 import { useDispatch, useSelector } from "react-redux";
-import LoadingModal from "../components/LoadingModal";
+import LoadingModal from "../components/Modal/LoadingModal";
 import apiRequest from "../services/apiRequest";
-import Spinner from "../components/Spinner";
 import { fetchUser } from "../redux/slicers/user";
 import { fetchPosts } from "../redux/slicers/post";
 

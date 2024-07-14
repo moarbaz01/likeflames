@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
-import useEmoji from "../hooks/useEmoji";
+import useEmoji from "../../hooks/useEmoji";
 import toast from "react-hot-toast";
-import { CRUD_COMMENT, REPLY_ON_COMMENT } from "../services/api";
+import { CRUD_COMMENT, REPLY_ON_COMMENT } from "../../services/api";
 import { useDispatch, useSelector } from "react-redux";
-import apiRequest from "../services/apiRequest";
-import { fetchPosts } from "../redux/slicers/post";
-import { fetchComments } from "../redux/slicers/comments";
+import apiRequest from "../../services/apiRequest";
+import { fetchPosts } from "../../redux/slicers/post";
+import { fetchComments } from "../../redux/slicers/comments";
 
 function CommentModal({ isOpen, onClose, postId, comment }) {
   const [text, setText] = useState("");

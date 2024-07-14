@@ -1,9 +1,9 @@
 import React, { useMemo } from "react";
-import Sidebar from "../components/Sidebar";
-import Posts from "../components/Posts";
+import Sidebar from "../components/Layout/Sidebar";
+import Posts from "../components/Post/Posts";
 import { useSelector } from "react-redux";
-import RequestItems from "../components/RequestItems";
-import Navbar from "../components/Navbar";
+import RequestItems from "../components/Others/RequestItems";
+import Navbar from "../components/Layout/Navbar";
 
 function Home() {
   const { posts, isLoading } = useSelector((state) => state.post);

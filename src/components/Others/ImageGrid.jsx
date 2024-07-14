@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import useGetFileType from "../hooks/useGetFileType";
+import useGetFileType from "../../hooks/useGetFileType";
 
 const ImageGrid = ({ data }) => {
   const navigate = useNavigate();

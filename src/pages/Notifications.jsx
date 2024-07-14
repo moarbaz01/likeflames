@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import Navbar from "../components/Navbar";
-import Sidebar from "../components/Sidebar";
+import Navbar from "../components/Layout/Navbar";
+import Sidebar from "../components/Layout/Sidebar";
 // import { requests } from "../data";
 import { BsHeartFill } from "react-icons/bs";
 import BlankProfile from "../assets/blankProfile.png"

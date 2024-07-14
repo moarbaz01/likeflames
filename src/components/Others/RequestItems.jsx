@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import UserItem from "./UserItem";
 import { useMemo } from "react";
-import BlankProfile from "../assets/blankProfile.png";
+import BlankProfile from "../../assets/blankProfile.png";
 
 function RequestItems() {
   const { users } = useSelector((state) => state.users);

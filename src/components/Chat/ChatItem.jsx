@@ -3,20 +3,20 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { BiDotsHorizontal } from "react-icons/bi";
 import { CiSaveDown1, CiTrash } from "react-icons/ci";
 import { FiFile } from "react-icons/fi";
-import useRelativeTime from "../hooks/useRelativeTime";
-import useGetFileType from "../hooks/useGetFileType";
+import useRelativeTime from "../../hooks/useRelativeTime";
+import useGetFileType from "../../hooks/useGetFileType";
 import ReactAudioPlayer from "react-audio-player";
 import {
   DELETE_CHAT_BY_ALL,
   DELETE_CHAT_BY_ONE_SIDE,
   READ_CHAT,
-} from "../services/api";
+} from "../../services/api";
 import { useSelector } from "react-redux";
-import apiRequest from "../services/apiRequest";
+import apiRequest from "../../services/apiRequest";
 import toast from "react-hot-toast";
-import { fetchChats } from "../redux/slicers/chat";
-import { fetchUser } from "../redux/slicers/user";
-import useSocket from "../hooks/useSocket";
+import { fetchChats } from "../../redux/slicers/chat";
+import { fetchUser } from "../../redux/slicers/user";
+import useSocket from "../../hooks/useSocket";
 import { IoCheckmarkDoneOutline, IoCheckmarkOutline } from "react-icons/io5";
 import { useParams } from "react-router-dom";
 

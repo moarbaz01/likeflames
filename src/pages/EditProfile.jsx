@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import React, { useCallback, useRef, useState } from "react";
-import Navbar from "../components/Navbar";
-import Sidebar from "../components/Sidebar";
+import Navbar from "../components/Layout/Navbar";
+import Sidebar from "../components/Layout/Sidebar";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 import { BiLeftArrowAlt, BiSolidDownArrow } from "react-icons/bi";
@@ -14,7 +14,7 @@ import apiRequest from "../services/apiRequest";
 import { CHANGE_PASSWORD, UPDATE_INFORMATION } from "../services/api";
 import toast from "react-hot-toast";
 import { fetchUser } from "../redux/slicers/user";
-import BackNavigate from "../components/BackNavigate";
+import BackNavigate from "../components/Layout/BackNavigate";
 
 function EditProfile() {
   const [showPersonalInformation, setShowPersonalInformation] = useState(false);

@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo } from "react";
 import { useSelector } from "react-redux";
-import UserItem from "./UserItem";
+import UserItem from "../Others/UserItem";
 import { HiXMark } from "react-icons/hi2";
-import BlankProfile from "../assets/blankProfile.png";
+import BlankProfile from "../../assets/blankProfile.png";
 
 function ViewFollowersModal({ isOpen, onClose, data }) {
   const { users } = useSelector((state) => state.users);

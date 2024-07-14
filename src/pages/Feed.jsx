@@ -1,10 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import { useMemo } from "react";
-import Navbar from "../components/Navbar";
-import Sidebar from "../components/Sidebar";
-import Feeds from "../components/Feeds";
+import Navbar from "../components/Layout/Navbar";
+import Sidebar from "../components/Layout/Sidebar";
+import Feeds from "../components/Feeds/Feeds";
 import { useSelector } from "react-redux";
-import RequestItems from "../components/RequestItems";
+import RequestItems from "../components/Others/RequestItems";
 
 function Feed() {
   const navigate = useNavigate();

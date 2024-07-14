@@ -2,32 +2,31 @@ import { useDispatch, useSelector } from "react-redux";
 import { useMemo, useRef, useState } from "react";
 import { CiEdit } from "react-icons/ci";
 import toast from "react-hot-toast";
-import UserMessageItem from "../UserMessageItem";
-import UserItem from "../UserItem";
+import UserMessageItem from "../Chat/UserMessageItem";
+import UserItem from "../Others/UserItem";
 import BlankProfile from "../../assets/blankProfile.png";
 import { fetchChats } from "../../redux/slicers/chat";
 import { fetchUser } from "../../redux/slicers/user";
 import { DELETE_FULL_CHAT } from "../../services/api";
 import apiRequest from "../../services/apiRequest";
-import Loader from "../Loader";
+import Loader from "../Loaders/Loader";
 
 const HorizontalLine = () => (
   <div className="h-[2px] w-full bg-main_light_purple my-4 rounded-full" />
 );
 
-const switchChatsButtonData = [
-  { name: "All Chats", value: 0 }
-];
+const switchChatsButtonData = [{ name: "All Chats", value: 0 }];
 
 const SwitchChats = ({ handleSelected, selected }) => (
   <div className="flex items-center gap-4">
     {switchChatsButtonData.map((item) => (
       <button
         key={item.value}
-        className={` text-white font-[500] p-2 rounded-md ${selected === item.value
-          ? "bg-main_dark_violet_color"
-          : "bg-main_light_purple"
-          }`}
+        className={` text-white font-[500] p-2 rounded-md ${
+          selected === item.value
+            ? "bg-main_dark_violet_color"
+            : "bg-main_light_purple"
+        }`}
         onClick={() => handleSelected(item.value)}
       >
         {item.name}
@@ -78,7 +77,6 @@ const MessageSection = () => {
   const { deleteChatApiRequest } = useChatActions();
   const [isLoading, setIsLoading] = useState(false);
 
-
   const handleSelectedChat = (index) => {
     if (isLoading) return;
     setSelectedChat((prevSelectedChat) =>
@@ -123,7 +121,6 @@ const MessageSection = () => {
     }
     setEditMode(false);
   };
-
 
   const handleDeleteFullChat = async () => {
     if (selectedChat.length === 0) {
@@ -193,36 +190,36 @@ const MessageSection = () => {
       <div className="flex flex-col gap-4 mt-4 w-full">
         {searchResult.length > 0
           ? searchResult.map((user, index) => (
-            <UserItem
-              key={index}
-              profilePicture={user.profilePicture || BlankProfile}
-              name={user.name}
-              username={user.username}
-              userId={user._id}
-              type={"chat"}
-            />
-          ))
+              <UserItem
+                key={index}
+                profilePicture={user.profilePicture || BlankProfile}
+                name={user.name}
+                username={user.username}
+                userId={user._id}
+                type={"chat"}
+              />
+            ))
           : uniqueChats.map((chat, index) => (
-            <UserMessageItem
-              key={index}
-              onClick={() => handleSelectedChat(index)}
-              mode={editMode}
-              avatar={
-                chat.from._id === user._id
-                  ? chat.to.profilePicture
-                  : chat.from.profilePicture
-              }
-              name={
-                chat.from._id === user._id ? chat.to.name : chat.from.name
-              }
-              userId={
-                chat.from._id === user._id ? chat.to._id : chat.from._id
-              }
-              lastMsg={chat.message}
-              time={chat.createdAt}
-              selected={selectedChat.includes(index)}
-            />
-          ))}
+              <UserMessageItem
+                key={index}
+                onClick={() => handleSelectedChat(index)}
+                mode={editMode}
+                avatar={
+                  chat.from._id === user?._id
+                    ? chat.to.profilePicture
+                    : chat.from.profilePicture
+                }
+                name={
+                  chat.from._id === user?._id ? chat.to.name : chat.from.name
+                }
+                userId={
+                  chat.from._id === user?._id ? chat.to._id : chat.from._id
+                }
+                lastMsg={chat.message}
+                time={chat.createdAt}
+                selected={selectedChat.includes(index)}
+              />
+            ))}
       </div>
     </>
   );

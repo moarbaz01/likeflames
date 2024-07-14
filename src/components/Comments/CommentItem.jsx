@@ -2,18 +2,18 @@ import React, { useCallback, useMemo, useState } from "react";
 import { FaHeart } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { LIKE_ON_COMMENT } from "../services/api";
-import { fetchPosts } from "../redux/slicers/post";
-import apiRequest from "../services/apiRequest";
-import useDate from "../hooks/useDate";
+import { LIKE_ON_COMMENT } from "../../services/api";
+import { fetchPosts } from "../../redux/slicers/post";
+import apiRequest from "../../services/apiRequest";
+import useDate from "../../hooks/useDate";
 import toast from "react-hot-toast";
-import CommentModal from "./CommentModal";
+import CommentModal from "../Modal/CommentModal";
 import {
   fetchComments,
   likeOnComment,
   likeOnCommentApi,
-} from "../redux/slicers/comments";
-import useRelativeTime from "../hooks/useRelativeTime";
+} from "../../redux/slicers/comments";
+import useRelativeTime from "../../hooks/useRelativeTime";
 
 const CommentItem = ({ props, hiddenReplies = true, tag }) => {
   const {

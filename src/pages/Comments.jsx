@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import Sidebar from "../components/Sidebar";
-import Navbar from "../components/Navbar";
+import Sidebar from "../components/Layout/Sidebar";
+import Navbar from "../components/Layout/Navbar";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import CommentItem from "../components/CommentItem";
+import CommentItem from "../components/Comments/CommentItem";
 import { useSelector } from "react-redux";
 import { CiEdit } from "react-icons/ci";
-import CommentModal from "../components/CommentModal";
-import BackNavigate from "../components/BackNavigate";
-import RequestItems from "../components/RequestItems";
+import CommentModal from "../components/Modal/CommentModal";
+import BackNavigate from "../components/Layout/BackNavigate";
+import RequestItems from "../components/Others/RequestItems";
 function Comments() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();

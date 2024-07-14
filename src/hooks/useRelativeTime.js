@@ -1,10 +1,4 @@
 import { useState, useEffect } from "react";
-
-/**
- * Custom hook to format a date into a relative time string like Instagram.
- * @param {Date} date - The date to be formatted.
- * @returns {string} The formatted relative time string.
- */
 function useRelativeTime(date) {
   const [relativeTime, setRelativeTime] = useState("");
 

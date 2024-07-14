@@ -2,7 +2,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { BiSolidCamera, BiSolidCameraOff } from "react-icons/bi";
 import { IoCall, IoVolumeHigh, IoVolumeMute } from "react-icons/io5";
 import { PeerContext } from "../context/usePeer";
-import LoadingModal from "../components/LoadingModal";
+import LoadingModal from "../components/Modal/LoadingModal";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 

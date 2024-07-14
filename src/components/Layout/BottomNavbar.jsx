@@ -3,8 +3,8 @@ import { CiHome, CiLocationArrow1, CiSearch, CiUser } from "react-icons/ci";
 import { PiPencil } from "react-icons/pi";
 import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
-import SelectPostTypeModal from "./SelectPostTypeModal";
-import { hiddenBottomNavbar } from "../data";
+import SelectPostTypeModal from "../Modal/SelectPostTypeModal";
+import { hiddenBottomNavbar } from "../../data";
 
 function BottomNavbar() {
   const location = useLocation();

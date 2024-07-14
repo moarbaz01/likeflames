@@ -5,15 +5,14 @@ import {
   CiYoutube,
   CiGrid41,
   CiLocationArrow1,
-  CiSettings,
   CiBellOn,
 } from "react-icons/ci";
 
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import BlankProfile from "../assets/blankProfile.png";
-import LoginModal from "../components/LoginModal";
-import SelectPostTypeModal from "./SelectPostTypeModal";
+import BlankProfile from "../../assets/blankProfile.png";
+import LoginModal from "../Modal/LoginModal";
+import SelectPostTypeModal from "../Modal/SelectPostTypeModal";
 
 const NavList = ({ navList, navigate, pathname }) => (
   <ul className="flex items-start w-full py-6 px-6 rounded-xl mb-2 dark:bg-dark_secondary_bg bg-main_bg_white gap-6 flex-col">

@@ -62,4 +62,4 @@ export const postSlice = createSlice({
   },
 });
 
-export const { addPost,updatePostOnLike } = postSlice.actions;
+export const { addPost, updatePostOnLike } = postSlice.actions;

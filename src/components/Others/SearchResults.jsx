@@ -1,7 +1,8 @@
 import { useSelector } from "react-redux";
 import UserItem from "./UserItem";
 import { useEffect, useMemo } from "react";
-import BlankProfile from "../assets/blankProfile.png";
+import BlankProfile from "../../assets/blankProfile.png";
+
 
 function SearchResults({ isOpen, query }) {
   const { users } = useSelector((state) => state.users);

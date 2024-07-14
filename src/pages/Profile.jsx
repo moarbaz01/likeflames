@@ -2,15 +2,15 @@ import { useDispatch } from "react-redux";
 import React, { useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import Navbar from "../components/Navbar";
-import Sidebar from "../components/Sidebar";
-import Posts from "../components/Posts";
-import CommentItem from "../components/CommentItem";
+import Navbar from "../components/Layout/Navbar";
+import Sidebar from "../components/Layout/Sidebar";
+import Posts from "../components/Post/Posts";
+import CommentItem from "../components/Comments/CommentItem";
 import TopSection from "../components/Profile/TopSection";
 import FollowersSection from "../components/Profile/FollowersSection";
 import UserInfoSection from "../components/Profile/UserSection";
 import SwitchPostSection from "../components/Profile/SwitchPostSection";
-import LoadingModal from "../components/LoadingModal";
+import LoadingModal from "../components/Modal/LoadingModal";
 import { fetchProfileUser } from "../redux/slicers/profileUser";
 
 const Profile = () => {
@@ -28,7 +28,7 @@ const Profile = () => {
   const likedPosts = useMemo(() => {
     return [...posts]?.filter(
       (item) =>
-        item.author._id !== user._id &&
+        item.author._id !== user?._id &&
         item.likes.some((like) => like === profileUser?._id)
     );
   }, [posts, profileUser, user]);

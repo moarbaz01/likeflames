@@ -2,10 +2,11 @@ import React, { useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import useGetFileType from "../../hooks/useGetFileType";
+import ImageGridSkeleton from "../Skeleton/ImageGridSkeleton";
 
 const ImageGrid = ({ data }) => {
   const navigate = useNavigate();
-  const { posts } = useSelector((state) => state.post);
+  const { posts, isLoading } = useSelector((state) => state.post);
   const { getFileType } = useGetFileType();
 
   const handleVideoNavigate = ({ type, _id }) => {
@@ -15,6 +16,10 @@ const ImageGrid = ({ data }) => {
       navigate(`/post/${_id}`);
     }
   };
+
+  if (isLoading) {
+    return <ImageGridSkeleton />;
+  }
 
   return (
     <div className="container mx-auto md:mt-0 mt-6">

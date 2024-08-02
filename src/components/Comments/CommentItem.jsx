@@ -38,8 +38,7 @@ const CommentItem = ({ props, hiddenReplies = true, tag }) => {
   const { comments } = useSelector((state) => state.comment);
 
   const repliesData = useMemo(
-    () => comments?.filter((c) => c?.parent?._id === _id),
-    [comments, _id]
+    () => comments?.filter((c) => c?.parent?._id === _id)[(comments, _id)]
   );
 
   const handleGoToPost = useCallback(() => {

@@ -37,6 +37,9 @@ const DELETE_CHAT_BY_ALL = "/chat/all";
 const DELETE_FULL_CHAT = "/chat/fullChat";
 const READ_CHAT = "/chat/readChat";
 
+// Check Server
+const CHECK_SERVER = "/check";
+
 // Exports
 export {
   LOGIN,
@@ -68,4 +71,5 @@ export {
   DELETE_FULL_CHAT,
   READ_CHAT,
   GET_POST_COMMENT,
+  CHECK_SERVER,
 };

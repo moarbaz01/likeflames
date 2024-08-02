@@ -66,7 +66,7 @@ function Signup() {
         </div>
 
         <div className="flex items-center gap-2 mt-4">
-          <span className=" text-text_black text-white font-[500]">
+          <span className=" text-text_black dark:text-white  font-[500]">
             Enter Your Email{" "}
           </span>
           <img className=" h-4 w-4" src={downHand} alt="" />

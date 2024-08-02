@@ -1,6 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function LoginModal({ isOpen, onClose }) {
+  const navigate = useNavigate();
+
+  const handleNavigateLogin = useCallback(() => {
+    onClose();
+    navigate("/login");
+  }, [navigate]);
+  const handleNavigateSignup = useCallback(() => {
+    onClose();
+    navigate("/signup");
+  }, [navigate]);
+
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
@@ -25,11 +37,17 @@ function LoginModal({ isOpen, onClose }) {
           You are not logged in user!
         </h1>
         <div className="flex items-center mt-4 gap-4 ">
-          <button className=" h-12 px-6 bg-main_dark_violet_color text-white p-1 rounded-xl">
+          <button
+            onClick={handleNavigateLogin}
+            className=" h-12 px-6 bg-main_dark_violet_color text-white p-1 rounded-xl"
+          >
             Login
           </button>
           or
-          <button className=" h-12 px-6 bg-main_dark_violet_color text-white p-1 rounded-xl">
+          <button
+            onClick={handleNavigateSignup}
+            className=" h-12 px-6 bg-main_dark_violet_color text-white p-1 rounded-xl"
+          >
             Signup
           </button>
         </div>

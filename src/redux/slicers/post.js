@@ -56,7 +56,6 @@ export const postSlice = createSlice({
       state.posts = action.payload;
     });
     builder.addCase(fetchPosts.rejected, (state, action) => {
-      state.isLoading = false;
       state.error = action.error.message;
     });
   },

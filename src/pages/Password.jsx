@@ -166,7 +166,7 @@ function Password() {
               <IoIosCheckmarkCircle
                 fill={passwordStrength.includes(e.type) ? "lightgreen" : "gray"}
               />
-              <p className="text-gray-200">{e.text}</p>
+              <p className="dark:text-gray-200 text-text_black">{e.text}</p>
             </div>
           ))}
         </div>

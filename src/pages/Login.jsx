@@ -9,8 +9,8 @@ import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../components/Loaders/Loader";
 import { LOGIN } from "../services/api";
-import apiRequest from '../services/apiRequest'
-import { login } from '../redux/slicers/user'
+import apiRequest from "../services/apiRequest";
+import { login } from "../redux/slicers/user";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -31,24 +31,23 @@ function Login() {
   };
 
   // Login User Handler----------------
-  const loginUserHandler =
-    useCallback(async () => {
-      const data = { username, password };
-      try {
-        const response = await apiRequest({
-          method: "post",
-          url: LOGIN,
-          data,
-        });
-        if (response.data.user) {
-          dispatch(login(response.data.user));
-          navigate("/");
-          toast.success(response.data.message);
-        }
-      } catch (error) {
-        toast.error(error.response.data.message);
+  const loginUserHandler = useCallback(async () => {
+    const data = { username, password };
+    try {
+      const response = await apiRequest({
+        method: "post",
+        url: LOGIN,
+        data,
+      });
+      if (response.data.user) {
+        dispatch(login(response.data.user));
+        navigate("/");
+        toast.success(response.data.message);
       }
-    }, [username, password, dispatch, navigate]);
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  }, [username, password, dispatch, navigate]);
 
   const handleSubmit = useCallback(
     (e) => {
@@ -128,9 +127,17 @@ function Login() {
           {isLoading ? <Loader /> : "Login"}
         </button>
         <div className="flex flex-col gap-1 mt-4">
-          <span className="text-text_black dark:text-white">
-            Create a new account?
-          </span>
+          <div className="flex justify-between w-full">
+            <div className="text-text_black dark:text-white">
+              Create a new account?
+            </div>
+            <div
+              onClick={() => navigate("/reset")}
+              className="text-text_black cursor-pointer dark:text-white"
+            >
+              Forgot Password?
+            </div>
+          </div>
           <Link
             to="/signup"
             className="text-lg text-main_light_purple font-bold"

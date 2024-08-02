@@ -201,7 +201,7 @@ const MessageWrapper = ({ msg, _id, children, onDownload }) => {
           <MessageOptions
             msg={msg}
             setShowOptions={setShowOptions}
-            direction={msg?.from._id === _id ? "-left-20" : "-right-20"}
+            direction={msg?.from._id === _id ? "-left-10" : "-right-10"}
           />
         )}
       </div>
@@ -214,38 +214,44 @@ const TextMessage = ({ msg }) => (
 );
 
 const ImageMessage = ({ img, handleDownload }) => (
-  <div className="relative">
-    <img
-      className="md:h-[200px] h-[150px] w-auto rounded-lg"
-      src={img}
-      alt="Message Attachment"
-    />
-    <button
-      onClick={() => handleDownload(img)}
-      className="absolute top-2 right-2 bg-white p-1 rounded-full shadow-lg"
-    >
-      <CiSaveDown1 />
-    </button>
+  <div className="flex items-center gap-2">
+    <p>{img.split("/").pop().split(".")[0].split(25).join("") + "..."}</p>
+    <div className="relative">
+      <img
+        className="md:h-[200px] h-[150px] w-auto rounded-lg"
+        src={img}
+        alt="Message Attachment"
+      />
+      <button
+        onClick={() => handleDownload(img)}
+        className="absolute top-2 right-2 bg-white p-1 rounded-full shadow-lg"
+      >
+        <CiSaveDown1 />
+      </button>
+    </div>
   </div>
 );
 
 const VideoMessage = ({ video, handleDownload }) => (
-  <div className="relative">
-    <video
-      src={video}
-      className="md:h-[200px] h-[150px] w-auto rounded-lg"
-      controls
-      autoPlay
-      muted
-    >
-      Your browser does not support the video tag.
-    </video>
-    <button
-      onClick={() => handleDownload(video)}
-      className="absolute top-2 right-2 bg-white p-1 rounded-full shadow-lg"
-    >
-      <CiSaveDown1 />
-    </button>
+  <div>
+    <p>{video?.split("/").pop().split(".")[0]}</p>
+    <div className="relative">
+      <video
+        src={video}
+        className="md:h-[200px] h-[150px] w-auto rounded-lg"
+        controls
+        autoPlay
+        muted
+      >
+        Your browser does not support the video tag.
+      </video>
+      <button
+        onClick={() => handleDownload(video)}
+        className="absolute top-2 right-2 bg-white p-1 rounded-full shadow-lg"
+      >
+        <CiSaveDown1 />
+      </button>
+    </div>
   </div>
 );
 
@@ -256,16 +262,19 @@ const AudioMessage = ({ audio, handleDownload }) => (
 );
 
 const DocsMessage = ({ doc, handleDownload }) => (
-  <div className="flex flex-col gap-2 size-24 relative justify-center">
-    <div className="flex items-center flex-col justify-center p-2 size-20 bg-blue-500 gap-1 rounded-lg">
-      <FiFile className="text-xl" />
+  <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2 size-24 relative justify-center">
+      <div className="flex items-center flex-col justify-center p-2 size-20 bg-blue-500 gap-1 rounded-lg">
+        <FiFile className="text-xl" />
+      </div>
+      <button
+        onClick={() => handleDownload(doc)}
+        className="absolute top-2 right-2 bg-white p-1 rounded-full shadow-lg"
+      >
+        <CiSaveDown1 />
+      </button>
     </div>
-    <button
-      onClick={() => handleDownload(doc)}
-      className="absolute top-2 right-2 bg-white p-1 rounded-full shadow-lg"
-    >
-      <CiSaveDown1 />
-    </button>
+    <p className="text">{doc.split("/").pop().split(".")[0]}</p>
   </div>
 );
 

@@ -22,7 +22,7 @@ function Feeds({ feedItems }) {
     <div
       className={`fixed md:static top-0 left-0 right-0 bottom-0 ${
         filteredFeeds?.length > 0 ? "md:h-[85vh]" : ""
-      } snap-y overflow-y-scroll snap-mandatory`}
+      } snap-y overflow-y-scroll feeds snap-mandatory`}
     >
       {location.pathname === "/feed" && (
         <div className="fixed md:hidden z-50 top-4 left-4">

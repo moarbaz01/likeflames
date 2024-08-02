@@ -24,7 +24,7 @@ const PostOptionModal = ({
   return (
     <div
       onClick={(e) => e.stopPropagation()}
-      className="flex flex-col gap-4 absolute right-4 top-16 bg-white shadow-xl rounded-xl p-2"
+      className="flex flex-col backdrop-blur-sm gap-4 absolute right-4 top-16 bg-white shadow-xl rounded-xl p-2"
     >
       {currentUser?._id === user?._id && (
         <div

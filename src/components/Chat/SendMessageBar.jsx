@@ -14,7 +14,7 @@ import { fetchUser } from "../../redux/slicers/user";
 import { SEND_CHATS } from "../../services/api";
 import Loader from "../Loaders/Loader";
 
-function SendMessagesBar({ isLoading, setIsLoading }) {
+function SendMessagesBar({ isLoading, setIsLoading, currentUser }) {
   const [text, setText] = useState("");
   const [files, setFiles] = useState([]);
   const [showPicker, setShowPicker] = useState(false);
@@ -39,6 +39,10 @@ function SendMessagesBar({ isLoading, setIsLoading }) {
   );
 
   const handleSendMessage = useCallback(async () => {
+    if (!currentUser) {
+      toast.error("Select user");
+      return;
+    }
     const formData = new FormData();
     if (files.length === 0 && text.length === 0) {
       return toast.error("Please enter a message or file");
@@ -73,7 +77,7 @@ function SendMessagesBar({ isLoading, setIsLoading }) {
     } finally {
       setIsLoading(false);
     }
-  }, [files, text, id, user?._id, token, dispatch]);
+  }, [files, text, id, user?._id, token, dispatch, currentUser]);
 
   const handleSelectFileModaClose = useCallback(() => {
     setSelectFileModal(false);
@@ -96,14 +100,18 @@ function SendMessagesBar({ isLoading, setIsLoading }) {
   );
 
   const handleSetSelectFileModal = useCallback(() => {
+    if (!currentUser) {
+      toast.error("Select user");
+      return;
+    }
     if (!isLoading) {
       setSelectFileModal(true);
     }
-  }, [selectFileModal]);
+  }, [selectFileModal, currentUser]);
 
   return (
     <>
-      <div className="flex items-center gap-4 justify-center md:bottom-2 fixed bottom-0 md:absolute w-full p-4">
+      <div className="flex items-center gap-4 justify-center md:bottom-2 dark:bg-dark_main_bg fixed bottom-0 md:absolute w-full p-4">
         <div
           onClick={handleSetSelectFileModal}
           className="bg-main_light_purple text-white cursor-pointer hover:opacity-70 transition p-4 rounded-full text-2xl"

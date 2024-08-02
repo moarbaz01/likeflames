@@ -90,8 +90,12 @@ export function PeerContextProvider({ children }) {
 
   const checkUserDevices = async () => {
     const devices = await navigator.mediaDevices.enumerateDevices();
-    const hasVideoDevices = devices.some((device) => device.kind === "video");
-    const hasAudioDevices = devices.some((device) => device.kind === "audio");
+    const hasVideoDevices = devices.some(
+      (device) => device.kind === "videoinput"
+    );
+    const hasAudioDevices = devices.some(
+      (device) => device.kind === "audioinput"
+    );
     return { hasVideoDevices, hasAudioDevices };
   };
 

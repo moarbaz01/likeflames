@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import apiRequest from "../../services/apiRequest";
 import { fetchPosts } from "../../redux/slicers/post";
 import { fetchComments } from "../../redux/slicers/comments";
+import Loader from "../Loaders/Loader";
 
 function CommentModal({ isOpen, onClose, postId, comment }) {
   const [text, setText] = useState("");
@@ -15,7 +16,7 @@ function CommentModal({ isOpen, onClose, postId, comment }) {
     setShowPicker,
     showPicker,
   });
-  const { isLoading, setIsLoading } = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const { user, token } = useSelector((state) => state.user);
 
@@ -24,6 +25,7 @@ function CommentModal({ isOpen, onClose, postId, comment }) {
       toast.error("You must be logged in to comment");
       return;
     }
+    setIsLoading(true);
     try {
       const res = await apiRequest({
         method: "post",
@@ -42,10 +44,13 @@ function CommentModal({ isOpen, onClose, postId, comment }) {
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message);
+    } finally {
+      setIsLoading(false);
     }
   }, [text, postId, onClose, token, dispatch]);
 
   const handleReplyOnComment = useCallback(async () => {
+    setIsLoading(true);
     try {
       const res = await apiRequest({
         method: "post",
@@ -65,6 +70,8 @@ function CommentModal({ isOpen, onClose, postId, comment }) {
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message);
+    } finally {
+      setIsLoading(false);
     }
   }, [comment, onClose, text, token, dispatch]);
 
@@ -89,7 +96,7 @@ function CommentModal({ isOpen, onClose, postId, comment }) {
   return (
     <div
       onClick={onClose}
-      className={` bg-black/40 items-center flex justify-center fixed z-[9999] top-0 left-0 right-0 bottom-0`}
+      className={` bg-black/40 items-center backdrop-blur-sm flex justify-center fixed z-[9999] top-0 left-0 right-0 bottom-0`}
     >
       <div className=" flex absolute z-[1000] right-0 top-0 p-4">
         <button onClick={onClose} className=" text-2xl text-gray-400">
@@ -116,7 +123,7 @@ function CommentModal({ isOpen, onClose, postId, comment }) {
           onClick={handleSubmit}
           className=" bg-main_dark_violet_color w-1/2 mx-auto hover:bg-main_light_purple transition rounded-full px-8 text-text_color py-2"
         >
-          {isLoading ? "Loading.." : "Comment"}
+          {isLoading ? <Loader /> : "Comment"}
         </button>
         <EmojiPickerComponent />
       </form>

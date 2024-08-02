@@ -2,10 +2,7 @@ import React, { useCallback, useMemo, useState } from "react";
 import { FaHeart } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { LIKE_ON_COMMENT } from "../../services/api";
 import { fetchPosts } from "../../redux/slicers/post";
-import apiRequest from "../../services/apiRequest";
-import useDate from "../../hooks/useDate";
 import toast from "react-hot-toast";
 import CommentModal from "../Modal/CommentModal";
 import {
@@ -38,11 +35,14 @@ const CommentItem = ({ props, hiddenReplies = true, tag }) => {
   const { comments } = useSelector((state) => state.comment);
 
   const repliesData = useMemo(
-    () => comments?.filter((c) => c?.parent?._id === _id)[(comments, _id)]
+    () => comments?.filter((c) => c?.parent?._id === _id) || [],
+    [comments, _id]
   );
 
   const handleGoToPost = useCallback(() => {
-    navigate(`/post/${post}`);
+    if (navigate) {
+      navigate(`/post/${post}`);
+    }
   }, [post, navigate]);
 
   const handleLikeAndUnlike = useCallback(async () => {
@@ -50,11 +50,11 @@ const CommentItem = ({ props, hiddenReplies = true, tag }) => {
       toast.error("Please login to like or unlike");
       return;
     }
-    setIsLiked(!isLiked); // Toggle like state
+    setIsLiked((prevIsLiked) => !prevIsLiked); // Toggle like state
     dispatch(likeOnCommentApi({ _id }));
     dispatch(likeOnComment({ userId: user?._id, commentId: _id }));
     dispatch(fetchPosts());
-  }, [user?._id, _id, dispatch, isLiked]);
+  }, [user, _id, dispatch]);
 
   return (
     <div>
@@ -113,7 +113,7 @@ const CommentItem = ({ props, hiddenReplies = true, tag }) => {
                   onClick={() => setShowReplies(!showReplies)}
                   className="cursor-pointer hover:text-main_light_purple text-lg text-main_dark_violet_color items-center gap-1"
                 >
-                  View {repliesData?.length} replies
+                  {!showReplies ? "View" : "Hide"} {repliesData?.length} replies
                 </div>
               )}
             </div>

@@ -28,7 +28,7 @@ function SelectPostTypeModal({ isOpen, onClose }) {
   return (
     <div
       onClick={onClose}
-      className={` bg-black/40 items-center flex justify-center z-[9999] fixed top-0 left-0 right-0 bottom-0`}
+      className={` bg-black/40 backdrop-blur-sm items-center flex justify-center z-[9999] fixed top-0 left-0 right-0 bottom-0`}
     >
       <div
         onClick={(e) => e.stopPropagation()}

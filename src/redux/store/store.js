@@ -6,6 +6,7 @@ import { chatSlice } from "../slicers/chat";
 import { connectedUsers } from "../slicers/connectedUsers";
 import { usersSlice } from "../slicers/users";
 import { profileUserSlice } from "../slicers/profileUser";
+import { loadingSlice } from "../slicers/loading";
 
 export const store = configureStore({
   reducer: {
@@ -16,5 +17,6 @@ export const store = configureStore({
     connectedUsers: connectedUsers.reducer,
     users: usersSlice.reducer,
     profileUser: profileUserSlice.reducer,
+    loading: loadingSlice.reducer,
   },
 });

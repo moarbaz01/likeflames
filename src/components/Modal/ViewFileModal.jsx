@@ -9,7 +9,7 @@ function ViewFileModal({ isOpen, onClose, file }) {
     <div
       className={` bg-[rgba(0,0,0,0.61)] items-center ${
         isOpen ? "flex" : "hidden"
-      } justify-center fixed z-[999] bottom-0 left-0 h-screen w-full`}
+      } justify-center fixed backdrop-blur-sm z-[999] bottom-0 left-0 h-screen w-full`}
     >
       <div className=" md:h-auto relative w-full md:w-1/3 overflow-y-hidden md:rounded-xl">
         <div className=" absolute z-[1000] right-0 top-0 p-4">

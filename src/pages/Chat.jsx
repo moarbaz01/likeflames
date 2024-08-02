@@ -19,7 +19,7 @@ const RightTopSection = ({ status, lastSeen, currentUser }) => {
   const { createOffer } = useContext(PeerContext);
 
   return (
-    <div className="flex w-full md:static fixed top-0  justify-between dark:shadow-md py-2 px-4 dark:bg-dark_secondary_bg bg-white">
+    <div className="flex w-full z-20 md:static fixed top-0  justify-between dark:shadow-md py-2 px-4 dark:bg-dark_secondary_bg bg-white">
       <div className="flex items-center gap-2">
         <BiLeftArrowAlt
           onClick={() => navigate("/messages")}
@@ -43,13 +43,15 @@ const RightTopSection = ({ status, lastSeen, currentUser }) => {
         </div>
       </div>
 
-      <div className="flex items-center dark:text-white text-2xl gap-4">
-        {/* <MdCall className=" cursor-pointer hover:opacity-80 transition" /> */}
-        <MdVideocam
-          className=" cursor-pointer hover:opacity-80 transition"
-          onClick={() => createOffer(id)}
-        />
-      </div>
+      {currentUser?.name && (
+        <div className="flex items-center dark:text-white text-2xl gap-4">
+          {/* <MdCall className=" cursor-pointer hover:opacity-80 transition" /> */}
+          <MdVideocam
+            className=" cursor-pointer hover:opacity-80 transition"
+            onClick={() => createOffer(id)}
+          />
+        </div>
+      )}
     </div>
   );
 };
@@ -118,7 +120,7 @@ function Chat() {
         </div>
         {/* Right Chat Section */}
         <div
-          className={`lg:w-[70%] md:w-[50%] pt-16 md:pt-0 w-full md:bg-violet-200 relative md:dark:bg-dark_main_bg`}
+          className={`lg:w-[70%] md:w-[50%] pt-16 md:pt-0 md:pb-0 pb-24 w-full md:bg-violet-200 relative md:dark:bg-dark_main_bg`}
         >
           <RightTopSection
             status={status}
@@ -130,7 +132,11 @@ function Chat() {
           ) : (
             <div className="p-4 dark:text-gray-400">No chats available.</div>
           )}
-          <SendMessagesBar isLoading={isLoading} setIsLoading={setIsLoading} />
+          <SendMessagesBar
+            currentUser={currentUser}
+            isLoading={isLoading}
+            setIsLoading={setIsLoading}
+          />
         </div>
       </div>
     </div>

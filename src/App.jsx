@@ -7,8 +7,6 @@ import useAuth from "./hooks/useAuth";
 import { SocketsContext } from "./context/useSockets";
 import { PeerContext } from "./context/usePeer";
 import LoadingModal from "./components/Modal/LoadingModal";
-import apiRequest from "./services/apiRequest";
-import { CHECK_SERVER } from "./services/api";
 import { useSelector } from "react-redux";
 
 function App() {
@@ -26,12 +24,7 @@ function App() {
   // }, []);
 
   if (isLoading) {
-    return (
-      <LoadingModal
-        isOpen={isLoading}
-        message={"Please Wait..."}
-      />
-    );
+    return <LoadingModal isOpen={isLoading} message={"Please Wait..."} />;
   }
 
   return (

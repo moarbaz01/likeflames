@@ -13,6 +13,7 @@ export const fetchUser = createAsyncThunk(
         url: FETCH_USER,
         token,
       });
+      console.log(response.data.user);
       return response.data.user;
     } catch (error) {
       if (error.response && error.response.status === 401) {

@@ -48,7 +48,7 @@ function Password() {
     } finally {
       setLoading(false);
     }
-  }, [token, id,data]);
+  }, [token, id, data]);
 
   const handleSubmit = useCallback(
     (e) => {

@@ -90,9 +90,11 @@ export function PeerContextProvider({ children }) {
 
   const checkUserDevices = async () => {
     const devices = await navigator.mediaDevices.enumerateDevices();
-    const videoDevices = devices.filter((device) => device.kind === "video");
-    const audioDevices = devices.filter((device) => device.kind === "audio");
-    return { videoDevices, audioDevices };
+    const hasCamera = devices.some((device) => device.kind === "videoinput");
+    const hasMicrophone = devices.some(
+      (device) => device.kind === "audioinput"
+    );
+    return { hasCamera, hasMicrophone };
   };
 
   //   Create Peer Connection ---------------------------
@@ -141,11 +143,11 @@ export function PeerContextProvider({ children }) {
       return;
     }
     const outputDevices = await checkUserDevices();
-    if (outputDevices.videoDevices.length === 0) {
+    if (!outputDevices.hasCamera) {
       toast.error("No video devices found");
       return;
     }
-    if (outputDevices.audioDevices.length === 0) {
+    if (!outputDevices.hasMicrophone) {
       toast.error("No audio devices found");
       return;
     }
@@ -181,6 +183,16 @@ export function PeerContextProvider({ children }) {
       }
       if (callInProgress) {
         console.log("A call is already in progress.");
+        return;
+      }
+
+      const outputDevices = await checkUserDevices();
+      if (!outputDevices.hasCamera) {
+        toast.error("No video devices found");
+        return;
+      }
+      if (!outputDevices.hasMicrophone) {
+        toast.error("No audio devices found");
         return;
       }
       await createPeerConnection(opponentId);

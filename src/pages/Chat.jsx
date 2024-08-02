@@ -44,7 +44,7 @@ const RightTopSection = ({ status, lastSeen, currentUser }) => {
       </div>
 
       <div className="flex items-center dark:text-white text-2xl gap-4">
-        <MdCall className=" cursor-pointer hover:opacity-80 transition" />
+        {/* <MdCall className=" cursor-pointer hover:opacity-80 transition" /> */}
         <MdVideocam
           className=" cursor-pointer hover:opacity-80 transition"
           onClick={() => createOffer(id)}

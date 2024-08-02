@@ -33,6 +33,14 @@ const Profile = () => {
     );
   }, [posts, profileUser, user]);
 
+  const sortedComments = useMemo(() => {
+    if (profileUser) {
+      return [...profileUser?.comments]?.sort(
+        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+      );
+    }
+  }, [profileUser]);
+
   useEffect(() => {
     if (id) {
       dispatch(fetchProfileUser({ userId: id }));
@@ -80,7 +88,7 @@ const Profile = () => {
                     <Posts posts={profileUser?.posts} condition={"both"} />
                   )}
                   {showReplies &&
-                    profileUser?.comments?.map((c, index) => (
+                    sortedComments?.map((c, index) => (
                       <CommentItem key={index} props={c} tag="profile" />
                     ))}
                   {showLiked && likedPosts?.length > 0 && (

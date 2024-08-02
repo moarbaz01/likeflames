@@ -1,9 +1,9 @@
 import { useMemo } from "react";
 import PostItem from "./PostIem";
 import PostSkeleton from "../Skeleton/PostSkeleton";
-import useSkeleton from "../../hooks/useSkeleton";
+import { useSelector } from "react-redux";
 function Posts({ posts = [], condition = "single" }) {
-  const skeletonLoading = useSkeleton();
+  const { isLoading } = useSelector((state) => state.post);
   // Filtered Posts
   const filteredPosts = useMemo(() => {
     if (posts.length === 0) {
@@ -18,7 +18,7 @@ function Posts({ posts = [], condition = "single" }) {
 
   return (
     <div className="">
-      {skeletonLoading
+      {isLoading
         ? Array(6)
             .fill(0)
             .map((item, index) => <PostSkeleton key={index} />)

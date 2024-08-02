@@ -23,9 +23,9 @@ const PostSkeleton = () => {
         <div className="md:p-4 m-auto">
           <Skeleton height={400}/>
         </div>
-        <div className="md:hidden m-auto">
+        {/* <div className="md:hidden m-auto">
           <Skeleton height={300}/>
-        </div>
+        </div> */}
         <div className="px-2 py-2 mt-4 gap-2 flex-col flex">
           <Skeleton width={200} />
           <Skeleton count={3} />

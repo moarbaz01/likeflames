@@ -28,7 +28,7 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen overflow-x-hidden">
+    <div className="md:min-h-screen overflow-x-hidden">
       <BottomNavbar />
       <Toaster />
       <Router />

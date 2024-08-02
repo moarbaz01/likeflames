@@ -19,7 +19,7 @@ const RightTopSection = ({ status, lastSeen, currentUser }) => {
   const { createOffer } = useContext(PeerContext);
 
   return (
-    <div className="flex w-full justify-between dark:shadow-md py-2 px-4 dark:bg-dark_secondary_bg bg-white">
+    <div className="flex w-full md:static fixed top-0  justify-between dark:shadow-md py-2 px-4 dark:bg-dark_secondary_bg bg-white">
       <div className="flex items-center gap-2">
         <BiLeftArrowAlt
           onClick={() => navigate("/messages")}
@@ -109,8 +109,8 @@ function Chat() {
   }, [id, chats, user]);
 
   return (
-    <div className="h-full">
-      <div className="flex min-h-screen">
+    <div className="md:h-full ">
+      <div className="flex md:min-h-screen">
         <div
           className={`lg:w-[30%] md:w-[50%] hidden md:block px-2  overflow-x-hidden md:px-4 border-r-2 border-gray-600 py-2 `}
         >
@@ -118,7 +118,7 @@ function Chat() {
         </div>
         {/* Right Chat Section */}
         <div
-          className={`lg:w-[70%] md:w-[50%] w-full bg-violet-200 relative dark:bg-dark_main_bg`}
+          className={`lg:w-[70%] md:w-[50%] pt-16 md:pt-0 w-full md:bg-violet-200 relative md:dark:bg-dark_main_bg`}
         >
           <RightTopSection
             status={status}

@@ -103,7 +103,7 @@ function SendMessagesBar({ isLoading, setIsLoading }) {
 
   return (
     <>
-      <div className="flex items-center gap-4 justify-center bottom-2 absolute w-full p-4">
+      <div className="flex items-center gap-4 justify-center md:bottom-2 fixed bottom-0 md:absolute w-full p-4">
         <div
           onClick={handleSetSelectFileModal}
           className="bg-main_light_purple text-white cursor-pointer hover:opacity-70 transition p-4 rounded-full text-2xl"

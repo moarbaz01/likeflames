@@ -298,7 +298,7 @@ function ChatItem({ currentChats, _id }) {
   }, [currentChats]);
 
   return (
-    <div className="gap-2 flex flex-col mt-2 pb-[10vh] px-4 w-full h-[75vh] overflow-y-scroll">
+    <div className="gap-2 flex flex-col mt-2 md:pb-[10vh] px-4 w-full md:h-[75vh] md:overflow-y-scroll">
       {currentChats?.map((msg, index) => (
         <MessageWrapper
           ref={currentChatsRef.current[index]}

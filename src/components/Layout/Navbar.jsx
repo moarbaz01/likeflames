@@ -1,12 +1,60 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import React, { useContext, useState } from "react";
-import { CiBellOn, CiSearch } from "react-icons/ci";
+import React, { useCallback, useContext, useState } from "react";
+import { CiBellOn, CiLogin, CiLogout, CiSearch, CiUser } from "react-icons/ci";
 import { MdDarkMode, MdLightMode } from "react-icons/md";
 import { ThemeContext } from "../../context/useTheme";
 import BlankProfile from "../../assets/blankProfile.png";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../redux/slicers/user";
+import toast from "react-hot-toast";
 
-function Navbar() {
+const LoginDropDown = () => {
+  const { isUser } = useSelector((state) => state.user);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const handleLogout = useCallback(() => {
+    dispatch(logout());
+    navigate("/login");
+    toast.success("Logout");
+  }, [dispatch, navigate]);
+
+  return (
+    <div className="absolute top-12 -left-20">
+      <div className="bg-white dark:bg-dark_secondary_bg drop-shadow-lg py-4 px-6 flex flex-col rounded-lg gap-4">
+        {!isUser ? (
+          <>
+            {" "}
+            <div
+              onClick={() => navigate("/login")}
+              className="flex items-center cursor-pointer hover:opacity-80 dark:text-white gap-2"
+            >
+              <CiLogin />
+              <span className="text-md">Login</span>
+            </div>
+            <div
+              onClick={() => navigate("/signup")}
+              className="flex items-center cursor-pointer hover:opacity-80 dark:text-white gap-2"
+            >
+              <CiUser />
+              <span className="text-md">Signup</span>
+            </div>
+          </>
+        ) : (
+          <div
+            onClick={handleLogout}
+            className="flex items-center cursor-pointer hover:opacity-80 dark:text-white gap-2"
+          >
+            <CiLogout />
+            <span className="text-md">Logout</span>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+const Navbar = () => {
   const [dropdown, setDropdown] = useState(false);
   const { theme, handleTheme } = useContext(ThemeContext);
   const { user } = useSelector((state) => state.user);
@@ -41,10 +89,11 @@ function Navbar() {
         <div className=" flex items-center gap-4  relative">
           <img
             onClick={dropdownHandler}
-            className=" h-10 w-10 hidden md:block cursor-pointer  rounded-full"
+            className=" h-10 w-10 hidden aspect-square object-cover md:block cursor-pointer  rounded-full"
             src={user?.profilePicture ? user?.profilePicture : BlankProfile}
             alt=""
           />
+          {dropdown && <LoginDropDown />}
           <div className="flex items-center relative  md:hidden ">
             <CiBellOn
               onClick={() => navigate("/notifications")}
@@ -68,6 +117,6 @@ function Navbar() {
       </div>
     </div>
   );
-}
+};
 
 export default Navbar;

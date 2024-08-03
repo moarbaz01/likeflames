@@ -13,7 +13,7 @@ import { PeerContext } from "../context/usePeer";
 import { BiLeftArrowAlt } from "react-icons/bi";
 
 const RightTopSection = ({ status, currentUser }) => {
-  const time = useRelativeTime(new Date(currentUser.lastSeen));
+  const time = useRelativeTime(new Date(currentUser?.lastSeen));
   const navigate = useNavigate();
   const { id } = useParams();
   const { createOffer } = useContext(PeerContext);
@@ -27,18 +27,22 @@ const RightTopSection = ({ status, currentUser }) => {
         />
         <img
           src={currentUser?.profilePicture || BlankProfile}
-          className="h-10 w-10 rounded-full"
+          className="h-10 object-cover aspect-square w-10 rounded-full"
           alt="Avatar"
         />
         <div className="flex flex-col">
           <p className="dark:text-gray-300 text-lg">
             {currentUser?.name || "Select Chat"}
           </p>
-          {status === "Online..." && (
-            <p className="dark:text-gray-300 text-sm">{status}</p>
-          )}
-          {status !== "Online..." && (
-            <p className="dark:text-gray-400 text-sm">Last seen {time}</p>
+          {currentUser && (
+            <>
+              {status === "Online..." && (
+                <p className="dark:text-gray-300 text-sm">{status}</p>
+              )}
+              {status !== "Online..." && (
+                <p className="dark:text-gray-400 text-sm">Last seen {time}</p>
+              )}
+            </>
           )}
         </div>
       </div>

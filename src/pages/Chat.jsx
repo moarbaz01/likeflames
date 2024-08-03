@@ -12,8 +12,8 @@ import BlankProfile from "../assets/blankProfile.png";
 import { PeerContext } from "../context/usePeer";
 import { BiLeftArrowAlt } from "react-icons/bi";
 
-const RightTopSection = ({ status, lastSeen, currentUser }) => {
-  const time = useRelativeTime(new Date(lastSeen));
+const RightTopSection = ({ status, currentUser }) => {
+  const time = useRelativeTime(new Date(currentUser.lastSeen));
   const navigate = useNavigate();
   const { id } = useParams();
   const { createOffer } = useContext(PeerContext);
@@ -59,13 +59,10 @@ const RightTopSection = ({ status, lastSeen, currentUser }) => {
 function Chat() {
   const { user, token } = useSelector((state) => state.user);
   const { users } = useSelector((state) => state.users);
-  const { chats, error } = useSelector((state) => state.chat);
-  const { connectedUsers, usersLastSeen } = useSelector(
-    (state) => state.connectedUsers
-  );
+  const { chats } = useSelector((state) => state.chat);
+  const { connectedUsers } = useSelector((state) => state.connectedUsers);
   const [status, setStatus] = useState("");
   const { id } = useParams();
-  const [lastSeen, setLastSeen] = useState(null);
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -90,14 +87,6 @@ function Chat() {
     }
   }, [connectedUsers, id]);
 
-  useEffect(() => {
-    if (usersLastSeen[id]) {
-      setLastSeen(usersLastSeen[id]);
-    } else {
-      setLastSeen(null);
-    }
-  }, [usersLastSeen, id]);
-
   const currentChats = useMemo(() => {
     if (!chats || chats.length === 0) {
       return [];
@@ -120,13 +109,9 @@ function Chat() {
         </div>
         {/* Right Chat Section */}
         <div
-          className={`lg:w-[70%] md:w-[50%] pt-16 md:pt-0 md:pb-0 pb-24 w-full md:bg-violet-200 relative md:dark:bg-dark_main_bg`}
+          className={`lg:w-[70%]  md:w-[50%] pt-16 md:pt-0 md:pb-0 pb-24 w-full md:bg-violet-200 relative md:dark:bg-dark_main_bg`}
         >
-          <RightTopSection
-            status={status}
-            lastSeen={lastSeen}
-            currentUser={currentUser}
-          />
+          <RightTopSection status={status} currentUser={currentUser} />
           {currentChats.length > 0 ? (
             <ChatItem currentChats={currentChats} _id={user._id} />
           ) : (

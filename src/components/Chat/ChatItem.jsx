@@ -180,19 +180,19 @@ const MessageWrapper = ({ msg, _id, children, onDownload }) => {
   }, [handleClickOutside, handleScroll]);
 
   return (
-    <motion.div
-      initial={{
-        x: msg?.from._id === _id ? 100 : -100,
-      }}
-      animate={{
-        x: 0,
-      }}
+    <div
       ref={messageRef}
       className={`flex w-full ${
         msg?.from._id === _id ? "justify-end pl-6" : "justify-start pr-6"
       }`}
     >
-      <div
+      <motion.div
+        initial={{
+          x: msg?.from._id === _id ? 100 : -100,
+        }}
+        animate={{
+          x: 0,
+        }}
         className={`py-2 pl-2 pr-6 w-fit rounded-lg flex-col ${
           msg?.from._id === _id ? "bg-main_light_purple" : "bg-white"
         }`}
@@ -216,8 +216,8 @@ const MessageWrapper = ({ msg, _id, children, onDownload }) => {
           {msg?.from?._id === user?._id &&
             (msg.isRead ? <IoCheckmarkDoneOutline /> : <IoCheckmarkOutline />)}
         </div>
-      </div>
-    </motion.div>
+      </motion.div>
+    </div>
   );
 };
 
@@ -257,12 +257,8 @@ function ChatItem({ currentChats, _id }) {
 
   // Handle Download files
   const handleDownload = (file) => {
-    const link = document.createElement("a");
-    link.href = file.replace("/upload/", "/upload/fl_attachment/");
-    link.setAttribute("download", true);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    const link = file.replace("/upload/", "/upload/fl_attachment/");
+    window.location.href = link;
   };
 
   useEffect(() => {
@@ -270,7 +266,7 @@ function ChatItem({ currentChats, _id }) {
   }, [currentChats]);
 
   return (
-    <div className="gap-2 flex flex-col mt-2 md:pb-[10vh] px-4 w-full md:h-[75vh] md:overflow-y-scroll">
+    <div className="gap-2 flex flex-col overflow-x-hidden mt-2 md:pb-[10vh] px-4 w-full md:h-[75vh] md:overflow-y-scroll">
       {currentChats?.map((msg, index) => (
         <MessageWrapper
           ref={currentChatsRef.current[index]}

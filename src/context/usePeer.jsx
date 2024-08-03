@@ -35,7 +35,7 @@ export function PeerContextProvider({ children }) {
   const iceCandidateQueue = useRef([]);
   const { callToaster } = useToaster();
   const [loading, setLoading] = useState(true);
-  const [callInProgress, setCallInProgress] = useState(false);
+  const [callInProgress, setCallInProgress] = useState(false); // New state for tracking call status
   const location = useLocation();
   const [connectionState, setConnectionState] = useState("");
 
@@ -53,6 +53,7 @@ export function PeerContextProvider({ children }) {
         video: {
           width: { min: 640, ideal: 1920, max: 1920 },
           height: { min: 480, ideal: 1080, max: 1080 },
+          //   facingMode: cameraMode,
         },
         audio: true,
       };
@@ -63,8 +64,9 @@ export function PeerContextProvider({ children }) {
     } catch (error) {
       console.error("Error getting user media: ", error);
     }
-  }, []);
+  }, [localStreamRef.current]);
 
+  //   Handle Set Mute Audio --------------------
   const handleSetMuteAudio = useCallback(() => {
     if (localStreamRef.current) {
       const audioTrack = localStreamRef.current
@@ -75,8 +77,9 @@ export function PeerContextProvider({ children }) {
         setMuteAudio(!muteAudio);
       }
     }
-  }, [muteAudio]);
+  }, [localStreamRef.current, muteAudio]);
 
+  //   Handle Camera Mode ----------------------------
   const handleCameraMode = useCallback(() => {
     if (localStreamRef.current) {
       const videoTrack = localStreamRef.current
@@ -87,21 +90,19 @@ export function PeerContextProvider({ children }) {
         setCameraMode(!cameraMode);
       }
     }
-  }, [cameraMode]);
+  }, [localStreamRef.current, cameraMode]);
 
   const checkUserDevices = async () => {
     const devices = await navigator.mediaDevices.enumerateDevices();
-    const hasVideoDevices = devices.some(
-      (device) => device.kind === "videoinput"
-    );
-    const hasAudioDevices = devices.some(
+    const hasCamera = devices.some((device) => device.kind === "videoinput");
+    const hasMicrophone = devices.some(
       (device) => device.kind === "audioinput"
     );
-    return { hasVideoDevices, hasAudioDevices };
+    return { hasCamera, hasMicrophone };
   };
 
+  //   Create Peer Connection ---------------------------
   const createPeerConnection = async (opponentId) => {
-    iceCandidateQueue.current = [];
     peerConnectionRef.current = new RTCPeerConnection(servers);
 
     if (!localStreamRef.current) {
@@ -122,7 +123,6 @@ export function PeerContextProvider({ children }) {
 
     peerConnectionRef.current.onicecandidate = (event) => {
       if (event.candidate) {
-        console.log("New ICE candidate: ", event.candidate);
         socket.emit("send:candidate", {
           candidate: event.candidate,
           from: user?._id,
@@ -131,30 +131,10 @@ export function PeerContextProvider({ children }) {
       }
     };
 
-    peerConnectionRef.current.oniceconnectionstatechange = () => {
-      console.log(
-        "ICE Connection State Change: ",
-        peerConnectionRef.current.iceConnectionState
-      );
-      if (
-        peerConnectionRef.current.iceConnectionState === "disconnected" ||
-        peerConnectionRef.current.iceConnectionState === "failed" ||
-        peerConnectionRef.current.iceConnectionState === "closed"
-      ) {
-        console.log(
-          "Connection state indicates a problem. Closing connection."
-        );
-        handleCloseConnection();
-      }
-    };
-
-    peerConnectionRef.current.onconnectionstatechange = () => {
-      console.log(
-        "Connection State Change: ",
-        peerConnectionRef.current.connectionState
-      );
-      setConnectionState(peerConnectionRef.current.connectionState);
-    };
+    peerConnectionRef.current.oniceconnectionstatechange =
+      handleConnectionStateChange;
+    peerConnectionRef.current.onconnectionstatechange =
+      handleConnectionStateChange;
   };
 
   const createOffer = async (id) => {
@@ -167,11 +147,11 @@ export function PeerContextProvider({ children }) {
       return;
     }
     const outputDevices = await checkUserDevices();
-    if (!outputDevices.hasVideoDevices) {
+    if (!outputDevices.hasCamera) {
       toast.error("No video devices found");
       return;
     }
-    if (!outputDevices.hasAudioDevices) {
+    if (!outputDevices.hasMicrophone) {
       toast.error("No audio devices found");
       return;
     }
@@ -195,7 +175,7 @@ export function PeerContextProvider({ children }) {
     });
 
     setOpponent(id);
-    setCallInProgress(true);
+    setCallInProgress(true); // Set call in progress
     navigate(`/video-call/${id}`);
   };
 
@@ -209,12 +189,13 @@ export function PeerContextProvider({ children }) {
         console.log("A call is already in progress.");
         return;
       }
+
       const outputDevices = await checkUserDevices();
-      if (!outputDevices.hasVideoDevices) {
+      if (!outputDevices.hasCamera) {
         toast.error("No video devices found");
         return;
       }
-      if (!outputDevices.hasAudioDevices) {
+      if (!outputDevices.hasMicrophone) {
         toast.error("No audio devices found");
         return;
       }
@@ -239,13 +220,12 @@ export function PeerContextProvider({ children }) {
 
       while (iceCandidateQueue.current.length > 0) {
         const candidate = iceCandidateQueue.current.shift();
-        console.log("Adding queued ICE candidate: ", candidate);
         peerConnectionRef.current.addIceCandidate(
           new RTCIceCandidate(candidate)
         );
       }
 
-      setCallInProgress(true);
+      setCallInProgress(true); // Set call in progress
       navigate(`/video-call/${opponentId}`);
     },
     [user, callInProgress]
@@ -254,12 +234,10 @@ export function PeerContextProvider({ children }) {
   const handleReceiveCandidates = useCallback(({ candidate }) => {
     if (peerConnectionRef.current) {
       if (peerConnectionRef.current.remoteDescription) {
-        console.log("Adding ICE candidate: ", candidate);
         peerConnectionRef.current.addIceCandidate(
           new RTCIceCandidate(candidate)
         );
       } else {
-        console.log("Queuing ICE candidate: ", candidate);
         iceCandidateQueue.current.push(candidate);
       }
     }
@@ -268,17 +246,14 @@ export function PeerContextProvider({ children }) {
   const handleReceiveOffer = useCallback(
     ({ from, offer }) => {
       if (callInProgress) {
+        socket.emit("sendReject:offer", { from: user._id, to: from._id }); // Reject the offer if a call is in progress
+        console.log("A call is already in progress. Rejecting the new offer.");
         return;
       }
-      if (
-        !window.confirm(`${from.name} is calling you. Do you want to answer?`)
-      ) {
-        return;
-      }
-      setOpponent(from._id);
-      createAnswer(offer, from._id);
+      callToaster({ from, createOffer: () => createAnswer(offer, from._id) });
+      setLoading(false);
     },
-    [callInProgress, createAnswer]
+    [callToaster, createAnswer, callInProgress, socket, user]
   );
 
   const handleReceiveAnswer = useCallback(async ({ answer }) => {
@@ -286,59 +261,108 @@ export function PeerContextProvider({ children }) {
       await peerConnectionRef.current.setRemoteDescription(
         new RTCSessionDescription(answer)
       );
+      setLoading(false);
     }
   }, []);
 
-  const handleCloseConnection = () => {
-    if (peerConnectionRef.current) {
-      peerConnectionRef.current.close();
-      peerConnectionRef.current = null;
-    }
+  const disableUserMedia = useCallback(() => {
     if (localStreamRef.current) {
       localStreamRef.current.getTracks().forEach((track) => track.stop());
       localStreamRef.current = null;
     }
-    if (remoteStreamRef.current) {
-      remoteStreamRef.current.getTracks().forEach((track) => track.stop());
-      remoteStreamRef.current = null;
+  }, []);
+
+  const handleCloseConnection = useCallback(() => {
+    if (peerConnectionRef.current) {
+      peerConnectionRef.current.close();
+      peerConnectionRef.current = null;
+      disableUserMedia();
+      setCallInProgress(false); // Reset call in progress
+      setConnectionState("");
+      navigate(-1);
     }
-    setCallInProgress(false);
-    setOpponent("");
-    navigate("/");
-  };
+  }, [disableUserMedia, navigate]);
+
+  const handleConnectionStateChange = useCallback(() => {
+    const pc = peerConnectionRef.current;
+    if (pc) {
+      console.log("ICE Connection State: ", pc.iceConnectionState);
+      setConnectionState(pc.connectionState);
+
+      if (
+        pc.iceConnectionState === "disconnected" ||
+        pc.iceConnectionState === "failed" ||
+        pc.iceConnectionState === "closed"
+      ) {
+        console.log("Opponent disconnected or connection failed/closed");
+        handleCloseConnection();
+      }
+    }
+  }, [handleCloseConnection]);
+
+  const handleReceiveRejectOffer = useCallback(
+    ({ from }) => {
+      handleCloseConnection();
+      callToaster({
+        from,
+        createOffer: () => console.log("Offer rejected"),
+        type: "rejectOffer",
+      });
+    },
+    [callToaster, handleCloseConnection]
+  );
 
   useEffect(() => {
-    socket.on("receive:offer", handleReceiveOffer);
-    socket.on("receive:answer", handleReceiveAnswer);
-    socket.on("receive:candidate", handleReceiveCandidates);
-    socket.on("call:end", handleCloseConnection);
+    if (!location.pathname.startsWith("/video-call")) {
+      disableUserMedia();
+    }
+  }, [location.pathname, disableUserMedia]);
 
-    return () => {
-      socket.off("receive:offer", handleReceiveOffer);
-      socket.off("receive:answer", handleReceiveAnswer);
-      socket.off("receive:candidate", handleReceiveCandidates);
-      socket.off("call:end", handleCloseConnection);
-    };
-  }, [handleReceiveOffer, handleReceiveAnswer, handleReceiveCandidates]);
+  useEffect(() => {
+    console.log("Connection State : ", connectionState);
+  }, [connectionState]);
 
-  return (
-    <PeerContext.Provider
-      value={{
-        localStreamRef,
-        remoteStreamRef,
-        callInProgress,
-        handleSetMuteAudio,
-        muteAudio,
-        handleCameraMode,
-        cameraMode,
-        createOffer,
-        handleSetOpponent,
-        loading,
-        setLoading,
-        handleCloseConnection,
-      }}
-    >
-      {children}
-    </PeerContext.Provider>
-  );
+  useEffect(() => {
+    if (user) {
+      socket.on("receive:candidate", handleReceiveCandidates);
+      socket.on("receive:offer", handleReceiveOffer);
+      socket.on("receive:answer", handleReceiveAnswer);
+      socket.on("receiveReject:offer", handleReceiveRejectOffer);
+
+      return () => {
+        socket.off("receive:candidate", handleReceiveCandidates);
+        socket.off("receive:offer", handleReceiveOffer);
+        socket.off("receive:answer", handleReceiveAnswer);
+        socket.off("receiveReject:offer", handleReceiveRejectOffer);
+      };
+    }
+  }, [
+    socket,
+    handleReceiveCandidates,
+    handleReceiveOffer,
+    handleReceiveAnswer,
+    handleReceiveRejectOffer,
+    user,
+  ]);
+
+  const value = {
+    localStreamRef,
+    remoteStreamRef,
+    createOffer,
+    createAnswer,
+    handleSetMuteAudio,
+    muteAudio,
+    handleCameraMode,
+    cameraMode,
+    loading,
+    handleSetOpponent,
+    opponent,
+    peerConnectionRef,
+    getUserMedia,
+    createPeerConnection,
+    handleCloseConnection,
+    callInProgress, // Expose callInProgress
+  };
+
+  return <PeerContext.Provider value={value}>{children}</PeerContext.Provider>;
 }

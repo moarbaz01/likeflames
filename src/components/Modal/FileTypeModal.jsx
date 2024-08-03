@@ -34,7 +34,6 @@ const fileTypeData = [
 ];
 
 function FileTypeModal({ isOpen, onClose, setFiles, files = 0 }) {
-  const navigate = useNavigate();
   const [selected, setSelected] = useState({});
   const handleFileChange = (e) => {
     const selectedFiles = e.target.files;
@@ -54,7 +53,6 @@ function FileTypeModal({ isOpen, onClose, setFiles, files = 0 }) {
   };
 
   useEffect(() => {
-    console.log(isOpen);
     if (isOpen) {
       document.body.style.overflow = "hidden";
     } else {

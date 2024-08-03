@@ -16,10 +16,9 @@ function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [eye, setEye] = useState(false);
-  const { error, user, isLoading } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const [isLoading, setIsLoading] = useState(false);
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (name === "username") {
@@ -33,6 +32,7 @@ function Login() {
   // Login User Handler----------------
   const loginUserHandler = useCallback(async () => {
     const data = { username, password };
+    setIsLoading(true);
     try {
       const response = await apiRequest({
         method: "post",
@@ -46,6 +46,8 @@ function Login() {
       }
     } catch (error) {
       toast.error(error.response.data.message);
+    } finally {
+      setIsLoading(false);
     }
   }, [username, password, dispatch, navigate]);
 

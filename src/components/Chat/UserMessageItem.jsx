@@ -46,7 +46,7 @@ function UserMessageItem({
     >
       <div className=" flex items-center gap-4">
         <div className="relative h-10 w-10 ">
-          <img className=" w-full h-full rounded-full" src={avatar || BlankProfile} alt="" />
+          <img className=" w-full h-full object-cover aspect-square rounded-full" src={avatar || BlankProfile} alt="" />
           {connectedUsers[userId] && (
             <div className="h-4 w-4 bg-green-500 rounded-full absolute bottom-0 -right-1 border-2 border-main_dark_violet_color"></div>
           )}

@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useRelativeTime from "../../hooks/useRelativeTime";
 import { useSelector } from "react-redux";
+import BlankProfile from "../../assets/blankProfile.png";
 
 function UserMessageItem({
   avatar,
@@ -45,7 +46,7 @@ function UserMessageItem({
     >
       <div className=" flex items-center gap-4">
         <div className="relative h-10 w-10 ">
-          <img className=" w-full h-full rounded-full" src={avatar} alt="" />
+          <img className=" w-full h-full rounded-full" src={avatar || BlankProfile} alt="" />
           {connectedUsers[userId] && (
             <div className="h-4 w-4 bg-green-500 rounded-full absolute bottom-0 -right-1 border-2 border-main_dark_violet_color"></div>
           )}

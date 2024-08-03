@@ -19,7 +19,7 @@ const PostTopSection = ({
         className="flex cursor-pointer items-center gap-4"
       >
         <img
-          className="w-12 h-12 object-cover rounded-full"
+          className="w-12 h-12 aspect-square object-cover rounded-full"
           src={user?.profilePicture}
           alt=""
         />

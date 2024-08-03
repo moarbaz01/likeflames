@@ -7,6 +7,7 @@ import apiRequest from "../../services/apiRequest";
 import { fetchPosts } from "../../redux/slicers/post";
 import { fetchComments } from "../../redux/slicers/comments";
 import Loader from "../Loaders/Loader";
+import { motion } from "framer-motion";
 
 function CommentModal({ isOpen, onClose, postId, comment }) {
   const [text, setText] = useState("");
@@ -105,9 +106,11 @@ function CommentModal({ isOpen, onClose, postId, comment }) {
       </div>
 
       {/* Write comment */}
-      <form
+      <motion.form
+        initial={{ scale: 0 }}
+        animate={{ scale: 1, transition: { duration: 0.3 } }}
         onClick={(e) => e.stopPropagation()}
-        className=" flex flex-col gap-2 md:w-1/3 md:bg-white md:p-6 rounded-lg w-full px-6 relative"
+        className=" flex flex-col gap-2 md:w-1/3  md:p-6 rounded-lg w-full px-6 relative"
       >
         <h1 className=" text-white">Write your comment</h1>
         <textarea
@@ -126,7 +129,7 @@ function CommentModal({ isOpen, onClose, postId, comment }) {
           {isLoading ? <Loader /> : "Comment"}
         </button>
         <EmojiPickerComponent />
-      </form>
+      </motion.form>
     </div>
   );
 }

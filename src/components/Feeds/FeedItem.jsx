@@ -1,13 +1,14 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import {  CiPlay1 } from "react-icons/ci";
+import { CiPlay1 } from "react-icons/ci";
 import { FaHeart, FaShare } from "react-icons/fa";
 import { FaMessage } from "react-icons/fa6";
 import toast from "react-hot-toast";
 import { fetchUser } from "../../redux/slicers/user";
 import { useDispatch, useSelector } from "react-redux";
-import {  likePost, updatePostOnLike } from "../../redux/slicers/post";
+import { likePost, updatePostOnLike } from "../../redux/slicers/post";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { likePostProfileUser } from "../../redux/slicers/profileUser";
+import { motion } from "framer-motion";
 
 const FeedItem = ({
   author,
@@ -140,14 +141,16 @@ const FeedItem = ({
         {/* Right icons */}
         <div className="absolute right-2 top-[50%]">
           <div className="text-white text-center">
-            <FaHeart
-              onClick={() => {
-                handleLikeAndDislike();
-              }}
-              fill={heart ? "red" : "white"}
-              size={30}
-              className="cursor-pointer"
-            />
+            <motion.div
+              whileTap={{ scale: 0.9, opacity: 0.8 }}
+              onClick={handleLikeAndDislike}
+            >
+              <FaHeart
+                fill={heart ? "red" : "white"}
+                size={30}
+                className="cursor-pointer"
+              />
+            </motion.div>
             <span>{likes?.length}</span>
           </div>
           <div onClick={handleComment} className="text-white mt-4 text-center">
@@ -156,7 +159,7 @@ const FeedItem = ({
           </div>
           <div onClick={handleShare} className="text-white mt-4 text-center">
             <FaShare size={30} className="cursor-pointer" />
-            <span>{shares?.length}</span>
+            {/* <span>{shares?.length}</span> */}
           </div>
         </div>
 

@@ -1,8 +1,14 @@
 import { useDispatch } from "react-redux";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { BiDotsHorizontal } from "react-icons/bi";
-import { CiSaveDown1, CiTrash } from "react-icons/ci";
-import { FiFile } from "react-icons/fi";
+import { motion } from "framer-motion";
+import {
+  CiFileOn,
+  CiImageOn,
+  CiSaveDown1,
+  CiTrash,
+  CiVideoOn,
+} from "react-icons/ci";
 import useRelativeTime from "../../hooks/useRelativeTime";
 import useGetFileType from "../../hooks/useGetFileType";
 import ReactAudioPlayer from "react-audio-player";
@@ -13,13 +19,11 @@ import {
 } from "../../services/api";
 import { useSelector } from "react-redux";
 import apiRequest from "../../services/apiRequest";
-import toast from "react-hot-toast";
 import { fetchChats } from "../../redux/slicers/chat";
 import { fetchUser } from "../../redux/slicers/user";
 import useSocket from "../../hooks/useSocket";
 import { IoCheckmarkDoneOutline, IoCheckmarkOutline } from "react-icons/io5";
 import { useParams } from "react-router-dom";
-import Loader from "../Loaders/Loader";
 
 const MessageOptions = ({ msg, direction, setShowOptions }) => {
   const { user, token } = useSelector((state) => state.user);
@@ -73,23 +77,23 @@ const MessageOptions = ({ msg, direction, setShowOptions }) => {
 
   return (
     <div
-      className={`flex gap-2 bg-white flex-col absolute  z-[50] top-6 ${direction} dark:bg-dark_secondary_bg p-2 rounded-lg`}
+      className={`flex gap-2 bg-white flex-col absolute z-[50] top-6 ${direction} dark:bg-dark_secondary_bg p-2 rounded-lg`}
     >
       {user?._id === msg?.from?._id && (
         <button
           onClick={handleDeleteChatByAll}
           className="rounded-full flex dark:hover:text-gray-500 transition items-center gap-2 dark:text-white"
         >
-          {deleteByAllLoading ? <Loader /> : <CiTrash />}
-          Delete All
+          <CiTrash />
+          {deleteByAllLoading ? "Deleting..." : "Unsend"}
         </button>
       )}
       <button
         onClick={handleDeleteChatByOneSide}
         className="rounded-full flex dark:hover:text-gray-500 transition items-center gap-2 dark:text-white"
       >
-        {deleteByOneSideLoading ? <Loader /> : <CiTrash />}
-        Delete
+        <CiTrash />
+        {deleteByOneSideLoading ? "Deleting..." : "Delete"}
       </button>
     </div>
   );
@@ -176,83 +180,49 @@ const MessageWrapper = ({ msg, _id, children, onDownload }) => {
   }, [handleClickOutside, handleScroll]);
 
   return (
-    <div
+    <motion.div
+      initial={{
+        x: msg?.from._id === _id ? 100 : -100,
+      }}
+      animate={{
+        x: 0,
+      }}
       ref={messageRef}
       className={`flex w-full ${
         msg?.from._id === _id ? "justify-end pl-6" : "justify-start pr-6"
       }`}
     >
       <div
-        className={`relative p-2 w-fit rounded-lg flex-col ${
+        className={`py-2 pl-2 pr-6 w-fit rounded-lg flex-col ${
           msg?.from._id === _id ? "bg-main_light_purple" : "bg-white"
         }`}
       >
-        <BiDotsHorizontal
-          onClick={() => setShowOptions(!showOptions)}
-          className="cursor-pointer"
-        />
+        <div className="relative w-fit">
+          <BiDotsHorizontal
+            onClick={() => setShowOptions(!showOptions)}
+            className="cursor-pointer"
+          />
+          {showOptions && (
+            <MessageOptions
+              msg={msg}
+              setShowOptions={setShowOptions}
+              direction={msg?.from._id === _id ? "-left-0" : "-right-20"}
+            />
+          )}
+        </div>
         {children}
         <div className="flex items-center justify-between gap-4 mt-2">
           <p className="text-xs">{relativeTime}</p>
           {msg?.from?._id === user?._id &&
             (msg.isRead ? <IoCheckmarkDoneOutline /> : <IoCheckmarkOutline />)}
         </div>
-        {showOptions && (
-          <MessageOptions
-            msg={msg}
-            setShowOptions={setShowOptions}
-            direction={msg?.from._id === _id ? "-left-10" : "-right-10"}
-          />
-        )}
       </div>
-    </div>
+    </motion.div>
   );
 };
 
 const TextMessage = ({ msg }) => (
   <p className="whitespace-pre-wrap">{msg.message}</p>
-);
-
-const ImageMessage = ({ img, handleDownload }) => (
-  <div className="flex items-center gap-2">
-    <p>{img.split("/").pop().split(".")[0].split(25).join("") + "..."}</p>
-    <div className="relative">
-      <img
-        className="md:h-[200px] h-[150px] w-auto rounded-lg"
-        src={img}
-        alt="Message Attachment"
-      />
-      <button
-        onClick={() => handleDownload(img)}
-        className="absolute top-2 right-2 bg-white p-1 rounded-full shadow-lg"
-      >
-        <CiSaveDown1 />
-      </button>
-    </div>
-  </div>
-);
-
-const VideoMessage = ({ video, handleDownload }) => (
-  <div>
-    <p>{video?.split("/").pop().split(".")[0]}</p>
-    <div className="relative">
-      <video
-        src={video}
-        className="md:h-[200px] h-[150px] w-auto rounded-lg"
-        controls
-        autoPlay
-        muted
-      >
-        Your browser does not support the video tag.
-      </video>
-      <button
-        onClick={() => handleDownload(video)}
-        className="absolute top-2 right-2 bg-white p-1 rounded-full shadow-lg"
-      >
-        <CiSaveDown1 />
-      </button>
-    </div>
-  </div>
 );
 
 const AudioMessage = ({ audio, handleDownload }) => (
@@ -261,20 +231,22 @@ const AudioMessage = ({ audio, handleDownload }) => (
   </div>
 );
 
-const DocsMessage = ({ doc, handleDownload }) => (
+const FileComp = ({ file, handleDownload, bg, component }) => (
   <div className="flex flex-col gap-2">
     <div className="flex flex-col gap-2 size-24 relative justify-center">
-      <div className="flex items-center flex-col justify-center p-2 size-20 bg-blue-500 gap-1 rounded-lg">
-        <FiFile className="text-xl" />
+      <div
+        className={`flex items-center flex-col justify-center p-2 size-20 ${bg} gap-1 rounded-lg`}
+      >
+        {component}
       </div>
       <button
-        onClick={() => handleDownload(doc)}
+        onClick={() => handleDownload(file)}
         className="absolute top-2 right-2 bg-white p-1 rounded-full shadow-lg"
       >
         <CiSaveDown1 />
       </button>
     </div>
-    <p className="text">{doc.split("/").pop().split(".")[0]}</p>
+    <p className="text">{file.split("/").pop().split(".")[0]}</p>
   </div>
 );
 
@@ -317,12 +289,19 @@ function ChatItem({ currentChats, _id }) {
                   className="mt-2 rounded-xl flex items-center justify-center p-2"
                 >
                   {getFileType(file) === "image" && (
-                    <ImageMessage handleDownload={handleDownload} img={file} />
+                    <FileComp
+                      handleDownload={handleDownload}
+                      file={file}
+                      bg={"bg-red-500"}
+                      component={<CiImageOn className="text-2xl" />}
+                    />
                   )}
                   {getFileType(file) === "video" && (
-                    <VideoMessage
+                    <FileComp
                       handleDownload={handleDownload}
-                      video={file}
+                      file={file}
+                      bg={"bg-green-500"}
+                      component={<CiVideoOn className="text-2xl" />}
                     />
                   )}
                   {getFileType(file) === "audio" && (
@@ -332,7 +311,12 @@ function ChatItem({ currentChats, _id }) {
                     />
                   )}
                   {getFileType(file) === "raw" && (
-                    <DocsMessage handleDownload={handleDownload} doc={file} />
+                    <FileComp
+                      handleDownload={handleDownload}
+                      file={file}
+                      bg={"bg-blue-500"}
+                      component={<CiFileOn className="text-2xl" />}
+                    />
                   )}
                 </div>
               ))}

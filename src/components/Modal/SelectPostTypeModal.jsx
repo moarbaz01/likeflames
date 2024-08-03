@@ -3,6 +3,7 @@ import CreatReelImage from "../../assets/createReel.png";
 import CreatPostImage from "../../assets/createPost.png";
 import { useNavigate } from "react-router-dom";
 import { useCallback, useEffect } from "react";
+import { motion } from "framer-motion";
 
 function SelectPostTypeModal({ isOpen, onClose }) {
   const navigate = useNavigate();
@@ -30,7 +31,9 @@ function SelectPostTypeModal({ isOpen, onClose }) {
       onClick={onClose}
       className={` bg-black/40 backdrop-blur-sm items-center flex justify-center z-[9999] fixed top-0 left-0 right-0 bottom-0`}
     >
-      <div
+      <motion.div
+        initial={{ scale: 0 }}
+        animate={{ scale: 1 }}
         onClick={(e) => e.stopPropagation()}
         className="flex items-center gap-8"
       >
@@ -56,7 +59,7 @@ function SelectPostTypeModal({ isOpen, onClose }) {
           />
           <p className="text-white">Post</p>
         </div>
-      </div>
+      </motion.div>
 
       <div
         onClick={onClose}

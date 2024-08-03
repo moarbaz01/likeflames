@@ -18,12 +18,12 @@ function RequestItems() {
     <div className=" lg:flex hidden lg:w-[20vw] flex-col gap-4">
       <h1 className="  text-main_light_purple text-sm font-[500]">New Users</h1>
       {isLoading
-        ? Array(6)
+        ? Array(5)
             .fill(0)
             .map((_, index) => <UserItemSkeleton key={index} />)
         : mostFollowedUsers?.map((u, index) => {
             return (
-              index < 8 &&
+              index < 5 &&
               user?._id !== u._id && (
                 <UserItem
                   key={index}

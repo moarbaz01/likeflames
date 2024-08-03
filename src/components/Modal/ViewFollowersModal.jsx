@@ -38,9 +38,7 @@ function ViewFollowersModal({ isOpen, onClose, data }) {
             />
           ))
         ) : (
-          <p className=" text-center mt-20 dark:text-gray-500">
-            No results found
-          </p>
+          <p className=" text-center mt-20 text-white ">No results found</p>
         )}
       </div>
       <div

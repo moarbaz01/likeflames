@@ -181,7 +181,10 @@ function EditProfile() {
 
   return (
     <div className="">
-      <BackNavigate handleNavigateBack={handleNavigateBack} />
+      <BackNavigate
+        handleNavigateBack={handleNavigateBack}
+        message={"Back To Profile"}
+      />
       <div className="hidden md:block">
         <Navbar />
       </div>
@@ -228,7 +231,7 @@ function EditProfile() {
                   <div className="relative w-fit">
                     <img
                       src={image}
-                      className=" h-40 w-40 object-cover border-main_dark_violet_color hover:opacity-80 transition cursor-pointer border-8 rounded-full"
+                      className=" h-40 w-40 object-cover aspect-square border-main_dark_violet_color hover:opacity-80 transition cursor-pointer border-8 rounded-full"
                       alt=""
                     />
                     <FcCamera className=" absolute bottom-0 right-0 text-2xl cursor-pointer" />

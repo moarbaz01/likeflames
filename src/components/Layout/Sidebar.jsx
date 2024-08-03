@@ -161,7 +161,7 @@ function Sidebar() {
           >
             <img
               src={user?.profilePicture || BlankProfile}
-              className="h-10 w-10 rounded-full"
+              className="h-10 w-10 aspect-square object-cover rounded-full"
               alt=""
             />
             <div className="flex items-start flex-col">

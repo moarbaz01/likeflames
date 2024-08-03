@@ -19,7 +19,7 @@
     "cloudinary-react": "^1.8.1",
     "emoji-mart": "^5.5.2",
     "emoji-picker-react": "^4.9.2",
-    "framer-motion": "^11.1.7",
+    "framer-motion": "^11.3.21",
     "get-media-dimensions": "^2.0.2",
     "gif-picker-react": "^1.3.2",
     "locomotive-scroll": "^4.1.4",

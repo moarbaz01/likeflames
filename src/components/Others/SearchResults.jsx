@@ -3,7 +3,6 @@ import UserItem from "./UserItem";
 import { useEffect, useMemo } from "react";
 import BlankProfile from "../../assets/blankProfile.png";
 
-
 function SearchResults({ isOpen, query }) {
   const { users } = useSelector((state) => state.users);
   const results = useMemo(() => {
@@ -40,9 +39,7 @@ function SearchResults({ isOpen, query }) {
           />
         ))
       ) : (
-        <p className=" text-center mt-20 dark:text-gray-500">
-          No results found
-        </p>
+        <p className=" text-center mt-20 text-gray-500">No results found</p>
       )}
     </div>
   );

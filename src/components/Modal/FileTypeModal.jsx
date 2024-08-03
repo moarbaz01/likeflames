@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { CiFileOn, CiImageOn, CiVideoOn } from "react-icons/ci";
 import toast from "react-hot-toast";
 import { PiFileAudio } from "react-icons/pi";
+import { motion } from "framer-motion";
 
 const fileTypeData = [
   {
@@ -64,7 +65,11 @@ function FileTypeModal({ isOpen, onClose, setFiles, files = 0 }) {
   if (!isOpen) return null;
   return (
     <div className="flex  z-[9999] bg-black/50 backdrop-blur-sm  items-center justify-center fixed top-0 bottom-0 left-0 right-0">
-      <div className="flex items-center gap-8">
+      <motion.div
+        initial={{ scale: 0 }}
+        animate={{ scale: 1 }}
+        className="flex items-center gap-8"
+      >
         {fileTypeData.map((item, index) => (
           <label
             htmlFor="file"
@@ -72,15 +77,19 @@ function FileTypeModal({ isOpen, onClose, setFiles, files = 0 }) {
             onClick={() => setSelected(item)}
             className="flex items-center cursor-pointer flex-col gap-2"
           >
-            <div
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1, transition: { duration: 0.3 } }}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
               className={`${item.color} rounded-full hover:opacity-70 h-16 w-16 transition flex items-center justify-center`}
             >
               {item.icon}
-            </div>
+            </motion.div>
             <p className="text-white">{item.name}</p>
           </label>
         ))}
-      </div>
+      </motion.div>
 
       <input
         type="file"

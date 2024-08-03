@@ -3,6 +3,7 @@ import { BiPencil, BiShare } from "react-icons/bi";
 import { PiTrash } from "react-icons/pi";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const PostOptionModal = ({
   handleDeletePost,
@@ -22,7 +23,9 @@ const PostOptionModal = ({
   };
 
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 1, scale: 1, transition: { duration: 0.3 } }}
       onClick={(e) => e.stopPropagation()}
       className="flex flex-col backdrop-blur-sm gap-4 absolute right-4 top-16 bg-white shadow-xl rounded-xl p-2"
     >
@@ -55,7 +58,7 @@ const PostOptionModal = ({
           <p>Delete</p>
         </div>
       )}
-    </div>
+    </motion.div>
   );
 };
 

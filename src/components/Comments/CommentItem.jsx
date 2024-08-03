@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { fetchPosts } from "../../redux/slicers/post";
 import toast from "react-hot-toast";
 import CommentModal from "../Modal/CommentModal";
+import { motion } from "framer-motion";
 import {
   fetchComments,
   likeOnComment,
@@ -57,14 +58,17 @@ const CommentItem = ({ props, hiddenReplies = true, tag }) => {
   }, [user, _id, dispatch]);
 
   return (
-    <div>
+    <motion.div
+      initial={{ opacity: 0, x: -100 }}
+      animate={{ opacity: 1, x: 0 }}
+    >
       <div className="mt-4 bg-white rounded-lg p-4 shadow-sm dark:bg-dark_secondary_bg">
         <div className="flex items-start text-lg gap-2">
           <img
             onClick={() => navigate(`/profile/${author._id}`)}
             src={author?.profilePicture}
             alt={author?.username}
-            className="w-10 h-10 rounded-full cursor-pointer hover:opacity-80"
+            className="w-10 h-10 rounded-full object-cover aspect-square cursor-pointer hover:opacity-80"
           />
           <div className="flex flex-col text-gray-500 dark:text-white">
             <p
@@ -122,14 +126,18 @@ const CommentItem = ({ props, hiddenReplies = true, tag }) => {
             <span className="dark:text-white">
               {likes?.length} {tag === "profile" ? "Likes" : ""}
             </span>
-            {tag !== "profile" && (
-              <FaHeart
-                onClick={handleLikeAndUnlike}
-                className={`cursor-pointer text-xl ${
-                  isLiked ? "text-red-500" : "dark:text-white"
-                }`}
-              />
-            )}
+            <motion.div
+              onClick={handleLikeAndUnlike}
+              whileTap={{ scale: 0.5, opacity: 0.8 }}
+            >
+              {tag !== "profile" && (
+                <FaHeart
+                  className={`cursor-pointer text-xl ${
+                    isLiked ? "text-red-500" : "dark:text-white"
+                  }`}
+                />
+              )}
+            </motion.div>
           </div>
         </div>
       </div>
@@ -148,7 +156,7 @@ const CommentItem = ({ props, hiddenReplies = true, tag }) => {
         comment={{ _id, parent, post }}
         onClose={() => setShowCommentModal(false)}
       />
-    </div>
+    </motion.div>
   );
 };
 

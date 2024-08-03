@@ -1,4 +1,4 @@
-import React, { useCallback} from "react";
+import React, { useCallback } from "react";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -31,7 +31,7 @@ bg-white dark:bg-dark_secondary_bg transition rounded-xl py-4 px-2 justify-betwe
       <div className=" flex items-center gap-4">
         <div className="relative h-10 w-10 ">
           <img
-            className=" w-full h-full rounded-full"
+            className=" w-full aspect-square object-cover h-full rounded-full"
             src={profilePicture}
             alt=""
           />

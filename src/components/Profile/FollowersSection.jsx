@@ -14,6 +14,7 @@ import {
   updateNotification,
 } from "../../redux/slicers/profileUser";
 import { fetchUser } from "../../redux/slicers/user";
+import { motion } from "framer-motion";
 
 const FollowersSection = () => {
   const { user, token } = useSelector((state) => state.user);
@@ -34,7 +35,7 @@ const FollowersSection = () => {
 
   // Send Real Time Notifications
   const sendRealTimeNotification = useCallback(() => {
-    console.log("first")
+    console.log("first");
     socket.emit("send:notification", { from: user?._id, to: id });
   }, [socket, user?._id, id]);
 
@@ -163,7 +164,7 @@ const FollowersSection = () => {
         <div className="relative text-center mx-2">
           <img
             src={profileUser?.profilePicture || BlankProfile}
-            className="md:size-32 size-40 ring-4 ring-main_light_purple hover:opacity-80 transition cursor-pointer shadow-2xl dark:shadow-none shadow-white rounded-full"
+            className="md:h-32 md:w-32 h-40 w-40 ring-4 ring-main_light_purple aspect-square object-cover hover:opacity-80 transition cursor-pointer shadow-2xl dark:shadow-none shadow-white rounded-full"
             alt="Profile"
           />
           {profileUser?.privacy === "private" && (
@@ -204,7 +205,8 @@ const FollowersSection = () => {
           </div>
         </div>
         <div className="flex items-center w-full md:w-fit justify-center gap-4 mt-6">
-          <button
+          <motion.button
+            whileTap={{ scale: 0.9, opacity: 0.8 }}
             onClick={handleEditAndFollow}
             className={`${
               editButtonValue === "Request Back" && "opacity-70"
@@ -212,8 +214,10 @@ const FollowersSection = () => {
             disabled={loading}
           >
             {user?._id === id && <PiNotePencilThin className="text-xl" />}
-            <span>{editButtonValue}</span>
-          </button>
+            <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+              {editButtonValue}
+            </motion.span>
+          </motion.button>
           <button
             onClick={handleShare}
             className="bg-white border-[1px] dark:drop-shadow-md  hover:bg-gray-50 transition flex items-center gap-2 border-black py-4 px-6 rounded-xl"

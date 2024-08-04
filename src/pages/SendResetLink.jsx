@@ -28,19 +28,22 @@ function SendResetLink() {
     }
   }, [email]);
 
-  const handleSubmit = useCallback((e) => {
-    e.preventDefault();
-    if (email.length === 0) {
-      toast.error("Email cannot be empty");
-      return;
-    }
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      if (email.length === 0) {
+        toast.error("Email cannot be empty");
+        return;
+      }
 
-    if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
-      toast.error("Invalid email address");
-      return;
-    }
-    genereteResetLink();
-  }, [email]);
+      if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+        toast.error("Invalid email address");
+        return;
+      }
+      genereteResetLink();
+    },
+    [email]
+  );
   return (
     <div className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center">
       <form
@@ -48,9 +51,7 @@ function SendResetLink() {
         className=" px-4 md:w-1/3 w-full rounded-md flex justify-center flex-col "
       >
         <div className=" flex items-center gap-4">
-          <h1 className="text-text_black dark:text-main_light_purple text-2xl font-[500]">
-            
-          </h1>
+          <h1 className="text-text_black dark:text-main_light_purple text-2xl font-[500]"></h1>
         </div>
 
         <div className="flex items-center gap-2 mt-4">
@@ -79,9 +80,7 @@ function SendResetLink() {
           {loading ? <Loader /> : "Generate Link"}
         </button>
         <div className=" flexflex-col gap-1 mt-4 ">
-          <span className=" text-text_black dark:text-white">
-            Back To? {" "}
-          </span>
+          <span className=" text-text_black dark:text-white">Back To? </span>
           <Link
             to={"/login"}
             className="text-lg text-main_light_purple font-bold"

@@ -13,6 +13,7 @@ import { fetchChats } from "../../redux/slicers/chat";
 import { fetchUser } from "../../redux/slicers/user";
 import { SEND_CHATS } from "../../services/api";
 import Loader from "../Loaders/Loader";
+import { debounce } from "lodash";
 
 function SendMessagesBar({ isLoading, setIsLoading, currentUser }) {
   const [text, setText] = useState("");
@@ -32,7 +33,10 @@ function SendMessagesBar({ isLoading, setIsLoading, currentUser }) {
   const handleRealTimeChatUpdates = useCallback(
     ({ user, id }) => {
       if (user) {
-        socket.emit("send:chat", { from: user?._id, to: id });
+        socket.emit("send:chat", {
+          from: user?._id,
+          to: id,
+        });
       }
     },
     [user, id]
@@ -83,11 +87,19 @@ function SendMessagesBar({ isLoading, setIsLoading, currentUser }) {
     setSelectFileModal(false);
   }, [selectFileModal]);
 
+  const debouncedTypingEvent = useCallback(
+    debounce(() => {
+      socket.emit("send:typing", { from: user?._id, to: id });
+    }, 300), // Adjust debounce time as needed
+    [socket, id, user?._id]
+  );
+
   const handleSetText = useCallback(
     (e) => {
       setText(e.target.value);
+      debouncedTypingEvent();
     },
-    [setText]
+    [socket, id, user?._id]
   );
 
   const handleOnEnter = useCallback(

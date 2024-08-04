@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { CiHome, CiLocationArrow1, CiSearch, CiUser } from "react-icons/ci";
 import { PiPencil } from "react-icons/pi";
 import { useSelector } from "react-redux";
@@ -11,6 +11,28 @@ function BottomNavbar() {
   const pathname = location.pathname;
   const [showSelectPostTypeModal, setShowSelectPostTypeModal] = useState(false);
   const { user } = useSelector((state) => state.user);
+  const { chats } = useSelector((state) => state.chat);
+
+  const groupUnreadMessage = useMemo(
+    () =>
+      chats?.filter((chat) => {
+        if (chat.to._id === user?._id) {
+          return !chat.isRead;
+        }
+      }),
+    [chats, user?._id]
+  );
+
+  const groupUsersByUnreadMessage = useMemo(() => {
+    let tempUsers = [];
+    groupUnreadMessage?.forEach((chat) => {
+      if (!tempUsers.includes(chat.to._id)) {
+        tempUsers.push(chat.to._id);
+      }
+    });
+
+    return tempUsers;
+  }, [groupUnreadMessage]);
 
   // Navigation Data
   const navigationData = [
@@ -28,6 +50,7 @@ function BottomNavbar() {
       pathname: "/messages",
       icon: <CiLocationArrow1 className=" text-2xl" />,
       title: "Messages",
+      notification: groupUsersByUnreadMessage?.length || null,
     },
     {
       pathname: `/profile/${user?._id}`,
@@ -61,10 +84,15 @@ function BottomNavbar() {
                   pathname === item.pathname
                     ? "text-main_dark_violet_color"
                     : "dark:text-white"
-                }  font-[500] flex-col justify-center gap-2`}
+                }  font-[500] flex-col relative justify-center gap-2`}
               >
                 {item.icon}
                 <p className=" text-xs">{item.title}</p>
+                {item?.notification && (
+                  <span className="ml-2 h-4 w-4 flex items-center absolute justify-center top-0 right-2 bg-main_dark_violet_color text-white rounded-full text-[8px]">
+                    {item.notification}
+                  </span>
+                )}
               </Link>
 
               {index === 1 && (

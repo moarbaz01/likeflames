@@ -1,5 +1,11 @@
 import { useNavigate } from "react-router-dom";
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { MdCall, MdVideocam } from "react-icons/md";
 import ChatItem from "../components/Chat/ChatItem";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,12 +17,13 @@ import MessageSection from "../components/Chat/MessageSection";
 import BlankProfile from "../assets/blankProfile.png";
 import { PeerContext } from "../context/usePeer";
 import { BiLeftArrowAlt } from "react-icons/bi";
+import useSocket from "../hooks/useSocket";
 
-const RightTopSection = ({ status, currentUser }) => {
+const RightTopSection = ({ typingStatus, status, currentUser }) => {
   const time = useRelativeTime(new Date(currentUser?.lastSeen));
   const navigate = useNavigate();
   const { id } = useParams();
-  const { createOffer } = useContext(PeerContext);
+  const peerContext = useContext(PeerContext);
 
   return (
     <div className="flex w-full z-20 md:static fixed top-0  justify-between dark:shadow-md py-2 px-4 dark:bg-dark_secondary_bg bg-white">
@@ -34,16 +41,19 @@ const RightTopSection = ({ status, currentUser }) => {
           <p className="dark:text-gray-300 text-lg">
             {currentUser?.name || "Select Chat"}
           </p>
-          {currentUser && (
-            <>
-              {status === "Online..." && (
-                <p className="dark:text-gray-300 text-sm">{status}</p>
-              )}
-              {status !== "Online..." && (
-                <p className="dark:text-gray-400 text-sm">Last seen {time}</p>
-              )}
-            </>
-          )}
+          {currentUser &&
+            (typingStatus?.isTyping && typingStatus?.from === id ? (
+              <p className="dark:text-gray-300 text-sm">Typing...</p>
+            ) : (
+              <>
+                {status === "Online..." && (
+                  <p className="dark:text-gray-300 text-sm">{status}</p>
+                )}
+                {status !== "Online..." && (
+                  <p className="dark:text-gray-400 text-sm">Last seen {time}</p>
+                )}
+              </>
+            ))}
         </div>
       </div>
 
@@ -52,7 +62,7 @@ const RightTopSection = ({ status, currentUser }) => {
           {/* <MdCall className=" cursor-pointer hover:opacity-80 transition" /> */}
           <MdVideocam
             className=" cursor-pointer hover:opacity-80 transition"
-            onClick={() => createOffer(id)}
+            onClick={() => peerContext?.createOffer(id)}
           />
         </div>
       )}
@@ -69,6 +79,11 @@ function Chat() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
+  const { socket } = useSocket();
+  const [typingStatus, setTypingStatus] = useState({
+    from: null,
+    isTyping: false,
+  });
 
   useEffect(() => {
     if (id) {
@@ -90,6 +105,18 @@ function Chat() {
       setStatus("Offline...");
     }
   }, [connectedUsers, id]);
+
+  const handleTypingStatusReset = useCallback(() => {
+    setTypingStatus({ from: null, isTyping: false });
+  }, []);
+
+  useEffect(() => {
+    socket.on("receive:typing", ({ from }) => {
+      setTypingStatus({ from, isTyping: true });
+      const timeout = setTimeout(handleTypingStatusReset, 3000); // Adjust time as needed
+      return () => clearTimeout(timeout);
+    });
+  }, [socket, handleTypingStatusReset]);
 
   const currentChats = useMemo(() => {
     if (!chats || chats.length === 0) {
@@ -115,7 +142,11 @@ function Chat() {
         <div
           className={`lg:w-[70%]  md:w-[50%] pt-16 md:pt-0 md:pb-0 pb-24 w-full md:bg-violet-200 relative md:dark:bg-dark_main_bg`}
         >
-          <RightTopSection status={status} currentUser={currentUser} />
+          <RightTopSection
+            typingStatus={typingStatus}
+            status={status}
+            currentUser={currentUser}
+          />
           {currentChats.length > 0 ? (
             <ChatItem currentChats={currentChats} _id={user._id} />
           ) : (

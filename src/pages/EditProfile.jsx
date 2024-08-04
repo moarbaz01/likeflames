@@ -248,7 +248,7 @@ function EditProfile() {
                   placeholder="Your username"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  className=" w-full md:w-[50%] px-4 h-12 block border-[1px] border-main_light_purple focus:outline-main_dark_violet_color  rounded-lg mt-2"
+                  className=" w-full md:w-[50%] px-4 h-12 block dark:bg-dark_secondary_bg dark:text-white border-[1px] border-main_light_purple focus:outline-main_dark_violet_color  rounded-lg mt-2"
                 />
                 {/* Username */}
                 <h1 className=" text-md font-[400] text-gray-500 mt-4">
@@ -260,7 +260,7 @@ function EditProfile() {
                   placeholder="Your name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className=" w-full md:w-[50%] px-4 h-12 block border-[1px] border-main_light_purple focus:outline-main_dark_violet_color  rounded-lg mt-2"
+                  className=" w-full md:w-[50%] px-4 h-12 block border-[1px] dark:bg-dark_secondary_bg dark:text-white  border-main_light_purple focus:outline-main_dark_violet_color  rounded-lg mt-2"
                 />
                 {/* Username */}
                 <h1 className=" text-md font-[400] text-gray-500 mt-4">
@@ -272,7 +272,7 @@ function EditProfile() {
                   value={bio}
                   onChange={(e) => setBio(e.target.value)}
                   placeholder="Your bio"
-                  className=" w-full md:w-[50%] block px-4 py-2 h-32 resize-none border-[1px] border-main_light_purple focus:outline-main_dark_violet_color  rounded-lg mt-2"
+                  className=" w-full md:w-[50%] block px-4 py-2 h-32 resize-none border-[1px] dark:bg-dark_secondary_bg dark:text-white  border-main_light_purple focus:outline-main_dark_violet_color  rounded-lg mt-2"
                 />
                 <MdEmojiEmotions
                   className=" hidden md:block dark:text-white text-2xl mt-2 cursor-pointer"
@@ -330,7 +330,7 @@ function EditProfile() {
                   value={oldPassword}
                   onChange={(e) => setOldPassword(e.target.value)}
                   placeholder="Your old password"
-                  className=" w-full md:w-[50%] px-4 h-12 block border-[1px] border-main_light_purple focus:outline-main_dark_violet_color  rounded-lg mt-2"
+                  className=" w-full md:w-[50%] px-4 h-12 block border-[1px] dark:bg-dark_secondary_bg dark:text-white  border-main_light_purple focus:outline-main_dark_violet_color  rounded-lg mt-2"
                 />
                 <h1 className=" text-md font-[400] text-gray-500 mt-4">
                   New Password
@@ -341,7 +341,7 @@ function EditProfile() {
                   onChange={(e) => setNewPassword(e.target.value)}
                   value={newPassword}
                   placeholder="Your new password"
-                  className=" w-full md:w-[50%] px-4 h-12 block border-[1px] border-main_light_purple focus:outline-main_dark_violet_color  rounded-lg mt-2"
+                  className=" w-full md:w-[50%] px-4 h-12 block border-[1px] dark:bg-dark_secondary_bg dark:text-white  border-main_light_purple focus:outline-main_dark_violet_color  rounded-lg mt-2"
                 />
                 <button
                   disabled={loading}
@@ -375,7 +375,7 @@ function EditProfile() {
                 <select
                   onChange={(e) => setProfileType(e.target.value)}
                   value={profileType}
-                  className=" w-full md:w-[50%] block px-4 h-12 bg-white border-[1px] border-main_light_purple focus:outline-main_dark_violet_color  rounded-lg mt-2"
+                  className=" w-full md:w-[50%] block px-4 h-12 bg-white dark:bg-dark_secondary_bg dark:text-white border-[1px] border-main_light_purple focus:outline-main_dark_violet_color  rounded-lg mt-2"
                   name=""
                   id=""
                 >

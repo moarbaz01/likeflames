@@ -137,47 +137,50 @@ export function PeerContextProvider({ children }) {
       handleConnectionStateChange;
   };
 
-  const createOffer = async (id) => {
-    if (!user) {
-      console.log("User not available yet.");
-      return;
-    }
-    if (callInProgress) {
-      console.log("A call is already in progress.");
-      return;
-    }
-    const outputDevices = await checkUserDevices();
-    if (!outputDevices.hasCamera) {
-      toast.error("No video devices found");
-      return;
-    }
-    if (!outputDevices.hasMicrophone) {
-      toast.error("No audio devices found");
-      return;
-    }
+  const createOffer = useCallback(
+    async (id) => {
+      if (!user) {
+        console.log("User not available yet.");
+        return;
+      }
+      if (callInProgress) {
+        console.log("A call is already in progress.");
+        return;
+      }
+      const outputDevices = await checkUserDevices();
+      if (!outputDevices.hasCamera) {
+        toast.error("No video devices found");
+        return;
+      }
+      if (!outputDevices.hasMicrophone) {
+        toast.error("No audio devices found");
+        return;
+      }
 
-    if (!window.confirm("Do you want to start a call?")) return;
+      if (!window.confirm("Do you want to start a call?")) return;
 
-    await getUserMedia();
-    await createPeerConnection(id);
+      await getUserMedia();
+      await createPeerConnection(id);
 
-    const offer = await peerConnectionRef.current.createOffer();
-    await peerConnectionRef.current.setLocalDescription(offer);
+      const offer = await peerConnectionRef.current.createOffer();
+      await peerConnectionRef.current.setLocalDescription(offer);
 
-    socket.emit("send:offer", {
-      offer,
-      from: {
-        _id: user._id,
-        profilePicture: user.profilePicture || blankProfile,
-        name: user.name,
-      },
-      to: id,
-    });
+      socket.emit("send:offer", {
+        offer,
+        from: {
+          _id: user._id,
+          profilePicture: user.profilePicture || blankProfile,
+          name: user.name,
+        },
+        to: id,
+      });
 
-    setOpponent(id);
-    setCallInProgress(true); // Set call in progress
-    navigate(`/video-call/${id}`);
-  };
+      setOpponent(id);
+      setCallInProgress(true); // Set call in progress
+      navigate(`/video-call/${id}`);
+    },
+    [user, callInProgress]
+  );
 
   const createAnswer = useCallback(
     async (offer, opponentId) => {

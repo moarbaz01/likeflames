@@ -84,7 +84,7 @@ function Login() {
         <input
           type="text"
           name="username"
-          className="bg-transparent dark:text-white w-full text-text_black border-[2px] border-main_light_purple mt-2 rounded-md focus:outline-main_dark_violet_color p-2"
+          className="bg-transparent dark:text-white w-full dark:bg-dark_secondary_bg text-text_black border-[2px] border-main_light_purple mt-2 rounded-md focus:outline-main_dark_violet_color p-2"
           placeholder="Username Or Email"
           onChange={handleChange}
           value={username}
@@ -100,7 +100,7 @@ function Login() {
           <input
             type={eye ? "text" : "password"}
             name="password"
-            className="bg-transparent w-full dark:text-white text-text_black border-[2px] border-main_light_purple mt-2 rounded-md focus:outline-main_dark_violet_color p-2"
+            className="bg-transparent w-full dark:text-white dark:bg-dark_secondary_bg  text-text_black border-[2px] border-main_light_purple mt-2 rounded-md focus:outline-main_dark_violet_color p-2"
             placeholder="Password"
             onChange={handleChange}
             value={password}

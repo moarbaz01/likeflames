@@ -75,7 +75,7 @@ function Signup() {
           <input
             type="text"
             name="email"
-            className=" bg-transparent dark:text-white w-full text-text_black border-[2px] border-main_light_purple mt-2 rounded-md focus:outline-main_dark_violet_color p-2"
+            className=" bg-transparent dark:text-white dark:bg-dark_secondary_bg w-full text-text_black border-[2px] border-main_light_purple mt-2 rounded-md focus:outline-main_dark_violet_color p-2"
             placeholder="Email"
             onChange={(e) => setEmail(e.target.value)}
             value={email}

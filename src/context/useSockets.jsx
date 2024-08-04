@@ -22,33 +22,41 @@ export const SocketsContextProvider = ({ children }) => {
     [socket]
   );
 
+  const handleGetSockets = useCallback(
+    (users) => {
+      dispatch(setConnectedUsers(users));
+    },
+    [dispatch]
+  );
+
+  const handleReceieveNotification = useCallback(() => {
+    dispatch(fetchUser());
+  }, [dispatch]);
+
+  const handleReceiveChat = useCallback(() => {
+    dispatch(fetchChats());
+  }, [dispatch]);
+
   // Receive events
   useEffect(() => {
     if (socket) {
       // Get Sockets
-      socket.on("get:sockets", (users) => {
-        dispatch(setConnectedUsers(users));
-      });
+      socket.on("get:sockets", handleGetSockets);
 
       // Get notification
-      socket.on("receive:notification", () => {
-        dispatch(fetchUser());
-      });
+      socket.on("receive:notification", handleReceieveNotification);
 
       // Receive chat
-      socket.on("receive:chat", () => {
-        dispatch(fetchChats());
-        console.log("Hello");
-      });
+      socket.on("receive:chat", handleReceiveChat);
 
       // Cleanup
       return () => {
-        socket.off("get:sockets");
-        socket.off("receive:chat");
-        socket.off("receive:notification");
+        socket.off("get:sockets", handleGetSockets);
+        socket.off("receive:notification", handleReceieveNotification);
+        socket.off("receive:chat", handleReceiveChat);
       };
     }
-  }, [socket, dispatch]);
+  }, [socket, handleGetSockets, handleReceieveNotification, handleReceiveChat]);
 
   const value = {
     sendNotificationHandler,

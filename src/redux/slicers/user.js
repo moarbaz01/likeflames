@@ -65,6 +65,8 @@ export const userSlice = createSlice({
       .addCase(fetchUser.rejected, (state, action) => {
         state.error = action.payload || action.error.message;
         state.isLoading = false;
+        state.isUser = false;
+        state.user = null;
       });
   },
 });

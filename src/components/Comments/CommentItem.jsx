@@ -12,6 +12,7 @@ import {
   likeOnCommentApi,
 } from "../../redux/slicers/comments";
 import useRelativeTime from "../../hooks/useRelativeTime";
+import BlankProfile from "../../assets/blankProfile.png";
 
 const CommentItem = ({ props, hiddenReplies = true, tag }) => {
   const {
@@ -66,7 +67,7 @@ const CommentItem = ({ props, hiddenReplies = true, tag }) => {
         <div className="flex items-start text-lg gap-2">
           <img
             onClick={() => navigate(`/profile/${author._id}`)}
-            src={author?.profilePicture}
+            src={author?.profilePicture || BlankProfile}
             alt={author?.username}
             className="w-10 h-10 rounded-full object-cover aspect-square cursor-pointer hover:opacity-80"
           />

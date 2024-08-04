@@ -65,7 +65,9 @@ const FeedItem = ({
   }, [play]);
 
   const handleShare = () => {
-    navigator.clipboard.writeText(`http://localhost:5173/feed?id=${_id}`);
+    navigator.clipboard.writeText(
+      `https://likeflames.vercel.app/feed?id=${_id}`
+    );
     toast.success("Link copied to clipboard");
   };
 

@@ -67,7 +67,6 @@ function Sidebar() {
   const navigate = useNavigate();
   const pathname = useLocation().pathname;
   const { user, isLoading } = useSelector((state) => state.user);
-  const [skeletonLoading, setSkeletonLoading] = useState(false);
 
   const handleOpenModal = () => {
     if (!user) {
@@ -139,20 +138,10 @@ function Sidebar() {
     },
   ];
 
-  useEffect(() => {
-    setSkeletonLoading(true);
-    const timer = setTimeout(() => {
-      setSkeletonLoading(false);
-    }, 1000);
-    () => {
-      return clearTimeout(timer);
-    };
-  }, []);
-
   return (
     <>
       <aside className="md:flex hidden md:w-[30vw] sticky z-0 top-0 h-full lg:w-[20vw] flex-col">
-        {skeletonLoading ? (
+        {isLoading ? (
           <SidebarProfileSkeleton />
         ) : (
           <div

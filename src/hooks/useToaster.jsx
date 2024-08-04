@@ -67,7 +67,29 @@ function useToaster() {
     );
   };
 
-  return { callToaster };
+  const notificationToaster = ({ from, info }) => {
+    toast(
+      (t) => (
+        <div className=" flex items-center w-full justify-between ">
+          <div className="flex max items-center gap-2">
+            <img
+              className="w-12 h-12 rounded-full"
+              src={from?.profilePicture || BlankProfile}
+            />
+            <p className="text-sm ">{from?.name}</p>
+          </div>
+          <div>
+            <p>{info}</p>
+          </div>
+        </div>
+      ),
+      {
+        duration: 2000,
+      }
+    );
+  };
+
+  return { callToaster, notificationToaster };
 }
 
 export default useToaster;

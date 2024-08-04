@@ -1,5 +1,6 @@
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import useRelativeTime from "../../hooks/useRelativeTime";
+import BlankProfile from "../../assets/blankProfile.png";
 
 const PostTopSection = ({
   user,
@@ -20,7 +21,7 @@ const PostTopSection = ({
       >
         <img
           className="w-12 h-12 aspect-square object-cover rounded-full"
-          src={user?.profilePicture}
+          src={user?.profilePicture || BlankProfile}
           alt=""
         />
         <div>

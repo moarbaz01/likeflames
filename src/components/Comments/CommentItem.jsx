@@ -30,7 +30,7 @@ const CommentItem = ({ props, hiddenReplies = true, tag }) => {
   const { user, token } = useSelector((state) => state.user);
   const relativeTime = useRelativeTime(new Date(createdAt));
   const [showReplies, setShowReplies] = useState(false);
-  const [isLiked, setIsLiked] = useState(likes?.includes(user?._id));
+  const [isLiked, setIsLiked] = useState(likes.includes(user?._id) || false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [showCommentModal, setShowCommentModal] = useState(false);

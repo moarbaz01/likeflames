@@ -40,7 +40,8 @@ function Login() {
         data,
       });
       if (response.data.user) {
-        dispatch(login(response.data.user));
+        console.log(response.data.user._doc);
+        dispatch(login(response.data.user._doc));
         navigate("/");
         toast.success(response.data.message);
       }

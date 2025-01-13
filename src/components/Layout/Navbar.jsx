@@ -76,15 +76,6 @@ const Navbar = () => {
         >
           LikeFlames
         </h1>
-        <div className=" md:flex items-center py-1 rounded-full hidden bg-slate-200 w-[40%] p-1">
-          <CiSearch className=" text-xl font-[500] mx-4" />
-          <input
-            className=" bg-transparent w-[80%] pr-2 outline-none"
-            type="text"
-            name="search"
-            placeholder="Search for creators, products"
-          />
-        </div>
 
         <div className=" flex items-center gap-4  relative">
           <img

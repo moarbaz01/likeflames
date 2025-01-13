@@ -130,7 +130,7 @@ function PostItem({
           setShowPostOptionModal={setShowPostOptionModal}
           date={createdAt}
         />
-        <div className="md:p-4 m-auto">
+        <div className="md:p-4 m-auto min-h-[300px] ">
           <Slider {...settings}>
             {files?.map((file, index) =>
               getFileType(file) === "video" ? (
